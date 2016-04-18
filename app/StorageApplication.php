@@ -15,6 +15,34 @@ class StorageApplication extends Configurable
      */
     public function initialize()
     {
+        $this->configurationErrors()->configurationRoutes();
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function injection()
+    {
+        return $this;
+    }
+
+    private function configurationRoutes()
+    {
+        $this->router->add('/f/:hash', [
+            'controller' => 'file',
+            'action' => 'item'
+        ])->regex('hash', '[a-f0-9]{32}');
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    private function configurationErrors()
+    {
         set_exception_handler(function (\Exception $exception) {
             $this->createSystemErrorResponse($exception->getMessage(), 'uncaught_exception', $exception->getFile(),
                 $exception->getLine());
@@ -55,7 +83,7 @@ class StorageApplication extends Configurable
             'message' => $message,
             'location' => "{$file}:{$line}"
         ];
-
+        
         $response = new Response($responseData, 503);
 
         return $response->setDi($this->getDi())->setBodyFormat(Response::RESPONSE_API_JSON)->send();
@@ -68,18 +96,10 @@ class StorageApplication extends Configurable
     private function formatPhpError(array $lastPhpError = [])
     {
         $phpVersion = PHP_VERSION;
-        $exceptionMessage = "PHP {$phpVersion} {$this->friendlyErrorType($lastPhpError['type'])} with message: [{$lastPhpError['message']}]";
+        $exceptionMessage = "PHP {$phpVersion}\n{$this->friendlyErrorType($lastPhpError['type'])} [{$lastPhpError['message']}]";
         $exceptionMessage = $exceptionMessage . PHP_EOL . "{$lastPhpError['file']}:{$lastPhpError['line']}";
 
         return $exceptionMessage;
-    }
-
-    /**
-     * @return $this
-     */
-    public function injection()
-    {
-        return $this;
     }
 
     /**

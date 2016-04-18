@@ -9,8 +9,8 @@ class IndexController extends ControllerJson {
 
     public function indexAction()
     {
-        $GET['asd'];
         $this->response([
+            'message' => 'Welcome to File Server',
             'request_id' => implode('-', str_split(substr(md5(time()), 0, 16), 4))
         ]);
     }

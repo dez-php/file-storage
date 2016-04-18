@@ -12,6 +12,9 @@ return [
         ],
         'controllerNamespace' => 'FileStorage\\Controllers\\',
         'viewDirectory' => __DIR__ . '/../templates',
+        'uploader' => [
+            'filesDirectory' => __DIR__ . '/../../shared-files'
+        ]
     ],
     'db' => [
         'connection' => [
