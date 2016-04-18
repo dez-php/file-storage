@@ -1,18 +1,13 @@
 <?php
 
 use Dez\Config\Config;
-use Dez\Loader\Loader;
 use FileStorage\StorageApplication;
 
 include_once __DIR__ . "/vendor/autoload.php";
+include_once __DIR__ . "/app/StorageApplication.php";
 
-$loader = new Loader();
-$loader->registerNamespaces([
-    'FileStorage' => __DIR__ . '/app/'
-]);
+$config = Config::factory(__DIR__ . '/app/config/storage-config.php');
 
-$application = new StorageApplication(Config::factory(
-    __DIR__ . '/app/config/storage-config.php'
-));
+$application = new StorageApplication($config);
 
 $application->configure()->initialize()->injection()->run();
