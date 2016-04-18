@@ -16,45 +16,26 @@ class StorageApplication extends Configurable
     public function initialize()
     {
         set_exception_handler(function (\Exception $exception) {
-            $this->createSystemErrorResponse($exception->getMessage(), 'uncaught_exception', $exception->getFile(), $exception->getLine());
+            $this->createSystemErrorResponse($exception->getMessage(), 'uncaught_exception', $exception->getFile(),
+                $exception->getLine());
         });
 
-        register_shutdown_function(function(){
+        register_shutdown_function(function () {
             $lastPhpError = error_get_last();
-            if(null !== $lastPhpError && $lastPhpError['type'] === E_ERROR) {
-                $this->createSystemErrorResponse($lastPhpError['message'], 'php_fatal_error', $lastPhpError['file'], $lastPhpError['line']);
+            if (null !== $lastPhpError && $lastPhpError['type'] === E_ERROR) {
+                $this->createSystemErrorResponse($lastPhpError['message'], 'php_fatal_error', $lastPhpError['file'],
+                    $lastPhpError['line']);
             }
         });
 
-        $this->event->addListener(MvcEvent::ON_AFTER_APP_RUN, function(){
+        $this->event->addListener(MvcEvent::ON_AFTER_APP_RUN, function () {
             $lastPhpError = error_get_last();
-            if(null !== $lastPhpError) {
+            if (null !== $lastPhpError) {
                 throw new MvcException($this->formatPhpError($lastPhpError));
             }
         });
 
         return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function injection()
-    {
-        return $this;
-    }
-
-    /**
-     * @param array $lastPhpError
-     * @return string
-     */
-    private function formatPhpError(array $lastPhpError = [])
-    {
-        $phpVersion = PHP_VERSION;
-        $exceptionMessage = "PHP {$phpVersion} Error type: {$lastPhpError['type']} with message: [{$lastPhpError['message']}]";
-        $exceptionMessage = $exceptionMessage . PHP_EOL . "{$lastPhpError['file']}:{$lastPhpError['line']}";
-
-        return $exceptionMessage;
     }
 
     /**
@@ -76,7 +57,100 @@ class StorageApplication extends Configurable
         ];
 
         $response = new Response($responseData, 503);
+
         return $response->setDi($this->getDi())->setBodyFormat(Response::RESPONSE_API_JSON)->send();
+    }
+
+    /**
+     * @param array $lastPhpError
+     * @return string
+     */
+    private function formatPhpError(array $lastPhpError = [])
+    {
+        $phpVersion = PHP_VERSION;
+        $exceptionMessage = "PHP {$phpVersion} {$this->friendlyErrorType($lastPhpError['type'])} with message: [{$lastPhpError['message']}]";
+        $exceptionMessage = $exceptionMessage . PHP_EOL . "{$lastPhpError['file']}:{$lastPhpError['line']}";
+
+        return $exceptionMessage;
+    }
+
+    /**
+     * @return $this
+     */
+    public function injection()
+    {
+        return $this;
+    }
+
+    /**
+     * @param $type
+     * @return integer
+     */
+    private function friendlyErrorType($type)
+    {
+        $return = '';
+
+        if ($type & E_ERROR) {
+            $return .= '& E_ERROR ';
+        }
+
+        if ($type & E_WARNING) {
+            $return .= '& E_WARNING ';
+        }
+
+        if ($type & E_PARSE) {
+            $return .= '& E_PARSE ';
+        }
+
+        if ($type & E_NOTICE) {
+            $return .= '& E_NOTICE ';
+        }
+
+        if ($type & E_CORE_ERROR) {
+            $return .= '& E_CORE_ERROR ';
+        }
+
+        if ($type & E_CORE_WARNING) {
+            $return .= '& E_CORE_WARNING ';
+        }
+
+        if ($type & E_COMPILE_ERROR) {
+            $return .= '& E_COMPILE_ERROR ';
+        }
+
+        if ($type & E_COMPILE_WARNING) {
+            $return .= '& E_COMPILE_WARNING ';
+        }
+
+        if ($type & E_USER_ERROR) {
+            $return .= '& E_USER_ERROR ';
+        }
+
+        if ($type & E_USER_WARNING) {
+            $return .= '& E_USER_WARNING ';
+        }
+
+        if ($type & E_USER_NOTICE) {
+            $return .= '& E_USER_NOTICE ';
+        }
+
+        if ($type & E_STRICT) {
+            $return .= '& E_STRICT ';
+        }
+
+        if ($type & E_RECOVERABLE_ERROR) {
+            $return .= '& E_RECOVERABLE_ERROR ';
+        }
+
+        if ($type & E_DEPRECATED) {
+            $return .= '& E_DEPRECATED ';
+        }
+
+        if ($type & E_USER_DEPRECATED) {
+            $return .= '& E_USER_DEPRECATED ';
+        }
+
+        return trim(substr($return, 2));
     }
 
 }
