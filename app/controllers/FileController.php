@@ -13,10 +13,19 @@ class FileController extends ControllerJson {
         ]);
     }
 
-    public function itemAction($hash)
+    public function dlAction($hash)
     {
         $this->response([
             'message' => "hash: $hash"
+        ]);
+    }
+
+    public function getDirectLinkAction($hash)
+    {
+        $this->response([
+            'auth' => $this->auth,
+            'message' => "direct link for: $hash",
+            'link' => "$hash/$hash/$hash"
         ]);
     }
 

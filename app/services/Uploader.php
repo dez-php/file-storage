@@ -50,6 +50,7 @@ class Uploader extends InjectableAware
      */
     public function configure()
     {
+        $this->setAllowedMaxSize((integer) ini_get('post_max_size') - 1);
         return $this;
     }
 
@@ -169,16 +170,19 @@ class Uploader extends InjectableAware
 
     /**
      * @return string
+     * @throws UploaderException
      */
     public function generatePath()
     {
         $path = $this->getDestination();
-        $hash = implode('-', str_split(md5($this->getFile()->getName()), 8));
+        $hash = implode('/', str_split(md5($this->getFile()->getName()), 8));
         $path = "$path/{$this->getFile()->getExtension()}/$hash.{$this->getFile()->getExtension()}";
 
         $directory = dirname($path);
         if(! file_exists($directory) && ! is_dir($directory)) {
-            mkdir($directory, 0755, true);
+            if(! mkdir($directory, 0755, true)) {
+                throw new UploaderException("Can not create destination directory {$directory}");
+            }
         }
 
         return $path;

@@ -2,7 +2,6 @@
 
 namespace FileStorage\Controllers;
 
-use Dez\Http\Request\File;
 use Dez\Mvc\Controller;
 use FileStorage\Core\Mvc\ControllerJson;
 use FileStorage\Services\Uploader;
@@ -17,9 +16,8 @@ class UploaderController extends ControllerJson {
         $uploader = new Uploader($root);
 
         if($this->request->hasFiles()) {
-            foreach ($this->request->getUploadedFiles() as $file) {
+            foreach ($this->request->getUploadedFiles('user') as $file) {
                 $uploader->setFile($file)->upload();
-                $uploadedFiles[md5($file->getKey())] = $file->getName();
             }
         }
 

@@ -19,9 +19,9 @@ return [
     'db' => [
         'connection' => [
             'development' => [
-                'dsn' => 'mysql:host=localhost;dbname=my-site',
+                'dsn' => 'mysql:host=localhost;dbname=file-storage',
                 'user' => 'root',
-                'password' => '0000',
+                'password' => 'root',
             ],
             'production' => [
                 'dsn' => 'mysql:host=localhost;dbname=my-site',

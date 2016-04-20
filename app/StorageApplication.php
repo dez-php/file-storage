@@ -2,6 +2,8 @@
 
 namespace FileStorage;
 
+use Dez\Auth\Adapter\Token;
+use Dez\Auth\Auth;
 use Dez\Http\Response;
 use Dez\Mvc\Application\Configurable;
 use Dez\Mvc\Controller\MvcException;
@@ -25,15 +27,21 @@ class StorageApplication extends Configurable
      */
     public function injection()
     {
+        $this->getDi()->set('auth', function(){
+            return new Auth(new Token($this->getDi()));
+        });
+
         return $this;
     }
 
     private function configurationRoutes()
     {
-        $this->router->add('/f/:hash', [
-            'controller' => 'file',
-            'action' => 'item'
-        ])->regex('hash', '[a-f0-9]{32}');
+        $this->router
+            ->add('/:controller/:action/:hash', [])
+            ->regex('hash', '[a-f0-9]{32}');
+
+        $this->router
+            ->add('/:controller/:action/:params', []);
 
         return $this;
     }
@@ -44,7 +52,8 @@ class StorageApplication extends Configurable
     private function configurationErrors()
     {
         set_exception_handler(function (\Exception $exception) {
-            $this->createSystemErrorResponse($exception->getMessage(), 'uncaught_exception', $exception->getFile(),
+            $message = get_class($exception) . ": {$exception->getMessage()}";
+            $this->createSystemErrorResponse($message, 'uncaught_exception', $exception->getFile(),
                 $exception->getLine());
         });
 
