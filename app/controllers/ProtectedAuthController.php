@@ -21,7 +21,7 @@ class ProtectedAuthController extends ControllerJson {
     public function statusAction()
     {
         $this->response([
-            'status' => $this->auth->isGuest() ? 'guest' : 'user'
+            'status' => $this->auth->isGuest() ? 'guest' : $this->auth->credentials()->getEmail()
         ]);
     }
 

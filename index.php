@@ -10,4 +10,4 @@ $config = Config::factory(__DIR__ . '/app/config/storage-config.php');
 
 $application = new StorageApplication($config);
 
-$application->configure()->initialize()->injection()->run();
+$application->initialize()->configure()->injection()->run();
