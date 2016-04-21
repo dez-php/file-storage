@@ -23,6 +23,8 @@ class StorageApplication extends Configurable
             $this->config->merge(Config::factory($this->config['application']['production-config']));
         }
 
+        $this->setOrmConnectionName($this->config['db']['connectionName']);
+
         return $this;
     }
 

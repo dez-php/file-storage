@@ -8,6 +8,7 @@ return [
         ],
     ],
     'db' => [
+        'connectionName' => 'production',
         'connection' => [
             'production' => [
                 'dsn' => 'mysql:host=localhost;dbname=my-site',

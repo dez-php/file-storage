@@ -22,6 +22,7 @@ return [
         'production-config' => __DIR__ . '/storage-config.production.php',
     ],
     'db' => [
+        'connectionName' => 'development',
         'connection' => [
             'development' => [
                 'dsn' => 'mysql:host=localhost;dbname=file-storage',
