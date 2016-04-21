@@ -8,20 +8,21 @@
     "content-hash": "5ee59aeb76fa639dc3a6b8f3e468380a",
     "packages": [
         {
-            "name": "dez-php/dez-auth",
-            "version": "v1.2.1",
+            "name": "dez-php/dez-authorizer",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/dez-php/dez-auth.git",
-                "reference": "6cf41941c561204c900927c8661877cafe0042c1"
+                "url": "https://github.com/dez-php/dez-authorizer.git",
+                "reference": "7ce483b714bf1b6a2eb552574903723d4757de25"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dez-php/dez-auth/zipball/6cf41941c561204c900927c8661877cafe0042c1",
-                "reference": "6cf41941c561204c900927c8661877cafe0042c1",
+                "url": "https://api.github.com/repos/dez-php/dez-authorizer/zipball/7ce483b714bf1b6a2eb552574903723d4757de25",
+                "reference": "7ce483b714bf1b6a2eb552574903723d4757de25",
                 "shasum": ""
             },
             "require": {
+                "dez-php/dez-data-validation": "~1.0",
                 "dez-php/dez-di": ">=1.0",
                 "dez-php/dez-http": ">=1.0",
                 "dez-php/dez-orm": ">=1.0",
@@ -31,7 +32,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Dez\\Auth\\": "src/Auth"
+                    "Dez\\Authorizer\\": "src/Auth"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -41,16 +42,16 @@
             "authors": [
                 {
                     "name": "Ivan Gontarenko",
-                    "email": "vania.gontarenko@gmail.com"
+                    "email": "stewie.dev@gmail.com"
                 }
             ],
-            "description": "Auth Component",
+            "description": "Authorizer Component",
             "keywords": [
-                "auth",
-                "dez-php auth",
+                "authorizer",
+                "dez-php authorizer",
                 "php auth"
             ],
-            "time": "2015-10-30 21:51:50"
+            "time": "2016-04-21 08:40:21"
         },
         {
             "name": "dez-php/dez-collection",
@@ -436,20 +437,20 @@
         },
         {
             "name": "dez-php/dez-mvc-app",
-            "version": "v1.7.1.1",
+            "version": "v1.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dez-php/dez-mvc-app.git",
-                "reference": "530f4e485fbf137f27086f9794fb5d46d122b99d"
+                "reference": "0da3b138670e5183039d5f03a9ef28834d837f93"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dez-php/dez-mvc-app/zipball/530f4e485fbf137f27086f9794fb5d46d122b99d",
-                "reference": "530f4e485fbf137f27086f9794fb5d46d122b99d",
+                "url": "https://api.github.com/repos/dez-php/dez-mvc-app/zipball/0da3b138670e5183039d5f03a9ef28834d837f93",
+                "reference": "0da3b138670e5183039d5f03a9ef28834d837f93",
                 "shasum": ""
             },
             "require": {
-                "dez-php/dez-auth": ">=1.0",
+                "dez-php/dez-authorizer": "~2.0",
                 "dez-php/dez-configuration": ">=1.0",
                 "dez-php/dez-di": ">=1.0",
                 "dez-php/dez-event": ">=1.0",
@@ -486,7 +487,7 @@
                 "mvc app",
                 "php mvc"
             ],
-            "time": "2016-04-15 08:08:34"
+            "time": "2016-04-21 09:09:14"
         },
         {
             "name": "dez-php/dez-orm",

@@ -2,8 +2,7 @@
 
 namespace FileStorage;
 
-use Dez\Auth\Adapter\Token;
-use Dez\Auth\Auth;
+use Dez\Authorizer\Adapter\Token;
 use Dez\Http\Response;
 use Dez\Mvc\Application\Configurable;
 use Dez\Mvc\Controller\MvcException;
@@ -18,18 +17,6 @@ class StorageApplication extends Configurable
     public function initialize()
     {
         $this->configurationErrors()->configurationRoutes();
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function injection()
-    {
-        $this->getDi()->set('auth', function(){
-            return new Auth(new Token($this->getDi()));
-        });
 
         return $this;
     }
@@ -52,16 +39,25 @@ class StorageApplication extends Configurable
     private function configurationErrors()
     {
         set_exception_handler(function (\Exception $exception) {
-            $message = get_class($exception) . ": {$exception->getMessage()}";
-            $this->createSystemErrorResponse($message, 'uncaught_exception', $exception->getFile(),
-                $exception->getLine());
+            if ($this->config->path('application.debug.exceptions') == 1) {
+                $message = get_class($exception) . ": {$exception->getMessage()}";
+                $this->createSystemErrorResponse($message, 'uncaught_exception', $exception->getFile(),
+                    $exception->getLine());
+            } else {
+                $this->createSystemErrorResponse('Debug mode disabled. Message hidden', 'uncaught_exception', 'null', 0);
+            }
         });
 
         register_shutdown_function(function () {
             $lastPhpError = error_get_last();
             if (null !== $lastPhpError && $lastPhpError['type'] === E_ERROR) {
-                $this->createSystemErrorResponse($lastPhpError['message'], 'php_fatal_error', $lastPhpError['file'],
-                    $lastPhpError['line']);
+                if ($this->config->path('application.debug.php_errors') == 1) {
+                    $this->createSystemErrorResponse($this->formatPhpError($lastPhpError), 'php_fatal_error',
+                        $lastPhpError['file'], $lastPhpError['line']);
+                } else {
+                    $this->createSystemErrorResponse("Debug mode disabled. Message hidden",
+                        $this->friendlyErrorType($lastPhpError['type']), 'null', 0);
+                }
             }
         });
 
@@ -92,7 +88,7 @@ class StorageApplication extends Configurable
             'message' => $message,
             'location' => "{$file}:{$line}"
         ];
-        
+
         $response = new Response($responseData, 503);
 
         return $response->setDi($this->getDi())->setBodyFormat(Response::RESPONSE_API_JSON)->send();
@@ -180,6 +176,21 @@ class StorageApplication extends Configurable
         }
 
         return trim(substr($return, 2));
+    }
+
+    /**
+     * @return $this
+     */
+    public function injection()
+    {
+        $this->getDi()->set('auth', function () {
+            $authorizerToken = new Token();
+            $authorizerToken->setDi($this->getDi());
+
+            return $authorizerToken->initialize();
+        });
+
+        return $this;
     }
 
 }

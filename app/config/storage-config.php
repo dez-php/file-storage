@@ -14,6 +14,10 @@ return [
         'viewDirectory' => __DIR__ . '/../templates',
         'uploader' => [
             'filesDirectory' => __DIR__ . '/../../shared-files'
+        ],
+        'debug' => [
+            'exceptions' => 1,
+            'php_errors' => 1,
         ]
     ],
     'db' => [

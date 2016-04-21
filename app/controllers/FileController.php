@@ -6,17 +6,36 @@ use FileStorage\Core\Mvc\ControllerJson;
 
 class FileController extends ControllerJson {
 
+    public function beforeExecute()
+    {
+        parent::beforeExecute();
+    }
+
     public function indexAction()
     {
         $this->response([
-            'message' => 'Use hash-code for fetching file info'
+            'message' => "Use method '/file/info/_hash' for fetching file info"
         ]);
     }
 
-    public function dlAction($hash)
+    public function downloadAction($hash)
     {
         $this->response([
             'message' => "hash: $hash"
+        ]);
+    }
+
+    public function infoAction($hash)
+    {
+        $this->response([
+            'message' => "info: $hash"
+        ]);
+    }
+
+    public function fullInfoAction($hash)
+    {
+        $this->response([
+            'message' => "full-info: $hash"
         ]);
     }
 
