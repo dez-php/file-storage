@@ -29,11 +29,6 @@ return [
                 'user' => 'root',
                 'password' => 'root',
             ],
-            'production' => [
-                'dsn' => 'mysql:host=localhost;dbname=my-site',
-                'user' => 'root',
-                'password' => '0000',
-            ],
         ],
     ],
     'server' => [
