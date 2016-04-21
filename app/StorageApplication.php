@@ -19,7 +19,7 @@ class StorageApplication extends Configurable
     {
         $this->configurationErrors()->configurationRoutes();
 
-        if(! file_exists($this->config['application']['production-config'])) {
+        if(file_exists($this->config['application']['production-config'])) {
             $this->config->merge(Config::factory($this->config['application']['production-config']));
         }
 
