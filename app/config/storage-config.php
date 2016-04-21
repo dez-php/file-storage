@@ -18,7 +18,8 @@ return [
         'debug' => [
             'exceptions' => 1,
             'php_errors' => 1,
-        ]
+        ],
+        'production-config' => __DIR__ . '/storage-config.production.php',
     ],
     'db' => [
         'connection' => [

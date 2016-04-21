@@ -3,6 +3,7 @@
 namespace FileStorage;
 
 use Dez\Authorizer\Adapter\Token;
+use Dez\Config\Config;
 use Dez\Http\Response;
 use Dez\Mvc\Application\Configurable;
 use Dez\Mvc\Controller\MvcException;
@@ -17,6 +18,10 @@ class StorageApplication extends Configurable
     public function initialize()
     {
         $this->configurationErrors()->configurationRoutes();
+
+        if(! file_exists($this->config['application']['production-config'])) {
+            $this->config->merge(Config::factory($this->config['application']['production-config']));
+        }
 
         return $this;
     }
