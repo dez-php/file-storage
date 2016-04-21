@@ -13,6 +13,7 @@
   "require": {
     "php": ">=5.5",
     "dez-php/dez-mvc-app": "~1.0",
-    "dez-php/dez-data-validation": "~1.0"
+    "dez-php/dez-data-validation": "~1.0",
+    "jbroadway/urlify":"dev-master"
   }
 }

@@ -3,6 +3,7 @@
 namespace FileStorage\Controllers;
 
 use FileStorage\Core\Mvc\ControllerJson;
+use FileStorage\Models\Files;
 
 class FileController extends ControllerJson {
 
@@ -11,11 +12,21 @@ class FileController extends ControllerJson {
         parent::beforeExecute();
     }
 
-    public function indexAction()
+    public function indexAction($hash)
     {
-        $this->response([
-            'message' => "Use method '/file/info/_hash' for fetching file info"
-        ]);
+        /** @var Files $file */
+        $file = Files::query()->where('hash', $hash)->first();
+
+        if(! $file->exists()) {
+            $this->error([
+                'message' => "File do not exist or was removed {$hash}"
+            ], 404);
+        } else {
+            if($file->isProtected()) {
+
+            }
+        }
+
     }
 
     public function downloadAction($hash)

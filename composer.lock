@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0ae7093f8acc2331d8f54680e0654872",
-    "content-hash": "5ee59aeb76fa639dc3a6b8f3e468380a",
+    "hash": "8f233822231725285aed7b6412f182de",
+    "content-hash": "f0381c610488e5f3ae18d801430bd4fb",
     "packages": [
         {
             "name": "dez-php/dez-authorizer",
@@ -535,16 +535,16 @@
         },
         {
             "name": "dez-php/dez-router",
-            "version": "v1.2.0",
+            "version": "v1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dez-php/dez-router.git",
-                "reference": "05d94424e56793aad9d234a94d4467e5bc5e930e"
+                "reference": "031313639c60f97fa5196606b5e5da8830f0b6d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dez-php/dez-router/zipball/05d94424e56793aad9d234a94d4467e5bc5e930e",
-                "reference": "05d94424e56793aad9d234a94d4467e5bc5e930e",
+                "url": "https://api.github.com/repos/dez-php/dez-router/zipball/031313639c60f97fa5196606b5e5da8830f0b6d6",
+                "reference": "031313639c60f97fa5196606b5e5da8830f0b6d6",
                 "shasum": ""
             },
             "require": {
@@ -575,7 +575,7 @@
                 "php router",
                 "router"
             ],
-            "time": "2015-10-30 12:29:58"
+            "time": "2016-04-21 13:44:30"
         },
         {
             "name": "dez-php/dez-session",
@@ -709,12 +709,68 @@
                 "view"
             ],
             "time": "2015-12-29 11:04:24"
+        },
+        {
+            "name": "jbroadway/urlify",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jbroadway/urlify.git",
+                "reference": "3a89d2ef543405a5826190d234146ac3b2a12611"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jbroadway/urlify/zipball/3a89d2ef543405a5826190d234146ac3b2a12611",
+                "reference": "3a89d2ef543405a5826190d234146ac3b2a12611",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "URLify": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD"
+            ],
+            "authors": [
+                {
+                    "name": "Johnny Broadway",
+                    "email": "johnny@johnnybroadway.com",
+                    "homepage": "http://www.johnnybroadway.com/"
+                }
+            ],
+            "description": "PHP port of URLify.js from the Django project. Transliterates non-ascii characters for use in URLs.",
+            "homepage": "https://github.com/jbroadway/urlify",
+            "keywords": [
+                "encode",
+                "iconv",
+                "link",
+                "slug",
+                "translit",
+                "transliterate",
+                "transliteration",
+                "url",
+                "urlify"
+            ],
+            "time": "2015-12-07 18:29:02"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "jbroadway/urlify": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

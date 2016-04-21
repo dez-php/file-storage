@@ -24,11 +24,15 @@ class StorageApplication extends Configurable
     private function configurationRoutes()
     {
         $this->router
-            ->add('/:controller/:action/:hash', [])
-            ->regex('hash', '[a-f0-9]{32}');
+            ->add('/:hash', [
+                'controller' => 'file',
+                'action' => 'index',
+            ])->regex('hash', '[a-f0-9]{32}');
 
         $this->router
-            ->add('/:controller/:action/:params', []);
+            ->add('/:hash/:action', [
+                'controller' => 'file'
+            ])->regex('hash', '[a-f0-9]{32}');
 
         return $this;
     }
