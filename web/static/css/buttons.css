@@ -1,0 +1,181 @@
+.button {
+    border: 2px solid cadetblue;
+    color: cadetblue;
+    background-color: #222222;
+    text-transform: uppercase;
+    padding: 5px 15px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 5px 0 0 10px;
+    font-size: 12px;
+}
+
+.button:hover {
+    border-color: cadetblue;
+    color: #222222;
+    background-color: cadetblue;
+}
+
+.button-size-small {
+    border-width: 2px;
+    padding: 3px 10px;
+    font-size: 10px;
+    margin: 3px 0 0 8px;
+}
+
+.button-size-extra-small {
+    border-width: 1px;
+    padding: 2px 8px;
+    font-size: 8px;
+    margin: 2px 0 0 5px;
+}
+
+
+.button-link {
+    border: 3px solid transparent;
+    color: deepskyblue;
+    background-color: #222222;
+    text-decoration: underline;
+}
+
+.button-rounded {
+    border-radius: 20px;
+}
+
+.button-rounded.button-size-small {
+    border-radius: 15px;
+}
+
+.button-rounded.button-size-extra-small {
+    border-radius: 10px;
+}
+
+.button-link:hover {
+    border: 3px solid transparent;
+    color: #fafafa;
+    background-color: #222222;
+    text-decoration: underline;
+}
+
+.button-disable, .button[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.button-style-dashed {
+    border-style: dashed;
+}
+
+.button-style-dotted {
+    border-style: dotted;
+}
+
+.button-success {
+    border-color: chartreuse;
+    color: chartreuse;
+}
+
+.button-success:hover {
+    border-color: chartreuse;
+    color: #222222;
+    background-color: chartreuse;
+}
+
+.button-danger {
+    border-color: crimson;
+    color: crimson;
+}
+
+.button-danger:hover {
+    border-color: crimson;
+    color: #222222;
+    background-color: crimson;
+}
+
+.button-notice {
+    border-color: deepskyblue;
+    color: deepskyblue;
+}
+
+.button-notice:hover {
+    border-color: deepskyblue;
+    color: #222222;
+    background-color: deepskyblue;
+}
+
+.button-warning {
+    border-color: coral;
+    color: coral;
+}
+
+.button-warning:hover {
+    border-color: coral;
+    color: #222222;
+    background-color: coral;
+}
+
+.button-gray {
+    border-color: #666666;
+    color: #666666;
+}
+
+.button-gray:hover {
+    border-color: #666666;
+    color: #222222;
+    background-color: #666666;
+}
+
+.button-violet {
+    border-color: darkorchid;
+    color: darkorchid;
+}
+
+.button-violet:hover {
+    border-color: darkorchid;
+    color: #222222;
+    background-color: darkorchid;
+}
+
+.button-light-green {
+    border-color: springgreen;
+    color: springgreen;
+}
+
+.button-light-green:hover {
+    border-color: springgreen;
+    color: #222222;
+    background-color: springgreen;
+}
+
+.button-pink {
+    border-color: deeppink;
+    color: deeppink;
+}
+
+.button-pink:hover {
+    border-color: deeppink;
+    color: #222222;
+    background-color: deeppink;
+}
+
+.button-orange {
+    border-color: orangered;
+    color: orangered;
+}
+
+.button-orange:hover {
+    border-color: orangered;
+    color: #222222;
+    background-color: orangered;
+}
+
+.button-yellow {
+    border-color: yellow;
+    color: yellow;
+}
+
+.button-yellow:hover {
+    border-color: yellow;
+    color: #222222;
+    background-color: yellow;
+}

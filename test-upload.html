@@ -3,22 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
+    <link rel="stylesheet" href="web/static/css/dezz-black.css">
 </head>
 <body>
 
+<p>
 <form method="post" action="http://my.local/_/file-storage/uploader" enctype="multipart/form-data">
-    <input type="file" name="test_file" >
-    <hr>
-    <input type="file" name="few_files[]" >
-    <input type="file" name="few_files[]" >
-    <hr>
-    <input type="file" name="user[avatar]">
-    <input type="file" name="user[info]">
-    <hr>
-    <input type="file" name="user[extra][avatar]">
-    <hr>
-    <input type="submit" value="send">
+    <input class="input" type="file" name="test_file" >
+    <input class="input" type="file" name="few_files[]" >
+    <input class="input" type="file" name="few_files[]" >
+    <input class="input" type="file" name="user[avatar]">
+    <input class="input" type="file" name="user[info]">
+    <input class="input" type="file" name="user[extra][avatar]">
+    <input class="button button-violet" type="submit" value="send">
 </form>
+</p>
+
+<br><br><br>
+
+<button class="button">test default button</button>
+
+<button class="button button-link" >link button</button>
+
+<button class="button button-style-dotted">test default button</button>
+
+<button class="button button-success">success</button>
+
+<button class="button button-danger">danger</button>
+
+<button class="button button-notice">some notice</button>
+
+<button class="button button-success button-rounded">success</button>
+
+<button class="button button-danger button-rounded">danger</button>
+
+<button class="button button-notice button-rounded">some notice</button>
+
+<button class="button button-warning">lock user</button>
+
+<button class="button button-gray">qwerty 1</button>
+
+<button class="button button-violet">order now</button>
+
+<button class="button button-light-green">order now</button>
+
+<button class="button button-pink">crazy button</button>
+
+<button class="button button-yellow">order now</button>
+
+<button class="button button-orange">crazy button</button>
+
+<br><br><br>
+
+<button class="button button-size-small">test default button</button>
+
+<button class="button button-style-dotted button-size-small">test default button</button>
+
+<button class="button button-success button-size-small">success</button>
+
+<button class="button button-danger button-size-small">danger</button>
+
+<button class="button button-notice button-size-small">some notice</button>
+
+<button class="button button-warning button-size-small">lock user</button>
+
+<button class="button button-gray button-size-small button-rounded">qwerty 1</button>
+
+<button class="button button-violet button-size-small">order now</button>
+
+<br><br><br>
+
+<button class="button button-size-extra-small">test default button</button>
+
+<button class="button button-style-dotted button-size-extra-small">test default button</button>
+
+<button class="button button-success button-size-extra-small">success</button>
+
+<button class="button button-danger button-size-extra-small">danger</button>
+
+<button class="button button-notice button-size-extra-small">some notice</button>
+
+<button class="button button-warning button-size-extra-small">lock user</button>
+
+<button class="button button-gray button-size-extra-small">qwerty 1</button>
+
+<button class="button button-violet button-size-extra-small">order now</button>
+
+<button class="button button-orange button-size-extra-small button-rounded">order now</button>
+
+<br><br><br>
+
+<button disabled class="button">test default button</button>
+
+<button disabled class="button button-style-dotted">test default button</button>
+
+<button disabled class="button button-success">success</button>
+
+<button disabled class="button button-danger">danger</button>
+
+<button disabled class="button button-notice">some notice</button>
+
+<button disabled class="button button-warning">lock user</button>
+
+<button disabled class="button button-warning button-rounded button-style-dotted">lock user</button>
+
+<button disabled class="button button-gray">qwerty 1</button>
+
+<button disabled class="button button-violet">order now</button>
+
+<br><br><br>
+
+<p>
+
+    There are many variations of <span class="text-color-danger">passages</span> of Lorem <span class="text-color-warning">Ipsum</span> available,
+    but the <spna class="text-color-orange">majority have suffered</spna> alteration in some form, by injected humour, or randomised words which don't look even slightly believable.
+    If you are <span class="text-color-default">going</span> to use a passage of <span class="text-color-success">Lorem Ipsum</span>, you need to be sure there isn't anything embarrassing hidden in the middle of text.
+    All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.
+    It <span class="text-color-notice">uses</span> a dictionary of over <span class="text-color-gray">200 Latin words</span>, combined with a handful of model <span class="text-color-violet">sentence</span> structures, to generate Lorem Ipsum which looks reasonable.
+    The generated <span class="text-color-pink">Lorem Ipsum</span> is therefore always free from repetition, <span class="text-color-yellow">injected humour</span>, or non-characteristic words etc.
+
+</p>
+
+<br><br><br>
+
+<p>
+
+<div class="form-default" style="width: 400px">
+
+    <div class="form-row">
+        <label>e-mail</label>
+        <input type="text" class="input">
+    </div>
+
+    <div class="form-row">
+        <label>password</label>
+        <input type="text" class="input input-rounded">
+    </div>
+
+
+    <div class="form-row">
+        <label>name</label>
+        <input type="text" class="input input-color-danger">
+    </div>
+
+
+    <div class="form-row">
+        <label class="text-color-success">surname</label>
+        <input type="text" class="input input-color-light-green border-default">
+    </div>
+
+
+    <div class="form-row">
+        <label>password</label>
+        <input type="text" class="input input-rounded">
+    </div>
+
+    <div class="form-row">
+        <label>
+            access terms
+        </label>
+        <input type="checkbox" class="input">
+    </div>
+
+    <input type="submit" value="register" class="button button-light-green button-border-default button-rounded">
+
+</div>
+
+</p>
 
 </body>
 </html>

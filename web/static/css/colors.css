@@ -1,0 +1,67 @@
+.text-color-default {
+    color: cadetblue;
+}
+.text-color-success {
+    color: chartreuse;
+}
+.text-color-danger {
+    color: crimson;
+}
+.text-color-notice {
+    color: deepskyblue;
+}
+.text-color-warning {
+    color: coral;
+}
+.text-color-gray {
+    color: #666666;
+}
+.text-color-violet {
+    color: darkorchid;
+}
+.text-color-light-green {
+    color: springgreen;
+}
+.text-color-pink {
+    color: deeppink;
+}
+.text-color-yellow {
+    color: yellow;
+}
+.text-color-orange {
+    color: orangered;
+}
+
+.bg-color-default {
+    background-color: cadetblue;
+}
+.bg-color-success {
+    background-color: chartreuse;
+}
+.bg-color-danger {
+    background-color: crimson;
+}
+.bg-color-notice {
+    background-color: deepskyblue;
+}
+.bg-color-warning {
+    background-color: coral;
+}
+.bg-color-gray {
+    background-color: #666666;
+}
+.bg-color-violet {
+    background-color: darkorchid;
+}
+.bg-color-light-green {
+    background-color: springgreen;
+}
+.bg-color-pink {
+    background-color: deeppink;
+}
+.bg-color-yellow {
+    background-color: yellow;
+}
+.bg-color-orange {
+    background-color: orangered;
+}

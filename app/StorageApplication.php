@@ -23,6 +23,10 @@ class StorageApplication extends Configurable
      */
     public function initialize()
     {
+        if(PHP_SAPI === 'cli-server') {
+            $_GET['_route'] = $this->request->getServer('path_info', '/');
+        }
+
         $this->configurationErrors()->configurationRoutes();
 
         $this->session->start();

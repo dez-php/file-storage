@@ -1,0 +1,11 @@
+.border-thin {
+    border-width: 1px;
+}
+
+.border-default {
+    border-width: 2px;
+}
+
+.border-fat {
+    border-width: 3px;
+}

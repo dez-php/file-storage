@@ -6,7 +6,7 @@ use Dez\Authorizer\Adapter\Token;
 use FileStorage\Core\Mvc\ControllerJson;
 
 /**
- * @property Token auth
+ * @property Token authorizerToken
  */
 
 class ProtectedAuthController extends ControllerJson {
@@ -21,7 +21,7 @@ class ProtectedAuthController extends ControllerJson {
     public function statusAction()
     {
         $this->response([
-            'status' => $this->auth->isGuest() ? 'guest' : $this->auth->credentials()->getEmail()
+            'status' => $this->authorizerToken->isGuest() ? 'guest' : $this->authorizerToken->credentials()->getEmail()
         ]);
     }
 
@@ -35,7 +35,7 @@ class ProtectedAuthController extends ControllerJson {
     public function getTokenAction()
     {
         try {
-            $token = $this->auth
+            $token = $this->authorizerToken
                 ->setEmail($this->request->getQuery('email'))
                 ->setPassword($this->request->getQuery('password'))
                 ->login()
