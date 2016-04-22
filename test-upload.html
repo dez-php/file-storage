@@ -7,9 +7,24 @@
 </head>
 <body>
 
+<script>
+
+    window.onload = function () {
+        document.getElementById("test-file").onchange = function () {
+            document.getElementById("test-button").innerHTML = this.value.split('/')[0];
+        };
+    };
+
+</script>
+
 <p>
 <form method="post" action="http://my.local/_/file-storage/uploader" enctype="multipart/form-data">
-    <input class="input" type="file" name="test_file" >
+
+    <div class="button button-orange button-rounded relative-block" style="position: relative;">
+        <span id="test-button">select file...</span>
+        <input id="test-file" class="hidden" type="file" name="test_file" >
+    </div>
+
     <input class="input" type="file" name="few_files[]" >
     <input class="input" type="file" name="few_files[]" >
     <input class="input" type="file" name="user[avatar]">
