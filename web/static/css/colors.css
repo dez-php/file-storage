@@ -32,6 +32,21 @@
     color: orangered;
 }
 
+.bg-color-deep-dark {
+    background-color: #171717;
+}
+.bg-color-dark {
+    background-color: #1D1D1D;
+}
+.bg-color-dark-general {
+    background-color: #222222;
+}
+.bg-color-default-dark {
+    background-color: #272727;
+}
+.bg-color-light-dark {
+    background-color: #333333;
+}
 .bg-color-default {
     background-color: cadetblue;
 }
@@ -47,8 +62,14 @@
 .bg-color-warning {
     background-color: coral;
 }
+.bg-color-dark-gray {
+    background-color: #3C3C3C;
+}
 .bg-color-gray {
     background-color: #666666;
+}
+.bg-color-light-gray {
+    background-color: #888888;
 }
 .bg-color-violet {
     background-color: darkorchid;
