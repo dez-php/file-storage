@@ -9,16 +9,16 @@
     "packages": [
         {
             "name": "dez-php/dez-authorizer",
-            "version": "v2.0.0",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dez-php/dez-authorizer.git",
-                "reference": "7ce483b714bf1b6a2eb552574903723d4757de25"
+                "reference": "05d217941ee2502e42b7f8d51a5217d3e7c56d3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dez-php/dez-authorizer/zipball/7ce483b714bf1b6a2eb552574903723d4757de25",
-                "reference": "7ce483b714bf1b6a2eb552574903723d4757de25",
+                "url": "https://api.github.com/repos/dez-php/dez-authorizer/zipball/05d217941ee2502e42b7f8d51a5217d3e7c56d3e",
+                "reference": "05d217941ee2502e42b7f8d51a5217d3e7c56d3e",
                 "shasum": ""
             },
             "require": {
@@ -51,7 +51,7 @@
                 "dez-php authorizer",
                 "php auth"
             ],
-            "time": "2016-04-21 08:40:21"
+            "time": "2016-04-22 10:25:31"
         },
         {
             "name": "dez-php/dez-collection",

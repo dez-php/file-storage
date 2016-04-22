@@ -3,7 +3,7 @@
 return [
     'application' => [
         'staticPath' => '/web/static/',
-        'basePath' => '/_/file-storage/',
+        'basePath' => '/',
         'autoload' => [
             'FileStorage\\Controllers' => __DIR__ . '/../controllers',
             'FileStorage\\Models' => __DIR__ . '/../models',

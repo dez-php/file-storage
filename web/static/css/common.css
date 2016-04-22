@@ -81,3 +81,7 @@
     opacity: 0;
     filter: alpha(opacity=0);
 }
+
+.text-center {
+    text-align: center;
+}

@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>File Storage - Manager</title>
+    <link rel="stylesheet" href="<?= $url->staticPath('css/dezz-black.css') ?>">
 </head>
 <body>
 
