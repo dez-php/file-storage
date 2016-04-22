@@ -3,6 +3,7 @@
 namespace FileStorage\Core;
 
 use Dez\Auth\Auth;
+use Dez\Authorizer\Adapter\Token;
 use Dez\Config\Config;
 use Dez\Db\Connection;
 use Dez\DependencyInjection\Injectable;
@@ -33,7 +34,8 @@ use Dez\View\View;
  * @property Url url
  * @property View view
  * @property Connection db
- * @property Auth auth
+ * @property Token authorizerToken
+ * @property Session authorizerSession
  * @property Session flash
  */
 

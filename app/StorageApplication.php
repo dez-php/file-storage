@@ -2,12 +2,18 @@
 
 namespace FileStorage;
 
+use Dez\Authorizer\Adapter\Session;
 use Dez\Authorizer\Adapter\Token;
 use Dez\Config\Config;
 use Dez\Http\Response;
 use Dez\Mvc\Application\Configurable;
 use Dez\Mvc\Controller\MvcException;
 use Dez\Mvc\MvcEvent;
+
+/**
+ * @property Token authorizerToken
+ * @property Session authorizerSession
+*/
 
 class StorageApplication extends Configurable
 {
@@ -18,6 +24,8 @@ class StorageApplication extends Configurable
     public function initialize()
     {
         $this->configurationErrors()->configurationRoutes();
+
+        $this->session->start();
 
         if(file_exists($this->config['application']['production-config'])) {
             $this->config->merge(Config::factory($this->config['application']['production-config']));
@@ -194,11 +202,18 @@ class StorageApplication extends Configurable
      */
     public function injection()
     {
-        $this->getDi()->set('auth', function () {
+        $this->getDi()->set('authorizerToken', function () {
             $authorizerToken = new Token();
             $authorizerToken->setDi($this->getDi());
 
             return $authorizerToken->initialize();
+        });
+
+        $this->getDi()->set('authorizerSession', function () {
+            $authorizerSession = new Session();
+            $authorizerSession->setDi($this->getDi());
+
+            return $authorizerSession->initialize();
         });
 
         return $this;

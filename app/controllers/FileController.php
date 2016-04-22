@@ -12,7 +12,7 @@ class FileController extends ControllerJson {
         parent::beforeExecute();
     }
 
-    public function indexAction($hash)
+    public function indexAction($hash = null)
     {
         /** @var Files $file */
         $file = Files::query()->where('hash', $hash)->first();
