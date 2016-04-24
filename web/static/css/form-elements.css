@@ -1,11 +1,32 @@
+select, input, textarea {
+    outline: none !important;
+}
+
 .input {
     border: 1px solid cadetblue;
     color: #fafafa;
     background-color: #222222;
     padding: 8px 14px;
-    /*cursor: pointer;*/
     margin: 5px 0 0 10px;
     font-size: 12px;
+}
+
+select.button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+input[type=file].hidden {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
 }
 
 .input:focus {
@@ -15,36 +36,47 @@
 .input-rounded {
     border-radius: 20px;
 }
+
 .input-color-default {
     border-color: cadetblue;
 }
+
 .input-color-success {
     border-color: chartreuse;
 }
+
 .input-color-danger {
     border-color: crimson;
 }
+
 .input-color-notice {
     border-color: deepskyblue;
 }
+
 .input-color-warning {
     border-color: coral;
 }
+
 .input-color-gray {
     border-color: #666666;
 }
+
 .input-color-violet {
     border-color: darkorchid;
 }
+
 .input-color-light-green {
     border-color: springgreen;
 }
+
 .input-color-pink {
     border-color: deeppink;
 }
+
 .input-color-yellow {
     border-color: yellow;
 }
+
 .input-color-orange {
     border-color: orangered;
 }

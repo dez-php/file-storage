@@ -6,9 +6,10 @@
     padding: 5px 15px;
     font-weight: bold;
     cursor: pointer;
-    margin: 5px 0 0 10px;
+    margin: 0 10px 5px 0;
     font-size: 12px;
     display: inline-block;
+    text-decoration: none;
 }
 
 .button:hover {
@@ -21,14 +22,14 @@
     border-width: 2px;
     padding: 3px 10px;
     font-size: 10px;
-    margin: 3px 0 0 8px;
+    margin: 0 8px 3px 0;
 }
 
 .button-size-extra-small {
     border-width: 1px;
     padding: 2px 8px;
     font-size: 8px;
-    margin: 2px 0 0 5px;
+    margin: 0 5px 2px 0;
 }
 
 

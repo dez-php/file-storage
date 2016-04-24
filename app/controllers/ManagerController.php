@@ -6,8 +6,14 @@ use FileStorage\Core\Mvc\ControllerWeb;
 
 class ManagerController extends ControllerWeb {
 
+    public function dashboardAction()
+    {
+
+    }
+
     public function indexAction()
     {
+        $this->view->setMainLayout('auth-index');
         if($this->request->isPost()) {
             try {
                 $this->authorizerSession

@@ -1,0 +1,182 @@
+.row {
+    margin: 0 -15px 10px -15px;
+}
+
+.row:after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 0;
+    clear: both;
+}
+
+[class*=grid-] {
+    padding: 15px;
+    float: left;
+}
+
+.grid-1 {
+    width: 10%;
+}
+
+.grid-2 {
+    width: 20%;
+}
+
+.grid-3 {
+    width: 30%;
+}
+
+.grid-4 {
+    width: 40%;
+}
+
+.grid-5 {
+    width: 50%;
+}
+
+.grid-6 {
+    width: 60%;
+}
+
+.grid-7 {
+    width: 70%;
+}
+
+.grid-8 {
+    width: 80%;
+}
+
+.grid-9 {
+    width: 90%;
+}
+
+.grid-10 {
+    width: 100%;
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .grid-middle-1 {
+        width: 10%;
+    }
+
+    .grid-middle-2 {
+        width: 20%;
+    }
+
+    .grid-middle-3 {
+        width: 30%;
+    }
+
+    .grid-middle-4 {
+        width: 40%;
+    }
+
+    .grid-middle-5 {
+        width: 50%;
+    }
+
+    .grid-middle-6 {
+        width: 60%;
+    }
+
+    .grid-middle-7 {
+        width: 70%;
+    }
+
+    .grid-middle-8 {
+        width: 80%;
+    }
+
+    .grid-middle-9 {
+        width: 90%;
+    }
+
+    .grid-middle-10 {
+        width: 100%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .grid-small-1 {
+        width: 10%;
+    }
+
+    .grid-small-2 {
+        width: 20%;
+    }
+
+    .grid-small-3 {
+        width: 30%;
+    }
+
+    .grid-small-4 {
+        width: 40%;
+    }
+
+    .grid-small-5 {
+        width: 50%;
+    }
+
+    .grid-small-6 {
+        width: 60%;
+    }
+
+    .grid-small-7 {
+        width: 70%;
+    }
+
+    .grid-small-8 {
+        width: 80%;
+    }
+
+    .grid-small-9 {
+        width: 90%;
+    }
+
+    .grid-small-10 {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .grid-smallest-1 {
+        width: 10%;
+    }
+
+    .grid-smallest-2 {
+        width: 20%;
+    }
+
+    .grid-smallest-3 {
+        width: 30%;
+    }
+
+    .grid-smallest-4 {
+        width: 40%;
+    }
+
+    .grid-smallest-5 {
+        width: 50%;
+    }
+
+    .grid-smallest-6 {
+        width: 60%;
+    }
+
+    .grid-smallest-7 {
+        width: 70%;
+    }
+
+    .grid-smallest-8 {
+        width: 80%;
+    }
+
+    .grid-smallest-9 {
+        width: 90%;
+    }
+
+    .grid-smallest-10 {
+        width: 100%;
+    }
+}

@@ -1,18 +1,8 @@
-body {
-    background-color: #222222;
-    margin:0;
-    padding:0;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 13px;
-    color: #ccc;
-}
-
-* {
-    margin:0;
-    padding:0;
-    font-family: 'Open Sans', sans-serif;
-}
-
-input, textarea, select {
-    outline: none;
-}
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,700italic,700,600italic,300italic,300&subset=latin,greek,greek-ext,vietnamese,cyrillic-ext,latin-ext,cyrillic);
+@import "main.css";
+@import "common.css";
+@import "colors.css";
+@import "buttons.css";
+@import "form-elements.css";
+@import "forms.css";
+@import "grid.css";
