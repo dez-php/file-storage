@@ -1,19 +1,33 @@
-.form-default {
+.form-default, .form-horizontal {
+    padding-top: 20px;
+    padding-bottom: 15px;
+}
 
+.form-label-left .form-row > label {
+    text-align: left;
+}
+
+.form-label-right .form-row > label {
+    text-align: right;
 }
 
 .form-default .form-row {
     margin-bottom: 15px;
 }
 
-.form-default .form-row label {
+.form-default .form-row > label {
     display: inline-block;
     width: 30%;
     text-align: right;
+    margin-bottom: 5px;
+    margin-right: 5px;
+}
+
+.form-default .form-row input:not([type=button]):not([type=submit]):not([type=reset]) {
+    width: 65%;
 }
 
 @media(max-width: 768px){
-
     .form-default {
         width: 100%;
     }
@@ -29,6 +43,28 @@
         display: block;
         width: 100%;
     }
-
 }
 
+.form-horizontal .form-row {
+    margin: 0 -15px 10px -15px;
+}
+
+.form-horizontal .form-row:after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 0;
+    clear: both;
+}
+
+.form-horizontal .form-row > label {
+    padding-top: 8px;
+    font-size: 14px;
+}
+
+.form-horizontal label.check-item,
+.form-default label.check-item {
+    display: block;
+    font-size: 12px;
+    padding-top: 10px;
+}

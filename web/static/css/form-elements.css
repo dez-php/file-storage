@@ -7,14 +7,121 @@ select, input, textarea {
     color: #fafafa;
     background-color: #222222;
     padding: 8px 14px;
-    margin: 5px 0 0 10px;
-    font-size: 12px;
+    font-size: 10px;
 }
 
-select.button {
+select.button, .checkbox, .radio {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+}
+
+.checkbox, .radio {
+    border: 3px solid transparent;
+    box-shadow: 0 0 0 2px cadetblue;
+    padding: 3px;
+    margin-right: 4px;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+}
+
+.checkbox:checked, .radio:checked {
+    box-shadow: 0 0 0 2px cadetblue, inset 0 0 0 3px cadetblue;
+}
+
+.checkbox-size-small, .radio-size-small {
+    border: 2px solid transparent;
+    box-shadow: 0 0 0 2px cadetblue;
+    padding: 2px;
+    margin: 2px;
+}
+
+.checkbox-size-small:checked, .radio-size-small:checked {
+    box-shadow: 0 0 0 2px cadetblue, inset 0 0 0 2px cadetblue;
+}
+
+input[type=radio].radio {
+    border-radius: 6px;
+}
+
+.radio-color-success, .checkbox-color-success {
+    box-shadow: 0 0 0 2px chartreuse;
+}
+
+.radio-color-success:checked, .checkbox-color-success:checked {
+    box-shadow: 0 0 0 2px chartreuse, inset 0 0 0 3px chartreuse;
+}
+
+.radio-color-danger, .checkbox-color-danger {
+    box-shadow: 0 0 0 2px crimson;
+}
+
+.radio-color-danger:checked, .checkbox-color-danger:checked {
+    box-shadow: 0 0 0 2px crimson, inset 0 0 0 3px crimson;
+}
+
+.radio-color-notice, .checkbox-color-notice {
+    box-shadow: 0 0 0 2px deepskyblue;
+}
+
+.radio-color-notice:checked, .checkbox-color-notice:checked {
+    box-shadow: 0 0 0 2px deepskyblue, inset 0 0 0 3px deepskyblue;
+}
+
+.radio-color-warning, .checkbox-color-warning {
+    box-shadow: 0 0 0 2px coral;
+}
+
+.radio-color-warning:checked, .checkbox-color-warning:checked {
+    box-shadow: 0 0 0 2px coral, inset 0 0 0 3px coral;
+}
+
+.radio-color-gray, .checkbox-color-gray {
+    box-shadow: 0 0 0 2px #666666;
+}
+
+.radio-color-gray:checked, .checkbox-color-gray:checked {
+    box-shadow: 0 0 0 2px #666666, inset 0 0 0 3px #666666;
+}
+
+.radio-color-violet, .checkbox-color-violet {
+    box-shadow: 0 0 0 2px darkorchid;
+}
+
+.radio-color-violet:checked, .checkbox-color-violet:checked {
+    box-shadow: 0 0 0 2px darkorchid, inset 0 0 0 3px darkorchid;
+}
+
+.radio-color-light-green, .checkbox-color-light-green {
+    box-shadow: 0 0 0 2px springgreen;
+}
+
+.radio-color-light-green:checked, .checkbox-color-light-green:checked {
+    box-shadow: 0 0 0 2px springgreen, inset 0 0 0 3px springgreen;
+}
+
+.radio-color-pink, .checkbox-color-pink {
+    box-shadow: 0 0 0 2px deeppink;
+}
+
+.radio-color-pink:checked, .checkbox-color-pink:checked {
+    box-shadow: 0 0 0 2px deeppink, inset 0 0 0 3px deeppink;
+}
+
+.radio-color-yellow, .checkbox-color-yellow {
+    box-shadow: 0 0 0 2px yellow;
+}
+
+.radio-color-yellow:checked, .checkbox-color-yellow:checked {
+    box-shadow: 0 0 0 2px yellow, inset 0 0 0 3px yellow;
+}
+
+.radio-color-orange, .checkbox-color-orange {
+    box-shadow: 0 0 0 2px orangered;
+}
+
+.radio-color-orange:checked, .checkbox-color-orange:checked {
+    box-shadow: 0 0 0 2px orangered, inset 0 0 0 3px orangered;
 }
 
 input[type=file].hidden {
@@ -79,4 +186,20 @@ input[type=file].hidden {
 
 .input-color-orange {
     border-color: orangered;
+}
+
+.input-border-thin {
+    border-width: 1px;
+}
+
+.input-border-default {
+    border-width: 2px;
+    padding-bottom: 7px;
+    padding-top: 7px;
+}
+
+.input-border-fat {
+    border-width: 3px;
+    padding-bottom: 6px;
+    padding-top: 6px;
 }

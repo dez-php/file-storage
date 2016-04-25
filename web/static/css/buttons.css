@@ -1,18 +1,18 @@
 .button {
     border: 2px solid cadetblue;
     color: cadetblue;
-    background-color: #222222;
+    background-color: transparent;
     text-transform: uppercase;
-    padding: 5px 15px;
+    padding: 7px 15px;
     font-weight: bold;
     cursor: pointer;
-    margin: 0 10px 5px 0;
-    font-size: 12px;
+    font-size: 10px;
     display: inline-block;
     text-decoration: none;
 }
 
 .button:hover {
+    transition: background-color 0.3s, color 0.3s;
     border-color: cadetblue;
     color: #222222;
     background-color: cadetblue;
@@ -22,16 +22,13 @@
     border-width: 2px;
     padding: 3px 10px;
     font-size: 10px;
-    margin: 0 8px 3px 0;
 }
 
 .button-size-extra-small {
     border-width: 1px;
     padding: 2px 8px;
     font-size: 8px;
-    margin: 0 5px 2px 0;
 }
-
 
 .button-link {
     border: 3px solid transparent;

@@ -1,0 +1,16 @@
+.table {
+
+}
+
+.table tr > td {
+    padding: 5px 10px;
+    background-color: #333333;
+}
+
+.table-striped tr:nth-child(even) > td {
+    background-color: #272727;
+}
+
+.table-caption-upper th {
+    text-transform: uppercase;
+}

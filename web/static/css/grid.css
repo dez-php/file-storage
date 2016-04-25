@@ -11,7 +11,7 @@
 }
 
 [class*=grid-] {
-    padding: 15px;
+    padding: 0 15px;
     float: left;
 }
 
