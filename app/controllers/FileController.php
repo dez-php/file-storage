@@ -23,40 +23,10 @@ class FileController extends ControllerJson {
             ], 404);
         } else {
             if($file->isProtected()) {
-
+                // @TODO ...
             }
         }
 
-    }
-
-    public function downloadAction($hash)
-    {
-        $this->response([
-            'message' => "hash: $hash"
-        ]);
-    }
-
-    public function infoAction($hash)
-    {
-        $this->response([
-            'message' => "info: $hash"
-        ]);
-    }
-
-    public function fullInfoAction($hash)
-    {
-        $this->response([
-            'message' => "full-info: $hash"
-        ]);
-    }
-
-    public function getDirectLinkAction($hash)
-    {
-        $this->response([
-            'auth' => $this->auth,
-            'message' => "direct link for: $hash",
-            'link' => "$hash/$hash/$hash"
-        ]);
     }
 
 }

@@ -1,8 +1,13 @@
 <?php
+
+use Dez\ORM\Collection\ModelCollection;
+use FileStorage\Models\Categories;
+
 /**
- * @var \Dez\ORM\Collection\ModelCollection $categories
- * @var \FileStorage\Models\Categories $category
+ * @var ModelCollection $categories
+ * @var Categories $category
 */
+
 ?>
 <div class="row">
     <div class="grid-7 grid-smallest-10">
@@ -19,14 +24,19 @@
             </thead>
             <?php if($categories->count() > 0): ?>
                 <?php foreach ($categories as $category): ?>
-                    <tr>
+                    <tr <?= ($category->getStatus() == Categories::STATUS_DELETED ? ' class="opacity-6"' : null) ?>>
                         <td><?= $category->id(); ?></td>
                         <td><?= $category->getName(); ?></td>
                         <td><code><?= $category->getSlug(); ?></code></td>
                         <td class="hidden-smallest"><?= $category->getCreatedAt(); ?></td>
                         <td class="text-center">
-                            <a class="button button-light-green button-size-small" href="<?= $url->path("manager/edit-category/{$category->id()}") ?>">edit</a>
-                            <a class="button button-orange button-size-small" href="<?= $url->path("manager/delete-category/{$category->id()}") ?>">delete</a>
+                            <?php if($category->getStatus() == Categories::STATUS_DELETED):?>
+                                <a class="button button-yellow button-size-small" href="<?= $url->path("manager/activate-category/{$category->id()}") ?>">activate</a>
+                            <?php else: ?>
+                                <a class="button button-violet button-size-small" href="<?= $url->path("manager/files/category", ['slug' => $category->getSlug()]) ?>">look files</a>
+                                <a class="button button-light-green button-size-small" href="<?= $url->path("manager/edit-category/{$category->id()}") ?>">edit</a>
+                                <a class="button button-orange button-size-small" href="<?= $url->path("manager/delete-category/{$category->id()}") ?>">delete</a>
+                            <?php endif; ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

@@ -6,7 +6,10 @@
                 <a class="button button-warning button-size-small" href="<?= $this->url->path('manager/files/latest'); ?>">latest</a>
                 <a class="button button-pink button-size-small" href="<?= $this->url->path('manager/files/protected'); ?>">protected</a>
                 <a class="button button-violet button-size-small" href="<?= $this->url->path('manager/files/deleted'); ?>">deleted</a>
-                <a class="button button-gray button-size-small" href="<?= $this->url->path('manager/files/non-categorized'); ?>">non categorized</a>
+<!--                <form action="" class="inline">
+                    <input class="input input-color-gray input-border-default input-size-small" name="q" type="text">
+                    <input class="button button-gray button-size-small" value="search" type="submit">
+                </form>-->
             </div>
         </div>
         <table class="table table-striped table-caption-upper table-hovered">

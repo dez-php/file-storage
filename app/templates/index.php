@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <title>File Storage - Manager</title>
     <link rel="stylesheet" href="<?= $url->staticPath('css/main.css') ?>">
+    <script src="<?= $url->staticPath('js/alex-hyrenko-domjs/dom.js') ?>"></script>
 </head>
 <body class="">
-
-<?= $this->fetch('partials/messages'); ?>
 
 <div class="grid-10">
     <div class="row">
@@ -15,6 +14,8 @@
             <?= $this->fetch('partials/nav-bar'); ?>
         </div>
     </div>
+
+    <?= $this->fetch('partials/messages'); ?>
 
     <div class="row">
         <div class="grid-10">

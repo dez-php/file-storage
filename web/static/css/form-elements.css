@@ -10,6 +10,10 @@ select, input, textarea {
     font-size: 10px;
 }
 
+.input-size-small {
+    padding: 4px 10px;
+}
+
 select.button, .checkbox, .radio {
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -124,7 +128,7 @@ input[type=radio].radio {
     box-shadow: 0 0 0 2px orangered, inset 0 0 0 3px orangered;
 }
 
-input[type=file].hidden {
+input[type=file].hidden-file {
     position: absolute;
     top: 0;
     right: 0;
@@ -192,14 +196,24 @@ input[type=file].hidden {
     border-width: 1px;
 }
 
-.input-border-default {
+.input-border-default.input {
     border-width: 2px;
     padding-bottom: 7px;
     padding-top: 7px;
 }
 
-.input-border-fat {
+.input-border-fat.input {
     border-width: 3px;
     padding-bottom: 6px;
     padding-top: 6px;
+}
+
+.input-border-fat.input.input-size-small {
+    padding-bottom: 2px;
+    padding-top: 2px;
+}
+
+.input-border-default.input.input-size-small {
+    padding-bottom: 3px;
+    padding-top: 3px;
 }

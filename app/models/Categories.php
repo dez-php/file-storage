@@ -6,6 +6,10 @@ use Dez\ORM\Model\Table;
 
 class Categories extends Table {
 
+    const STATUS_ACTIVE = 'active';
+
+    const STATUS_DELETED = 'deleted';
+
     protected static $table = 'stored_file_categories';
 
     /**
@@ -18,11 +22,32 @@ class Categories extends Table {
     }
 
     /**
+     * @return boolean|integer
+     */
+    public function deactivate()
+    {
+        $this->setStatus(static::STATUS_DELETED)->save();
+    }
+
+    /**
+     * @return boolean|integer
+     */
+    public function activate()
+    {
+        $this->setStatus(static::STATUS_ACTIVE)->save();
+    }
+
+    /**
      * @return void
      */
     public function beforeSave()
     {
         $this->setSlug(\URLify::filter($this->getName()));
+        $this->setCreatedAt(time());
+
+        if($this->getStatus() === null) {
+            $this->setStatus(static::STATUS_ACTIVE);
+        }
     }
 
     /**
@@ -45,6 +70,15 @@ class Categories extends Table {
         $this->set('created_at', $created_at);
 
         return $this;
+    }
+
+    /**
+     * @param null $status
+     * @return $this
+     */
+    public function setStatus($status = null)
+    {
+        return $this->set('status', $status);
     }
 
     /**
@@ -81,6 +115,14 @@ class Categories extends Table {
     public function getCreatedAt($format = 'Y-m-d H:i:s')
     {
         return date($format, $this->get('created_at'));
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->get('status');
     }
 
 }

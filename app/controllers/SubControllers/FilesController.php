@@ -32,4 +32,9 @@ class FilesController extends ControllerWeb
 
     }
 
+    public function categoryAction()
+    {
+
+    }
+
 }

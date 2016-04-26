@@ -37,12 +37,43 @@ class ManagerController extends ControllerWeb {
 
     public function uploadFileAction()
     {
-
+        $this->view->set('categories', Categories::all());
     }
 
     public function categoriesAction()
     {
         $this->view->set('categories', Categories::all());
+    }
+
+    public function createCategoryAction()
+    {
+        if($this->request->isPost()) {
+            $category = new Categories();
+            $category->setName($this->request->getPost('name'));
+            $category->save();
+        } else {
+            $this->flash->error('Only for POST method');
+        }
+
+        $this->redirect('manager/categories');
+    }
+
+    public function deleteCategoryAction($id)
+    {
+        $category = Categories::one($id);
+        $category->deactivate();
+
+        $this->flash->error("Category #{$category->id()} was deleted");
+        $this->redirect('manager/categories');
+    }
+
+    public function activateCategoryAction($id)
+    {
+        $category = Categories::one($id);
+        $category->activate();
+
+        $this->flash->error("Category #{$category->id()} was activated");
+        $this->redirect('manager/categories');
     }
     
     public function latestAction($limit = 100)
