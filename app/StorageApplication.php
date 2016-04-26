@@ -53,6 +53,11 @@ class StorageApplication extends Configurable
                 'controller' => 'file'
             ])->regex('hash', '[a-f0-9]{32}');
 
+        $this->router
+            ->add('/manager/:action/:sub_action', [
+                'controller' => 'manager'
+            ])->regex('sub_action', '[a-z-_]+');
+
         return $this;
     }
 

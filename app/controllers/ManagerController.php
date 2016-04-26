@@ -17,9 +17,22 @@ class ManagerController extends ControllerWeb {
         }
     }
 
-    public function filesAction($filter = null)
+    public function usersAction($subAction = null)
     {
-        return $filter;
+        $this->view->set('content', $this->execute([
+            'namespace' => 'FileStorage\\Controllers\\SubControllers\\',
+            'controller' => 'users',
+            'action' => $subAction
+        ], true));
+    }
+
+    public function filesAction($subAction = null)
+    {
+        $this->view->set('content', $this->execute([
+            'namespace' => 'FileStorage\\Controllers\\SubControllers\\',
+            'controller' => 'files',
+            'action' => $subAction
+        ], true));
     }
 
     public function uploadFileAction()
