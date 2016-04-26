@@ -3,12 +3,44 @@
 namespace FileStorage\Controllers;
 
 use FileStorage\Core\Mvc\ControllerWeb;
+use FileStorage\Models\Categories;
+use FileStorage\Models\Files;
 
 class ManagerController extends ControllerWeb {
 
-    public function dashboardAction()
+    public function beforeExecute()
+    {
+        parent::beforeExecute();
+
+        if($this->getAction() !== 'index' && $this->authorizerSession->isGuest()) {
+            $this->response->redirect($this->url->path('manager/index'))->send();
+        }
+    }
+
+    public function filesAction($filter = null)
+    {
+        return $filter;
+    }
+
+    public function uploadFileAction()
     {
 
+    }
+
+    public function categoriesAction()
+    {
+        $this->view->set('categories', Categories::all());
+    }
+    
+    public function latestAction($limit = 100)
+    {
+        $latest = Files::latest($limit);
+        $this->view->set('latest', $latest->find());
+    }
+
+    public function dashboardAction()
+    {
+        $this->response->redirect($this->url->path('manager/latest'))->send();
     }
 
     public function indexAction()

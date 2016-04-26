@@ -2,11 +2,21 @@
 
 namespace FileStorage\Models;
 
+use Dez\ORM\Model\QueryBuilder;
 use Dez\ORM\Model\Table;
 
 class Files extends Table {
     
     protected static $table = 'stored_files';
+
+    /**
+     * @param int $limit
+     * @return QueryBuilder
+     */
+    public static function latest($limit = 100)
+    {
+        return static::query()->order('created_at', 'desc')->limit($limit);
+    }
 
     /**
      * @return Categories

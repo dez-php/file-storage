@@ -2,6 +2,10 @@
     margin: 0 -15px 10px -15px;
 }
 
+.row:last-child {
+    margin-bottom: 0;
+}
+
 .row:after {
     content: '';
     display: block;
@@ -12,6 +16,11 @@
 
 [class*=grid-] {
     padding: 0 15px;
+    float: left;
+}
+
+[class*=grid-].box {
+    padding: 15px;
     float: left;
 }
 

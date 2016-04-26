@@ -37,6 +37,17 @@ class Categories extends Table {
     }
 
     /**
+     * @param $created_at
+     * @return $this
+     */
+    public function setCreatedAt($created_at)
+    {
+        $this->set('created_at', $created_at);
+
+        return $this;
+    }
+
+    /**
      * @param $name
      * @return $this
      */
@@ -61,6 +72,15 @@ class Categories extends Table {
     public function getName()
     {
         return $this->get('name');
+    }
+
+    /**
+     * @param string $format
+     * @return string
+     */
+    public function getCreatedAt($format = 'Y-m-d H:i:s')
+    {
+        return date($format, $this->get('created_at'));
     }
 
 }

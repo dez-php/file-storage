@@ -39,8 +39,7 @@
         margin-left: 10px;
     }
 
-    .form-default .form-row input {
-        display: block;
+    .form-default .form-row input:not([type=button]):not([type=submit]):not([type=reset]) {
         width: 100%;
     }
 }
