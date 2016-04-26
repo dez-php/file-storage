@@ -13,7 +13,8 @@ CREATE TABLE IF NOT EXISTS `stored_files` (
 CREATE TABLE IF NOT EXISTS `stored_file_categories` (
   `id` int(10) unsigned NOT NULL,
   `slug` varchar(32) NOT NULL,
-  `name` varchar(64) NOT NULL
+  `name` varchar(64) NOT NULL,
+  `created_at` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE `stored_files`
