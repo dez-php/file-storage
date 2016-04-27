@@ -2,8 +2,10 @@
 
 namespace FileStorage\Controllers;
 
-use Dez\Http\Request\File;
+use Dez\Http\Request\File as FileRequested;
+use FileStorage\Services\Uploader\File;
 use FileStorage\Core\Mvc\ControllerJson;
+use FileStorage\Services\Uploader\Resource\FileHttp;
 
 class UploadController extends ControllerJson {
 
@@ -14,6 +16,14 @@ class UploadController extends ControllerJson {
 
     public function indexAction()
     {
+
+        $file = new File(new FileHttp('http://php.net/images/logo.php'));
+
+        $file->setCategory('test');
+
+        $file->upload($this->config->path('application.uploader.filesDirectory'));
+
+        var_dump($file); die;
 
         $uploadedFiles = $this->request->getUploadedFiles();
 
@@ -27,7 +37,7 @@ class UploadController extends ControllerJson {
                     'message' => 'Allowed only one file per one upload request'
                 ]);
             } else {
-                /** @var File $uploadedFile */
+                /** @var FileRequested $uploadedFile */
                 $uploadedFile = current($uploadedFiles);
 
                 if($uploadedFile->isUploaded()) {

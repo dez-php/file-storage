@@ -1,5 +1,5 @@
 <?php
 
-namespace FileStorage\Services;
+namespace FileStorage\Services\Uploader;
 
 class UploaderException extends \Exception {}
