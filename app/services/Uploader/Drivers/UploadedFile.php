@@ -1,12 +1,12 @@
 <?php
 
-namespace FileStorage\Services\Uploader\Resource;
+namespace FileStorage\Services\Uploader\Drivers;
 
 use Dez\Http\Request\File;
-use FileStorage\Services\Uploader\FileResource;
+use FileStorage\Services\Uploader\Driver;
 use FileStorage\Services\Uploader\UploaderException;
 
-class FileRequest extends FileResource {
+class UploadedFile extends Driver {
 
     /**
      * @param $path
@@ -28,7 +28,7 @@ class FileRequest extends FileResource {
      * @return $this
      * @throws UploaderException
      */
-    public function process()
+    public function initialize()
     {
         /**
          * @var File $source

@@ -6,6 +6,7 @@ use Dez\Http\Request\File as FileRequested;
 use FileStorage\Services\Uploader\File;
 use FileStorage\Core\Mvc\ControllerJson;
 use FileStorage\Services\Uploader\Resource\FileHttp;
+use FileStorage\Services\Uploader\Uploader;
 
 class UploadController extends ControllerJson {
 
@@ -17,13 +18,12 @@ class UploadController extends ControllerJson {
     public function indexAction()
     {
 
-        $file = new File(new FileHttp('http://php.net/images/logo.php'));
 
-        $file->setCategory('test');
 
-        $file->upload($this->config->path('application.uploader.filesDirectory'));
+        $uploader = new Uploader();
+        $uploader->setRootDirectory($this->config->path('application.uploader.filesDirectory'));
 
-        var_dump($file); die;
+        var_dump($uploader); die;
 
         $uploadedFiles = $this->request->getUploadedFiles();
 

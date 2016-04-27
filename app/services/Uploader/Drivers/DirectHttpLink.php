@@ -1,10 +1,10 @@
 <?php
 
-namespace FileStorage\Services\Uploader\Resource;
+namespace FileStorage\Services\Uploader\Drivers;
 
-use FileStorage\Services\Uploader\FileResource;
+use FileStorage\Services\Uploader\Driver;
 
-class FileHttp extends FileResource
+class DirectHttpLink extends Driver
 {
 
     private $fileContent;
@@ -23,7 +23,7 @@ class FileHttp extends FileResource
     /**
      * @return $this
      */
-    public function process()
+    public function initialize()
     {
 
         $curl = curl_init();

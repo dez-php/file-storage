@@ -5,13 +5,13 @@ namespace FileStorage\Services\Uploader;
 use Dez\DependencyInjection\Container;
 use FileStorage\Core\InjectableAware;
 
-abstract class Uploader extends InjectableAware
+class Uploader extends InjectableAware
 {
 
     /**
      * @var null
      */
-    protected $source = null;
+    protected $driver = null;
 
     protected $rootDirectory = null;
     
@@ -68,12 +68,12 @@ abstract class Uploader extends InjectableAware
     }
 
     /**
-     * @param File $file
+     * @param Driver $driver
      * @return $this
      */
-    public function upload($file = null)
+    public function upload($driver = null)
     {
-        $file->upload($this->getRootDirectory());
+        $driver->upload($this->getRootDirectory());
 
         return $this;
     }
