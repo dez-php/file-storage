@@ -13,7 +13,8 @@ return [
         'controllerNamespace' => 'FileStorage\\Controllers\\',
         'viewDirectory' => __DIR__ . '/../templates',
         'uploader' => [
-            'filesDirectory' => __DIR__ . '/../../shared-files'
+            'filesDirectory' => __DIR__ . '/../../shared-files',
+            'sharedDirectoryAlias' => '/_'
         ],
         'debug' => [
             'exceptions' => 1,

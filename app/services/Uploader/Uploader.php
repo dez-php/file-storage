@@ -5,19 +5,39 @@ namespace FileStorage\Services\Uploader;
 use Dez\DependencyInjection\Container;
 use FileStorage\Core\InjectableAware;
 
+/**
+ * Class Uploader
+ * @package FileStorage\Services\Uploader
+ */
 class Uploader extends InjectableAware
 {
 
     /**
-     * @var null
+     * @var Driver
      */
     protected $driver = null;
 
-    protected $rootDirectory = null;
-    
-    public function __construct()
+    /**
+     * @var string
+     */
+    protected $root = null;
+
+    /**
+     * @var string
+     */
+    protected $subDirectory = null;
+
+    /**
+     * Uploader constructor.
+     * @param string $root
+     */
+    public function __construct($root = null)
     {
         $this->setDi(Container::instance());
+
+        if(null !== $root) {
+            $this->setRoot($root);
+        }
     }
 
     /**
@@ -29,21 +49,59 @@ class Uploader extends InjectableAware
     }
 
     /**
-     * @return $this
-     * @throws UploaderException
+     * @return Driver
      */
-    public function validate()
+    public function getDriver()
     {
-        
+        return $this->driver;
+    }
+
+    /**
+     * @param Driver $driver
+     * @return static
+     */
+    public function setDriver(Driver $driver)
+    {
+        $driver->setUploader($this);
+        $this->driver = $driver;
+
+        return $this;
     }
 
     /**
      * @param null $source
-     * @return static
+     * @return FileInfo
+     * @throws UploaderException
      */
-    public function setSource($source)
+    public function upload($source = null)
     {
-        $this->source = $source;
+        if(null === ($driver = $this->getDriver())) {
+            throw new UploaderException("Initialize driver for uploader");
+        }
+        
+        return $driver->upload($source);
+    }
+
+    /**
+     * @return string
+     */
+    public function getRoot()
+    {
+        return $this->root;
+    }
+
+    /**
+     * @param string $root
+     * @return $this
+     * @throws UploaderException
+     */
+    public function setRoot($root)
+    {
+        if(! file_exists($root) || ! is_dir($root) || ! is_writable($root)) {
+            throw new UploaderException("Root directory do not exists or not writable");
+        }
+
+        $this->root = $root;
 
         return $this;
     }
@@ -51,32 +109,56 @@ class Uploader extends InjectableAware
     /**
      * @return string
      */
-    public function getRootDirectory()
+    public function getSubDirectory()
     {
-        return $this->rootDirectory;
+        return $this->subDirectory;
     }
 
     /**
-     * @param string $rootDirectory
+     * @param string $subDirectory
      * @return static
      */
-    public function setRootDirectory($rootDirectory)
+    public function setSubDirectory($subDirectory)
     {
-        $this->rootDirectory = $rootDirectory;
+        $this->subDirectory = $subDirectory;
 
         return $this;
     }
 
     /**
-     * @param Driver $driver
-     * @return $this
+     * @return mixed
      */
-    public function upload($driver = null)
+    public function destinationPath()
     {
-        $driver->upload($this->getRootDirectory());
+        $destination = rtrim(sprintf('%s/%s', rtrim($this->getRoot(), '/'), rtrim($this->getSubDirectory())), '/');
+        $this->makeDirectory($destination, 0777, true);
+
+        return realpath($destination);
+    }
+
+    /**
+     * @param string $file
+     * @return string
+     */
+    public function relativeFilePath($file)
+    {
+        return sprintf('%s/%s', trim($this->getSubDirectory(), '/'), $file);
+    }
+
+    /**
+     * @param null $directoryPath
+     * @param int $access
+     * @param bool $recursively
+     * @return $this
+     * @throws UploaderException
+     */
+    protected function makeDirectory($directoryPath = null, $access = 0777, $recursively = true)
+    {
+        if(! is_dir($directoryPath) && ! mkdir($directoryPath, $access, $recursively)) {
+            throw new UploaderException("Cannot create directory '{$directoryPath}'");
+        }
 
         return $this;
     }
-
 
 }

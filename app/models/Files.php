@@ -47,11 +47,22 @@ class Files extends Table {
     }
 
     /**
+     * @param string $unit
      * @return mixed
      */
-    public function getSize()
+    public function getSize($unit = null)
     {
-        return $this->get('size');
+        $unit = strtoupper($unit);
+        $scales = [
+            'K' => 1024,
+            'M' => (1024 * 1024),
+            'G' => (1024 * 1024 * 1024),
+            'T' => (1024 * 1024 * 1024 * 1024),
+        ];
+
+        $scale = isset($scales[$unit]) ? $scales[$unit] : 0;
+
+        return round($this->get('size') / $scale, 6) . $unit;
     }
 
     /**

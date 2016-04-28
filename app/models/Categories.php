@@ -38,6 +38,14 @@ class Categories extends Table {
     }
 
     /**
+     * @return string
+     */
+    public function hash()
+    {
+        return substr(md5($this->id()), -16);
+    }
+
+    /**
      * @return void
      */
     public function beforeSave()

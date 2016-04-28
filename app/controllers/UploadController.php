@@ -3,10 +3,15 @@
 namespace FileStorage\Controllers;
 
 use Dez\Http\Request\File as FileRequested;
+use Dez\Mvc\Controller\MvcException;
+use FileStorage\Models\Categories;
+use FileStorage\Models\Files;
+use FileStorage\Services\Uploader\Drivers\UploadedFile;
 use FileStorage\Services\Uploader\File;
 use FileStorage\Core\Mvc\ControllerJson;
 use FileStorage\Services\Uploader\Resource\FileHttp;
 use FileStorage\Services\Uploader\Uploader;
+use FileStorage\Services\Uploader\UploaderException;
 
 class UploadController extends ControllerJson {
 
@@ -21,9 +26,9 @@ class UploadController extends ControllerJson {
 
 
         $uploader = new Uploader();
-        $uploader->setRootDirectory($this->config->path('application.uploader.filesDirectory'));
+        $uploader->setRoot($this->config->path('application.uploader.filesDirectory'));
 
-        var_dump($uploader); die;
+        $uploader->setDriver(new UploadedFile());
 
         $uploadedFiles = $this->request->getUploadedFiles();
 
@@ -39,25 +44,32 @@ class UploadController extends ControllerJson {
             } else {
                 /** @var FileRequested $uploadedFile */
                 $uploadedFile = current($uploadedFiles);
+                
+                $category = Categories::one($this->request->getPost('category'));
+                $uploader->setSubDirectory("{$category->getSlug()}-{$category->hash()}");
 
-                if($uploadedFile->isUploaded()) {
-                    $file = [
-                        $uploadedFile->getKey(),
-                        $uploadedFile->getName(),
-                        $uploadedFile->getSize(),
-                        $uploadedFile->getRealMimeType(),
-                        $uploadedFile->getTemporaryName(),
-                        $uploadedFile->getExtension()
-                    ];
+                try {
+                    $uploaded = $uploader->upload($uploadedFile);
+
+                    $file = new Files();
+
+                    $file->setRelativePath($uploaded->getRelativePath());
+                    $file->setHash($uploaded->getHash());
+                    $file->setExtension($uploaded->getExtension());
+                    $file->setMimeType($uploaded->getMimeType());
+                    $file->setCategoryId($category->id());
+                    $file->setCreatedAt(time());
+                    $file->setSize($uploaded->getSize());
+
+                    if(! $file->save()) {
+                        throw new MvcException("Can not be saved");
+                    }
 
                     $this->response([
-                        'file' => $file,
-                        'request' => $this->request->getPost()
+                        'file' => $file->toObject()
                     ]);
-                } else {
-                    $this->error([
-                        'message' => $uploadedFile->getErrorDescription()
-                    ]);
+                } catch (\Exception $exception) {
+                    $this->error(['message' => $exception->getMessage()]);
                 }
             }
         }
