@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>File Storage - Manager</title>
     <link rel="stylesheet" href="<?= $url->staticPath('css/main.css') ?>">
-    <script src="<?= $url->staticPath('js/alex-hyrenko-domjs/dom.js') ?>"></script>
+    <script src="<?= $url->staticPath('js/dom.js') ?>"></script>
 </head>
 <body class="">
 

@@ -8,6 +8,7 @@ use FileStorage\Models\Categories;
 use FileStorage\Models\Files;
 use FileStorage\Services\Uploader\Drivers\DirectLink;
 use FileStorage\Core\Mvc\ControllerJson;
+use FileStorage\Services\Uploader\Drivers\UploadedFile;
 use FileStorage\Services\Uploader\Uploader;
 
 class UploadController extends ControllerJson {
@@ -20,38 +21,16 @@ class UploadController extends ControllerJson {
     public function indexAction()
     {
 
-
-
         $uploader = new Uploader();
         $uploader->setRoot($this->config->path('application.uploader.filesDirectory'));
 
-        $category = Categories::one(1);
+        $category = Categories::one(10);
 
         $uploader->setSubDirectory("{$category->getSlug()}-{$category->hash()}");
 
-        $uploader->setDriver(new DirectLink());
-//        $uploader->setDriver(new UploadedFile());
+//        $uploader->setDriver(new DirectLink());
+        $uploader->setDriver(new UploadedFile());
 
-        $uploaded = $uploader->upload('http://ic.pics.livejournal.com/freedom/19046571/5228266/5228266_900.jpg');
-
-        $file = new Files();
-
-        $file->setRelativePath($uploaded->getRelativePath());
-        $file->setHash($uploaded->getHash());
-        $file->setExtension($uploaded->getExtension());
-        $file->setMimeType($uploaded->getMimeType());
-        $file->setCategoryId($category->id());
-        $file->setCreatedAt(time());
-        $file->setSize($uploaded->getSize());
-
-        if(! $file->save()) {
-            throw new MvcException("Can not be saved");
-        }
-
-        $this->response([
-            'file' => $file->toObject()
-        ])->send();
-die;
         $uploadedFiles = $this->request->getUploadedFiles();
 
         if(0 == count($uploadedFiles)) {

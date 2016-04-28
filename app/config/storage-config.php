@@ -14,7 +14,7 @@ return [
         'viewDirectory' => __DIR__ . '/../templates',
         'uploader' => [
             'filesDirectory' => __DIR__ . '/../../shared-files',
-            'sharedDirectoryAlias' => '/_'
+            'sharedDirectoryAlias' => '/shared-files'
         ],
         'debug' => [
             'exceptions' => 1,

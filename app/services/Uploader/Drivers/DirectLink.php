@@ -37,7 +37,7 @@ class DirectLink extends Driver
             throw new UploaderException("cURL error: {$error}");
         }
 
-        $contentType = $info['content_type'];
+        $contentType = trim(explode(';', $info['content_type'])[0]);
         $extensions = Mimes::extensions($contentType);
         
         if(null === $extensions) {

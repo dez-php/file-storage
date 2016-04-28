@@ -15,6 +15,8 @@ class ManagerController extends ControllerWeb {
         if($this->getAction() !== 'index' && $this->authorizerSession->isGuest()) {
             $this->response->redirect($this->url->path('manager/index'))->send();
         }
+
+        $this->view->set('session_progress_name', ini_get('session.upload_progress.name'));
     }
 
     public function usersAction($subAction = null)
@@ -85,6 +87,11 @@ class ManagerController extends ControllerWeb {
     public function dashboardAction()
     {
         $this->response->redirect($this->url->path('manager/latest'))->send();
+    }
+
+    public function serverInfoAction()
+    {
+
     }
 
     public function indexAction()

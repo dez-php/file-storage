@@ -26,21 +26,29 @@ use FileStorage\Models\Categories;
 
             var form = $(this);
             var file = $('#input-file');
-
             var formData = new FormData();
+            var progressBox = $('#progress-box');
+            var progressBar = $('#progress-bar');
+
             formData.append('file', file.native(0).files[0]);
             formData.append('name', $('#file-name').val());
             formData.append('category', $('#file-category').val());
             formData.append('protected', $('#file-secure input[type=radio]:checked').val());
 
-            app.post(form.attr('action'), formData).then(function(response){
+            progressBox.show();
 
+            app.ajax({
+                url: form.attr('action'),
+                data: formData,
+                progress: function (event) {
+                    progressBar.css('width', (100 * (event.loaded / event.total)) + '%');
+                }
+            }).then(function(response){
+                progressBox.hide();
                 $('#response-body pre').html(response);
-
                 if(JSON.parse(response).status == 'success') {
                     form.native(0).reset();
                 }
-
             });
         });
     });
@@ -91,6 +99,13 @@ use FileStorage\Models\Categories;
                 <label class="grid-2"></label>
                 <div class="grid-8">
                     <input type="submit" value="upload" class="button button-warning button-rounded">
+                </div>
+            </div>
+            <div id="progress-box" class="form-row hidden">
+                <div class="grid-10">
+                    <div class="input-rounded input-rounded bg-color-dark-gray">
+                        <div id="progress-bar" style="height: 10px; width: 0%;" class="bg-color-warning input-rounded"></div>
+                    </div>
                 </div>
             </div>
         </form>
