@@ -14,7 +14,7 @@ abstract class Driver {
      */
     public function __construct()
     {
-
+        $this->initialize();
     }
 
     /**

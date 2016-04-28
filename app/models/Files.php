@@ -62,7 +62,7 @@ class Files extends Table {
 
         $scale = isset($scales[$unit]) ? $scales[$unit] : 0;
 
-        return round($this->get('size') / $scale, 6) . $unit;
+        return bcdiv($this->get('size'), $scale, 6) . $unit;
     }
 
     /**
