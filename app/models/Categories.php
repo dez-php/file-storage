@@ -18,7 +18,7 @@ class Categories extends Table {
      */
     public function files()
     {
-        return $this->hasMany(Files::class, 'id', 'category_id');
+        return $this->hasMany(Files::class, 'category_id', 'id');
     }
 
     /**

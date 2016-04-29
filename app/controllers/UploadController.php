@@ -22,11 +22,7 @@ class UploadController extends ControllerJson {
     {
 
         $uploader = new Uploader();
-        $uploader->setRoot($this->config->path('application.uploader.filesDirectory'));
-
-        $category = Categories::one(10);
-
-        $uploader->setSubDirectory("{$category->getSlug()}-{$category->hash()}");
+        $uploader->setRoot($this->config->path('application.uploader.directories.public'));
 
 //        $uploader->setDriver(new DirectLink());
         $uploader->setDriver(new UploadedFile());
@@ -35,7 +31,8 @@ class UploadController extends ControllerJson {
 
         if(0 == count($uploadedFiles)) {
             $this->error([
-                'message' => 'Bad request. No files for upload'
+                'message' => 'Bad request. No files for upload',
+                'request' => $this->request->getPost(),
             ]);
         } else {
             if(count($uploadedFiles) > 1) {
@@ -46,7 +43,7 @@ class UploadController extends ControllerJson {
                 /** @var FileRequested $uploadedFile */
                 $uploadedFile = current($uploadedFiles);
                 
-                $category = Categories::one($this->request->getPost('category'));
+                $category = Categories::one($this->request->getPost('category_id'));
                 $uploader->setSubDirectory("{$category->getSlug()}-{$category->hash()}");
 
                 try {
@@ -54,6 +51,7 @@ class UploadController extends ControllerJson {
 
                     $file = new Files();
 
+                    $file->setName($this->request->getPost('name'));
                     $file->setRelativePath($uploaded->getRelativePath());
                     $file->setHash($uploaded->getHash());
                     $file->setExtension($uploaded->getExtension());

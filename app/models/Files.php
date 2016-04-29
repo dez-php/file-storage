@@ -24,7 +24,7 @@ class Files extends Table {
      */
     public function category()
     {
-        return $this->hasOne(Categories::class, 'category_id');
+        return $this->hasOne(Categories::class, 'id', 'category_id');
     }
 
     /**
@@ -47,6 +47,25 @@ class Files extends Table {
     }
 
     /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->get('name');
+    }
+
+    /**
+     * @param $name
+     * @return $this
+     */
+    public function setName($name)
+    {
+        $this->set('name', $name);
+
+        return $this;
+    }
+
+    /**
      * @param string $unit
      * @return mixed
      */
@@ -60,7 +79,7 @@ class Files extends Table {
             'T' => (1024 * 1024 * 1024 * 1024),
         ];
 
-        $scale = isset($scales[$unit]) ? $scales[$unit] : 0;
+        $scale = isset($scales[$unit]) ? $scales[$unit] : 1;
 
         return bcdiv($this->get('size'), $scale, 6) . $unit;
     }

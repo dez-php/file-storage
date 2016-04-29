@@ -10,13 +10,13 @@ use FileStorage\Models\Categories;
 
 ?>
 <div class="row">
-    <div class="grid-7 grid-smallest-10">
+    <div class="grid-7 grid-small-10 grid-smallest-10">
         <h2>Categories</h2>
         <table class="table table-striped table-caption-upper table-hovered">
             <thead>
             <tr>
                 <th>id</th>
-                <th>name</th>
+                <th class="hidden-smallest">name</th>
                 <th>slug</th>
                 <th class="hidden-smallest">created</th>
                 <th style="min-width: 135px"></th>
@@ -26,7 +26,7 @@ use FileStorage\Models\Categories;
                 <?php foreach ($categories as $category): ?>
                     <tr <?= ($category->getStatus() == Categories::STATUS_DELETED ? ' class="opacity-6"' : null) ?>>
                         <td><?= $category->id(); ?></td>
-                        <td><?= $category->getName(); ?></td>
+                        <td class="hidden-smallest"><?= $category->getName(); ?></td>
                         <td><code><?= $category->getSlug(); ?></code></td>
                         <td class="hidden-smallest"><?= $category->getCreatedAt(); ?></td>
                         <td class="text-center">
@@ -49,7 +49,7 @@ use FileStorage\Models\Categories;
             <?php endif; ?>
         </table>
     </div>
-    <div class="grid-3 grid-smallest-10">
+    <div class="grid-3 grid-small-10 grid-smallest-10">
         <h2>Category manager</h2>
         <form class="form-default bg-color-dark" action="<?= $url->path('manager/create-category'); ?>" method="post">
             <div class="form-row">

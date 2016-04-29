@@ -5,6 +5,7 @@ namespace FileStorage\Controllers;
 use FileStorage\Core\Mvc\ControllerWeb;
 use FileStorage\Models\Categories;
 use FileStorage\Models\Files;
+use FileStorage\Services\Uploader\Uploader;
 
 class ManagerController extends ControllerWeb {
 
@@ -65,7 +66,7 @@ class ManagerController extends ControllerWeb {
         $category = Categories::one($id);
         $category->deactivate();
 
-        $this->flash->error("Category #{$category->id()} was deleted");
+        $this->flash->warning("Category #{$category->id()} was deleted");
         $this->redirect('manager/categories');
     }
 
@@ -74,7 +75,7 @@ class ManagerController extends ControllerWeb {
         $category = Categories::one($id);
         $category->activate();
 
-        $this->flash->error("Category #{$category->id()} was activated");
+        $this->flash->notice("Category #{$category->id()} was activated");
         $this->redirect('manager/categories');
     }
     
@@ -86,11 +87,32 @@ class ManagerController extends ControllerWeb {
 
     public function dashboardAction()
     {
-        $this->response->redirect($this->url->path('manager/latest'))->send();
+        $this->response->redirect($this->url->path('manager/files/index'))->send();
     }
 
     public function serverInfoAction()
     {
+        $this->view->set('os', php_uname());
+        $this->view->set('php_version', PHP_VERSION);
+        $this->view->set('sapi', apache_get_version());
+
+        $this->view->set('free_disk_space', Uploader::humanizeSize(disk_free_space('.')));
+
+        $this->view->set('upload_max_filesize', Uploader::humanizeSize(Uploader::byteSize(ini_get('upload_max_filesize'))));
+        $this->view->set('post_max_size', Uploader::humanizeSize(Uploader::byteSize(ini_get('post_max_size'))));
+
+        $publicDirectory = realpath($this->config->path('application.uploader.directories.public'));
+        $privateDirectory = realpath($this->config->path('application.uploader.directories.private'));
+
+        $this->view->set('public_directory', $publicDirectory);
+        $this->view->set('private_directory', $privateDirectory);
+        $this->view->set('free_disk_space_public', Uploader::humanizeSize(disk_free_space($publicDirectory)));
+        $this->view->set('free_disk_space_private', Uploader::humanizeSize(disk_free_space($privateDirectory)));
+
+        $this->view->set('validation_mimes', $this->config->path('application.uploader.validation.mimes'));
+        $this->view->set('validation_extensions', $this->config->path('application.uploader.validation.extensions'));
+
+        $this->view->set('uploaded_files', Files::all()->count());
 
     }
 

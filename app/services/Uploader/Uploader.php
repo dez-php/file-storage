@@ -161,4 +161,30 @@ class Uploader extends InjectableAware
         return $this;
     }
 
+    /**
+     * @param int $bytes
+     * @return string
+     */
+    public static function humanizeSize($bytes = 0)
+    {
+        $suffixes = ['B', 'K', 'M', 'G', 'T', 'E', 'Z', 'Y'];
+        $index = min((integer) log($bytes, 1024), count($suffixes) - 1);
+
+        return bcdiv($bytes, bcpow(1024, $index), 3) . $suffixes[$index];
+    }
+
+    /**
+     * @param string $humanize
+     * @return mixed
+     */
+    public static function byteSize($humanize = '0B')
+    {
+        $suffixes = ['B', 'K', 'M', 'G', 'T', 'E', 'Z', 'Y'];
+        $index = strtoupper(substr($humanize, -1));
+        $scale = array_search($index, $suffixes);
+
+        return bcpow(1024, $scale) * substr($humanize, 0, strlen($humanize) - 1);
+    }
+
+
 }

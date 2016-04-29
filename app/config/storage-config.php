@@ -13,8 +13,25 @@ return [
         'controllerNamespace' => 'FileStorage\\Controllers\\',
         'viewDirectory' => __DIR__ . '/../templates',
         'uploader' => [
-            'filesDirectory' => __DIR__ . '/../../shared-files',
-            'sharedDirectoryAlias' => '/shared-files'
+            'directories' => [
+                'public' => __DIR__ . '/../../public-files',
+                'private' => __DIR__ . '/../../private-files',
+            ],
+            'validation' => [
+                'mimes' => [
+                    'black' => [],
+                    'white' => []
+                ],
+                'extensions' => [
+                    'black' => [
+                        'exe', 'dll', 'php', 'js',
+                    ],
+                    'white' => [
+                        'png', 'jpeg', 'html'
+                    ]
+                ]
+            ],
+            'public_uri' => '/public-files'
         ],
         'debug' => [
             'exceptions' => 1,

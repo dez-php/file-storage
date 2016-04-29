@@ -253,3 +253,37 @@ code, pre {
         display: block;
     }
 }
+
+.flash-messages {
+    border: 0;
+    padding: 5px 10px;
+    background-color: #272727;
+    font-size: 12px;
+    margin-bottom: 5px;
+    color: #1D1D1D;
+    font-weight: 600;
+}
+
+.rounded-inner > * {
+    border-radius: 15px;
+}
+
+.flash-messages.flash-messages-error {
+    background-color: crimson;
+}
+
+.flash-messages.flash-messages-notice {
+    background-color: deepskyblue;
+}
+
+.flash-messages.flash-messages-warning {
+    background-color: coral;
+}
+
+.flash-messages.flash-messages-info {
+    background-color: darkorchid;
+}
+
+.flash-messages.flash-messages-success {
+    background-color: springgreen;
+}
