@@ -146,6 +146,14 @@ class Uploader extends InjectableAware
     }
 
     /**
+     * @return string
+     */
+    public function downloadProgressFile()
+    {
+        return sprintf('%s/%s.txt', $this->getRoot(), $this->session->getId());
+    }
+
+    /**
      * @param null $directoryPath
      * @param int $access
      * @param bool $recursively
