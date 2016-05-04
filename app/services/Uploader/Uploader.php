@@ -150,7 +150,15 @@ class Uploader extends InjectableAware
      */
     public function downloadProgressFile()
     {
-        return sprintf('%s/%s.txt', $this->getRoot(), $this->session->getId());
+        return sprintf('download_%s', sha1($this->session->getId()));
+    }
+
+    /**
+     * @return string
+     */
+    public function downloadProgressPath()
+    {
+        return sprintf('%s/%s', $this->getRoot(), $this->downloadProgressFile());
     }
 
     /**

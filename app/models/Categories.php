@@ -117,12 +117,11 @@ class Categories extends Table {
     }
 
     /**
-     * @param string $format
      * @return string
      */
-    public function getCreatedAt($format = 'Y-m-d H:i:s')
+    public function getCreatedAt()
     {
-        return date($format, $this->get('created_at'));
+        return $this->get('created_at');
     }
 
     /**
@@ -131,6 +130,21 @@ class Categories extends Table {
     public function getStatus()
     {
         return $this->get('status');
+    }
+
+    /**
+     * @return array
+     */
+    public function toResponse()
+    {
+        return [
+            'name' => $this->getName(),
+            'slug' => $this->getSlug(),
+            'created' => [
+                'timestamp' => $this->getCreatedAt(),
+                'formatted' => date('d F, Y H:i:s', $this->getCreatedAt()),
+            ]
+        ];
     }
 
 }

@@ -22,12 +22,14 @@ class FilesController extends ControllerWeb
 
     public function deletedAction()
     {
-
+        $files = Files::query()->where('status', Files::STATUS_DELETED)->find();
+        $this->view->set('files', $files);
     }
 
     public function protectedAction()
     {
-
+        $files = Files::latest()->where('protected', 1)->find();
+        $this->view->set('files', $files);
     }
 
     public function categoryAction()

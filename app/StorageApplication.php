@@ -113,7 +113,9 @@ class StorageApplication extends Configurable
         $responseData = [
             'status' => 'error',
             'error_type' => $type,
-            'message' => $message,
+            'response' => [
+                'message' => $message
+            ],
             'location' => "{$file}:{$line}"
         ];
 

@@ -1,6 +1,9 @@
+<?php
+use FileStorage\Services\Emoji;
+?>
 <div class="row">
     <div class="grid-10">
-        <h2>Server info</h2>
+        <h2>Server info <?= Emoji::SMILING_CAT_FACE_WITH_HEART_SHAPED_EYES; ?></h2>
         <table class="table table-striped table-caption-upper table-hovered">
             <thead>
             <tr>

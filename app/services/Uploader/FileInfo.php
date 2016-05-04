@@ -29,9 +29,17 @@ class FileInfo extends \SplFileInfo implements \JsonSerializable {
      * @param string $algorithm
      * @return mixed
      */
-    public function getHash($algorithm = 'md5')
+    public function getHashFile($algorithm = 'md5')
     {
         return hash_file($algorithm, $this->getPathname());
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHash()
+    {
+        return md5($this->getHashFile('md5') . microtime());
     }
 
     /**
@@ -47,7 +55,7 @@ class FileInfo extends \SplFileInfo implements \JsonSerializable {
      */
     public function getNameWithExtension()
     {
-        return $this->extension === null ? $this->getName() : sprintf('%s.%s', $this->getName(), $this->getExtension());
+        return ! (boolean) $this->extension ? $this->getName() : sprintf('%s.%s', $this->getName(), $this->getExtension());
     }
 
     /**
@@ -67,8 +75,11 @@ class FileInfo extends \SplFileInfo implements \JsonSerializable {
     public function getMimeType()
     {
         if(null === $this->mimeType) {
-            $info = new \finfo(FILEINFO_MIME_TYPE);
-            $this->mimeType = $info->file($this->getPathname());
+            $this->mimeType = Mimes::mime($this->getExtension());
+            if(null === $this->mimeType) {
+                $info = new \finfo(FILEINFO_MIME_TYPE);
+                $this->mimeType = $info->file($this->getPathname());
+            }
         }
 
         return $this->mimeType;

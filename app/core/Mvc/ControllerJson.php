@@ -2,8 +2,15 @@
 
 namespace FileStorage\Core\Mvc;
 
+use Dez\Authorizer\Adapter\Session;
+use Dez\Authorizer\Adapter\Token;
 use Dez\Http\Response;
 use Dez\Mvc\Controller;
+
+/**
+ * @property Token authorizerToken
+ * @property Session authorizerSession
+ */
 
 class ControllerJson extends Controller {
 

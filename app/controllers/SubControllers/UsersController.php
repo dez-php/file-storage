@@ -4,6 +4,7 @@ namespace FileStorage\Controllers\SubControllers;
 
 use Dez\Authorizer\Models\Auth\TokenModel;
 use FileStorage\Core\Mvc\ControllerWeb;
+use FileStorage\Services\Emoji;
 
 class UsersController extends ControllerWeb
 {
@@ -23,6 +24,9 @@ class UsersController extends ControllerWeb
         $this->view->set('auth', $this->authorizerSession);
         $this->view->set('token', $this->authorizerToken->getModel()->query()->where('unique_hash',
             $this->authorizerSession->getModel()->getUniqueHash())->first());
+        $this->view->set('ua', $this->request->getUserAgent());
+        $this->view->set('ip', $this->request->getClientIP());
+        $this->view->set('real_ip', $this->request->getRealClientIP());
     }
 
     public function generateTokenAction()

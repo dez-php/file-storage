@@ -2,7 +2,7 @@
 /**
  * @var $auth \Dez\Authorizer\Adapter\Session
  * @var $token \Dez\Authorizer\Models\Auth\TokenModel
-*/
+ */
 
 ?>
 <div class="row">
@@ -41,17 +41,38 @@
                 <td>environment</td>
                 <td><code><?= $auth->getModel()->getUniqueHash() ?></code></td>
             </tr>
+            <tr>
+                <td>user-agent</td>
+                <td><code><?= $ua ?></code></td>
+            </tr>
+            <tr>
+                <td>ip</td>
+                <td><code><?= $ip ?> / <?= $real_ip ?></code></td>
+            </tr>
         </table>
     </div>
     <div class="grid-5 grid-small-10 grid-smallest-10">
         <h2>Token</h2>
-        <table class="table table-striped table-caption-upper table-hovered">
-            <tr>
-                <td><input class="input input-color-light-green input-border-default input-rounded" type="text" style="width: 100%" readonly value="<?= ($token->exists() ? $token->getToken() : 'none') ?>"></td>
-                <td>
-                    <a class="button button-light-green button-rounded" href="<?= $this->url->path('manager/users/generate-token', ['token' => $token->getToken()]); ?>">generate new</a>
-                </td>
-            </tr>
-        </table>
+        <form action="<?= $this->url->path('manager/users/generate-token') ?>" method="post">
+            <table class="table table-striped table-caption-upper table-hovered">
+                <tr>
+                    <td>token</td>
+                    <td><code><?= ($token->exists() ? $token->getToken() : 'none') ?></code></td>
+                </tr>
+                <tr>
+                    <td>password</td>
+                    <td>
+                        <input class="input input-border-default input-color-light-green input-rounded" type="password"
+                               name="password" placeholder="enter your current password...">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input class="button button-rounded button-light-green" type="submit" value="generate">
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+        </form>
     </div>
 </div>

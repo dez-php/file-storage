@@ -28,7 +28,7 @@ use FileStorage\Models\Categories;
                         <td><?= $category->id(); ?></td>
                         <td class="hidden-smallest"><?= $category->getName(); ?></td>
                         <td><code><?= $category->getSlug(); ?></code></td>
-                        <td class="hidden-smallest"><?= $category->getCreatedAt(); ?></td>
+                        <td class="hidden-smallest"><?= date('d F, Y H:i:s', $category->getCreatedAt()); ?></td>
                         <td class="text-center">
                             <?php if($category->getStatus() == Categories::STATUS_DELETED):?>
                                 <a class="button button-yellow button-size-small" href="<?= $url->path("manager/activate-category/{$category->id()}") ?>">activate</a>

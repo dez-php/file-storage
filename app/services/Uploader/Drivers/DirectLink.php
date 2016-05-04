@@ -24,6 +24,7 @@ class DirectLink extends Driver
             throw new UploaderException("Url not valid. Must been direct http-link on file");
         }
 
+        file_put_contents($this->getUploader()->downloadProgressPath(), 0);
         $headers = get_headers($source, true);
 
         $size = $headers['Content-Length'];
@@ -42,23 +43,23 @@ class DirectLink extends Driver
 
         $reader = fopen($source, 'rb');
         $writer = fopen($filepath, 'w+');
-        $status = fopen($this->getUploader()->downloadProgressFile(), 'w+');
 
         $downloaded = 0;
-        $count = 0;
+        $chunkSize = (integer) min($size / 100, 8192);
 
         while (!feof($reader)) {
-            $downloaded += fwrite($writer, fread($reader, 8192), 8192);
-
-            if(++$count % 10000 == 0) {
-                rewind($status);
-                fwrite($status, round(100 * ($downloaded / $size), 2) . '%');
-            }
+            $downloaded += fwrite($writer, fread($reader, $chunkSize));
+            file_put_contents($this->getUploader()->downloadProgressPath(), 100 * ($downloaded / $size));
         }
+
+        if($size > $downloaded) {
+            throw new UploaderException("File is broken. Maybe something wrong with internet");
+        }
+
+        file_put_contents($this->getUploader()->downloadProgressPath(), 0);
 
         fclose($reader);
         fclose($writer);
-        fclose($status);
 
         $file = new FileInfo($hash, $filepath);
 

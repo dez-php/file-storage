@@ -20,6 +20,10 @@ use FileStorage\Models\Categories;
         }
     });
 
+    var uploadType = 'local';
+    var progressFileUrl = '<?= $this->url->path('upload/download-file-progress'); ?>';
+    var progressFile = null;
+
     app.DOM.ready(function($){
 
         $('#input-file').on('change', function(e){
@@ -27,7 +31,7 @@ use FileStorage\Models\Categories;
         });
 
         $('#upload-type input[type=radio]').on('change', function () {
-            var uploadType = $(this).val();
+            uploadType = $(this).val();
             if(uploadType == 'local') {
                 $('#local').show();
                 $('#direct-link').hide();
@@ -35,6 +39,10 @@ use FileStorage\Models\Categories;
                 $('#local').hide();
                 $('#direct-link').show();
             }
+            app.get(progressFileUrl).then(function(response){
+                response = JSON.parse(response);
+                progressFile = response.response.url;
+            });
         });
 
         $('#upload-form').on('submit', function(e){
@@ -52,12 +60,16 @@ use FileStorage\Models\Categories;
                 formData.append(element.attr('name'), element.val());
             });
 
+            var intervalId = 0;
+
             progressBox.show();
             app.ajax({
                 url: form.attr('action'),
                 data: formData,
                 progress: function (event) {
-                    progressBar.css('width', 100 * (event.loaded / event.total) + '%');
+                    if(uploadType == 'local') {
+                        progressBar.css('width', 100 * (event.loaded / event.total) + '%');
+                    }
                 }
             }).then(function(response){
                 progressBox.hide();
@@ -66,50 +78,62 @@ use FileStorage\Models\Categories;
                     form.native(0).reset();
                 }
             });
+
+            if(uploadType == 'direct-link') {
+                intervalId = setInterval(function () {
+                    app.get(progressFile).then(function(response){
+                        progressBar.css('width', response + '%');
+                        if(response == 100) {
+                            clearInterval(intervalId);
+                        }
+                    });
+                }, 500);
+            }
+
         });
     });
 </script>
 <div class="row">
-    <div class="grid-4 grid-middle-5 grid-small-7 grid-smallest-10">
-        <h2>Upload new file</h2>
+    <div class="grid-5 grid-small-10 grid-smallest-10">
+        <h2>Upload new file <?php echo "\xf0\x9f\x98\x81" ?></h2>
         <form id="upload-form" class="form-horizontal form-label-right bg-color-dark" action="<?= $url->path('upload/index'); ?>" method="post" enctype="multipart/form-data">
             <div class="form-row" id="upload-type">
-                <label class="grid-2">upload type</label>
-                <div class="grid-8" id="file-secure">
+                <label class="grid-3">upload type</label>
+                <div class="grid-7" id="file-secure">
                     <label class="check-item">
-                        <input checked class="radio radio-color-warning" name="upload-type" type="radio" value="local">
+                        <input checked class="radio radio-color-warning" name="upload_type" type="radio" value="local">
                         from your computer
                     </label>
                     <label class="check-item">
-                        <input class="radio radio-color-warning" name="upload-type" type="radio" value="direct-link">
+                        <input class="radio radio-color-warning" name="upload_type" type="radio" value="direct-link">
                         direct link from internet
                     </label>
                 </div>
             </div>
             <div class="form-row" id="local">
-                <label class="grid-2">file</label>
-                <div class="grid-8">
+                <label class="grid-3">file</label>
+                <div class="grid-7">
                     <div class="button button-warning button-rounded relative-block" style="position: relative;">
-                        <span id="input-file-text">browse file on your computer...</span>
+                        <span id="input-file-text">browse...</span>
                         <input id="input-file" class="hidden-file" type="file" name="test_file" >
                     </div>
                 </div>
             </div>
             <div class="form-row hidden" id="direct-link">
-                <label class="grid-2">link on file</label>
-                <div class="grid-8">
-                    <input placeholder="link on file..." id="file-name" type="text" name="direct-link" class="input input-color-warning input-rounded input-border-default">
+                <label class="grid-3">link on file</label>
+                <div class="grid-7">
+                    <input placeholder="link on file..." id="file-name" type="text" name="direct_link" class="input input-color-warning input-rounded input-border-default">
                 </div>
             </div>
             <div class="form-row">
-                <label class="grid-2">name</label>
-                <div class="grid-8">
-                    <input  placeholder="short file description..." id="file-name" type="text" name="name" class="input input-color-warning input-rounded input-border-default">
+                <label class="grid-3">name</label>
+                <div class="grid-7">
+                    <input placeholder="short file description..." id="file-name" type="text" name="name" class="input input-color-warning input-rounded input-border-default">
                 </div>
             </div>
             <div class="form-row">
-                <label class="grid-2">category</label>
-                <div class="grid-8">
+                <label class="grid-3">category</label>
+                <div class="grid-7">
                     <select id="file-category" class="button button-warning input-rounded input-border-default" name="category_id">
                         <?php foreach($categories as $category): ?>
                             <option value="<?= $category->id() ?>"><?= $category->getName() ?></option>
@@ -118,8 +142,8 @@ use FileStorage\Models\Categories;
                 </div>
             </div>
             <div class="form-row">
-                <label class="grid-2">protected</label>
-                <div class="grid-8" id="file-secure">
+                <label class="grid-3">protected</label>
+                <div class="grid-7" id="file-secure">
                     <label class="check-item">
                         <input class="checkbox checkbox-color-warning" type="checkbox" name="protected" value="1">
                         yes (then access only by auth-token)
@@ -127,8 +151,8 @@ use FileStorage\Models\Categories;
                 </div>
             </div>
             <div class="form-row">
-                <label class="grid-2"></label>
-                <div class="grid-8">
+                <label class="grid-3"></label>
+                <div class="grid-7">
                     <input type="submit" value="upload" class="button button-warning button-rounded">
                 </div>
             </div>
