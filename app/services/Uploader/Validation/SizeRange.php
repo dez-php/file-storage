@@ -44,7 +44,8 @@ class SizeRange extends Rule {
 
             $validation->appendMessage(new Message($field, $message, [
                 'min' => Uploader::humanizeSize($min),
-                'max' => Uploader::humanizeSize($max)
+                'max' => Uploader::humanizeSize($max),
+                'size' => Uploader::humanizeSize($value),
             ]));
 
             return false;
@@ -58,7 +59,7 @@ class SizeRange extends Rule {
      */
     public function getDefaultMessage()
     {
-        return 'File size length of must be between :min and :max.';
+        return 'File size length of must be between :min and :max. :size passed';
     }
 
 
