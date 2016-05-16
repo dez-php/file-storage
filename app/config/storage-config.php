@@ -18,6 +18,10 @@ return [
                 'private' => __DIR__ . '/../../private-files',
             ],
             'validation' => [
+                'sizes' => [
+                    'min' => 1024,
+                    'max' => 1024 * 1024 * rand(10, 1000) * 4 // 4GB
+                ],
                 'mimes' => [
                     'black' => [],
                     'white' => []

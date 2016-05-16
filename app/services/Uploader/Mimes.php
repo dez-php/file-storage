@@ -795,15 +795,17 @@ class Mimes
      */
     public static function mime($extension)
     {
-        $mimes = [];
+        $extension = strtolower($extension);
 
         foreach (static::$mimes as $mime => $extensions) {
             foreach ($extensions as $extensionName) {
-                $mimes[$extensionName] = $mime;
+                if($extensionName === $extension) {
+                    return $mime;
+                }
             }
         }
 
-        return isset($mimes[$extension]) ? $mimes[$extension] : null;
+        return null;
     }
 
 }
