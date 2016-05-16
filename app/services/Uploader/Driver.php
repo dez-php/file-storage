@@ -2,6 +2,9 @@
 
 namespace FileStorage\Services\Uploader;
 
+use Dez\Validation\Validation;
+use FileStorage\Services\Uploader\Validation\SizeRange;
+
 abstract class Driver {
 
     /**
@@ -34,6 +37,20 @@ abstract class Driver {
         $this->uploader = $uploader;
 
         return $this;
+    }
+    
+    protected function validate(array $data = [])
+    {
+        $config = $this->getUploader()->getValidationConfig();
+        $validation = new Validation($data);
+
+        if($config->has('sizes')) {
+            $validation->add('size', new SizeRange($config, []));
+        }
+
+        if(! $validation->validate()) {
+            die(var_dump($validation->getMessages()));
+        }
     }
 
     /**

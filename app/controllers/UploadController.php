@@ -40,12 +40,12 @@ class UploadController extends ControllerJson {
             $uploadSource = current($uploadedFiles);
         }
 
-        $category = Categories::one($this->request->getPost('category_id'));
-
+        $category = Categories::one($this->request->getPost('category_id', 1));
+        
         if(! $category->exists()) {
             throw new MvcException("Category do not exist");
         }
-
+        
         $uploader->setSubDirectory("{$category->getSlug()}/{$category->hash()}");
 
         try {

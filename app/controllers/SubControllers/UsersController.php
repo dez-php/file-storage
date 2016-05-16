@@ -2,7 +2,7 @@
 
 namespace FileStorage\Controllers\SubControllers;
 
-use Dez\Authorizer\Models\Auth\TokenModel;
+use Dez\Http\Response;
 use FileStorage\Core\Mvc\ControllerWeb;
 use FileStorage\Services\Emoji;
 
@@ -16,7 +16,7 @@ class UsersController extends ControllerWeb
 
     public function registerAction()
     {
-
+        die(Emoji::POUTING_FACE);
     }
 
     public function profileAction()

@@ -58,6 +58,12 @@ class StorageApplication extends Configurable
                 'controller' => 'manager'
             ])->regex('sub_action', '[a-z-_]+');
 
+        $this->router
+            ->add('/favicon.ico', [
+                'controller' => 'manager',
+                'action' => 'generate-favicon'
+            ]);
+
         return $this;
     }
 

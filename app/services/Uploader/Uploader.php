@@ -2,6 +2,7 @@
 
 namespace FileStorage\Services\Uploader;
 
+use Dez\Config\Config;
 use Dez\DependencyInjection\Container;
 use FileStorage\Core\InjectableAware;
 
@@ -28,6 +29,11 @@ class Uploader extends InjectableAware
     protected $subDirectory = null;
 
     /**
+     * @var Config
+     */
+    protected $validationConfig = null;
+
+    /**
      * Uploader constructor.
      * @param string $root
      */
@@ -38,14 +44,31 @@ class Uploader extends InjectableAware
         if(null !== $root) {
             $this->setRoot($root);
         }
+
+        $this->configure();
     }
 
     /**
      * @return $this
+     * @throws UploaderException
      */
     public function configure()
     {
+        $this->validationConfig = $this->config->path('application.uploader.validation');
+
+        if($this->validationConfig->count() == 0) {
+            throw new UploaderException("Can not be configured Uploader Validation. Please check config path 'application.uploader.validation'");
+        }
+
         return $this;
+    }
+
+    /**
+     * @return Config
+     */
+    public function getValidationConfig()
+    {
+        return $this->validationConfig;
     }
 
     /**

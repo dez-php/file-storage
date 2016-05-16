@@ -5,13 +5,10 @@ namespace FileStorage\Services\Uploader\Drivers;
 use FileStorage\Services\Uploader\Driver;
 use FileStorage\Services\Uploader\FileInfo;
 use FileStorage\Services\Uploader\Mimes;
-use FileStorage\Services\Uploader\Uploader;
 use FileStorage\Services\Uploader\UploaderException;
 
 class DirectLink extends Driver
 {
-
-    private $fh;
 
     /**
      * @param $source
@@ -31,13 +28,19 @@ class DirectLink extends Driver
         $contentType = $headers['Content-Type'];
 
         $extensions = Mimes::extensions($contentType);
+        $extension = current($extensions);
+
+        $this->validate([
+            'size' => $size,
+            'extension' => $extension,
+            'mime' => $contentType,
+        ]);
 
         if (null === $extensions) {
             throw new UploaderException("No extensions found for content-type: {$contentType}");
         }
 
         $hash = md5($size . $contentType . $source);
-        $extension = current($extensions);
 
         $filepath = sprintf('%s/%s.%s', $this->getUploader()->destinationPath(), $hash, $extension);
 
@@ -53,6 +56,7 @@ class DirectLink extends Driver
         }
 
         if($size > $downloaded) {
+            @ unlink($filepath);
             throw new UploaderException("File is broken. Maybe something wrong with internet");
         }
 

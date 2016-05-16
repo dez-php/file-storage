@@ -3,6 +3,8 @@
 namespace FileStorage\Controllers;
 
 use Dez\Authorizer\Adapter\Token;
+use Dez\Validation\Rules\Email;
+use Dez\Validation\Validation;
 use FileStorage\Core\Mvc\ControllerJson;
 
 /**
@@ -13,42 +15,69 @@ class ProtectedAuthController extends ControllerJson {
 
     public function indexAction()
     {
-        $this->response([
-            'message' => 'This is protected area for authorizer'
-        ], 405);
+        $this->response(['message' => 'This is protected area for authorizer'], 405);
     }
 
     public function statusAction()
     {
         $this->response([
-            'status' => $this->authorizerToken->isGuest() ? 'guest' : $this->authorizerToken->credentials()->getEmail()
+            'status' => $this->authorizerToken->isGuest()
+                ? 'guest'
+                : $this->authorizerToken->credentials()->getEmail()
         ]);
     }
 
-    public function createNewUserAction()
+    public function registerUserAction()
     {
-        $this->response([
-            'status' => 'Not implemented yet'
-        ], 501);
+        if($this->authorizerToken->isGuest()) {
+            $this->error(['message' => 'Access denied. Restricted area!']);
+        } else {
+            $validator = new Validation($this->request->getQuery());
+
+            $validator->required('email')->add(new Email());
+            $validator->password('password');
+
+            if(! $validator->validate()) {
+                $this->error([
+                    'message' => 'Validation failure',
+                    'messages' => $validator->getMessages(),
+                ], 401);
+            } else {
+                try {
+                    $authorizer = new Token();
+                    $authorizer->register($this->request->getQuery('email'), $this->request->getQuery('password'));
+                } catch (\Exception $exception) {
+                    $this->error(['message' => $exception->getMessage()], 401);
+                }
+            }
+        }
     }
 
     public function getTokenAction()
     {
-        try {
-            $token = $this->authorizerToken
-                ->setEmail($this->request->getQuery('email'))
-                ->setPassword($this->request->getQuery('password'))
-                ->login()
-                ->token()
-            ;
+        $validator = new Validation($this->request->getQuery());
 
-            $this->response([
-                'token' => $token
-            ]);
-        } catch (\Exception $exception) {
+        $validator->required('email')->add(new Email());
+        $validator->password('password');
+
+        if(! $validator->validate()) {
             $this->error([
-                'message' => $exception->getMessage()
+                'message' => 'Validation failure',
+                'messages' => $validator->getMessages(),
             ], 401);
+        } else {
+            try {
+                $token = $this->authorizerToken
+                    ->logout()
+                    ->setEmail($this->request->getQuery('email'))
+                    ->setPassword($this->request->getQuery('password'))
+                    ->login()
+                    ->token();
+
+                $this->response(['token' => $token]);
+            } catch (\Exception $exception) {
+                $this->error(['message' => $exception->getMessage()], 401);
+            }
         }
     }
 

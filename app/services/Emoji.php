@@ -3,8 +3,7 @@
 namespace FileStorage\Services;
 
 class Emoji {
-
-
+    
     const COPYRIGHT_SIGN = "\xc2\xa9";
     const REGISTERED_SIGN = "\xc2\xae";
     const DOUBLE_EXCLAMATION_MARK = "\xe2\x80\xbc";
