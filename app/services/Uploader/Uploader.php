@@ -207,9 +207,9 @@ class Uploader extends InjectableAware
     public static function humanizeSize($bytes = 0)
     {
         $suffixes = ['B', 'K', 'M', 'G', 'T', 'E', 'Z', 'Y'];
-        $index = min((integer) log($bytes, 1024), count($suffixes) - 1);
+        $index = $bytes > 0 ? min((integer) log($bytes, 1024), count($suffixes) - 1) : 0;
 
-        return bcdiv($bytes, bcpow(1024, $index), 3) . $suffixes[$index];
+        return bcdiv($bytes, bcpow(1024, $index), 2) . $suffixes[$index];
     }
 
     /**

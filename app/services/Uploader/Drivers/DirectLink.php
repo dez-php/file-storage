@@ -27,14 +27,10 @@ class DirectLink extends Driver
         $size = $headers['Content-Length'];
         $contentType = $headers['Content-Type'];
 
+        $this->validateSize($size);
+
         $extensions = Mimes::extensions($contentType);
         $extension = current($extensions);
-
-        $this->validate([
-            'size' => $size,
-            'extension' => $extension,
-            'mime' => $contentType,
-        ]);
 
         if (null === $extensions) {
             throw new UploaderException("No extensions found for content-type: {$contentType}");

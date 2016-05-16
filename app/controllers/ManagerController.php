@@ -113,6 +113,9 @@ class ManagerController extends ControllerWeb
         $this->view->set('free_disk_space_public', Uploader::humanizeSize(disk_free_space($publicDirectory)));
         $this->view->set('free_disk_space_private', Uploader::humanizeSize(disk_free_space($privateDirectory)));
 
+        $sizes = $this->config->path('application.uploader.validation.sizes');
+        $this->view->set('validation_min_size', Uploader::humanizeSize($sizes->get('min')));
+        $this->view->set('validation_max_size', Uploader::humanizeSize($sizes->get('max')));
         $this->view->set('validation_mimes', $this->config->path('application.uploader.validation.mimes'));
         $this->view->set('validation_extensions', $this->config->path('application.uploader.validation.extensions'));
 

@@ -21,11 +21,8 @@ class UploadedFile extends Driver {
             throw new UploaderException("Source must been object instance of ". File::class ." $sourceType given");
         }
 
-        $this->validate([
-            'size' => $source->getSize(),
-            'extension' => $source->getExtension(),
-            'mime' => $source->getMimeType(),
-        ]);
+        $this->validateSize($source->getSize());
+        $this->validateExtension($source->getExtension());
 
         if(! $source->isUploaded()) {
             throw new UploaderException("File with errors: {$source->getErrorDescription()}");

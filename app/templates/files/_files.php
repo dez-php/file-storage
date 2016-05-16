@@ -16,7 +16,6 @@ use FileStorage\Services\Uploader\Uploader;
                 <a class="button button-warning button-size-small" href="<?= $this->url->path('manager/files/latest'); ?>">latest</a>
                 <a class="button button-pink button-size-small" href="<?= $this->url->path('manager/files/protected'); ?>">protected</a>
                 <a class="button button-violet button-size-small" href="<?= $this->url->path('manager/files/deleted'); ?>">deleted</a>
-                <a target="_blank" class="button button-danger button-size-small" href="<?= $this->url->path('manager/files/gallery'); ?>">gallery</a>
             </div>
         </div>
         <table class="table table-striped table-caption-upper table-hovered">

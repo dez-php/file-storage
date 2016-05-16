@@ -20,11 +20,15 @@ return [
             'validation' => [
                 'sizes' => [
                     'min' => 1024,
-                    'max' => 1024 * 1024 * rand(10, 1000) * 4 // 4GB
+                    'max' => 1024 * 1024 * 4
                 ],
                 'mimes' => [
-                    'black' => [],
-                    'white' => []
+                    'black' => [
+
+                    ],
+                    'white' => [
+                        'text/plain', 'text/html', 'application/json'
+                    ]
                 ],
                 'extensions' => [
                     'black' => [

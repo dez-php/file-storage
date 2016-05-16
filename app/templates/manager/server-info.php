@@ -44,6 +44,10 @@ use FileStorage\Services\Emoji;
                 <td><code><?= $private_directory ?></code> <code><?= $free_disk_space_private ?></code></td>
             </tr>
             <tr>
+                <td>allowed sizes</td>
+                <td><code><?= $validation_max_size ?> >= size >= <?= $validation_min_size ?></code></td>
+            </tr>
+            <tr>
                 <td>allowed mimes</td>
                 <td><code><?= ($validation_mimes->get('white')->count() ? implode(', ', $validation_mimes->get('white')->toArray()) : 'no set'); ?></code></td>
             </tr>
