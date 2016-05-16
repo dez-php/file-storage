@@ -2,18 +2,21 @@
 
 namespace FileStorage\Controllers;
 
+use Dez\Http\Response;
 use FileStorage\Core\Mvc\ControllerWeb;
 use FileStorage\Models\Categories;
 use FileStorage\Models\Files;
+use FileStorage\Services\Uploader\Mimes;
 use FileStorage\Services\Uploader\Uploader;
 
-class ManagerController extends ControllerWeb {
+class ManagerController extends ControllerWeb
+{
 
     public function beforeExecute()
     {
         parent::beforeExecute();
 
-        if($this->getAction() !== 'index' && $this->authorizerSession->isGuest()) {
+        if ($this->getAction() !== 'index' && $this->authorizerSession->isGuest()) {
             $this->response->redirect($this->url->path('manager/index'))->send();
         }
 
@@ -50,7 +53,7 @@ class ManagerController extends ControllerWeb {
 
     public function createCategoryAction()
     {
-        if($this->request->isPost()) {
+        if ($this->request->isPost()) {
             $category = new Categories();
             $category->setName($this->request->getPost('name'));
             $category->save();
@@ -78,7 +81,7 @@ class ManagerController extends ControllerWeb {
         $this->flash->notice("Category #{$category->id()} was activated");
         $this->redirect('manager/categories');
     }
-    
+
     public function latestAction($limit = 100)
     {
         $latest = Files::latest($limit);
@@ -98,7 +101,8 @@ class ManagerController extends ControllerWeb {
 
         $this->view->set('free_disk_space', Uploader::humanizeSize(disk_free_space('.')));
 
-        $this->view->set('upload_max_filesize', Uploader::humanizeSize(Uploader::byteSize(ini_get('upload_max_filesize'))));
+        $this->view->set('upload_max_filesize',
+            Uploader::humanizeSize(Uploader::byteSize(ini_get('upload_max_filesize'))));
         $this->view->set('post_max_size', Uploader::humanizeSize(Uploader::byteSize(ini_get('post_max_size'))));
 
         $publicDirectory = realpath($this->config->path('application.uploader.directories.public'));
@@ -119,13 +123,12 @@ class ManagerController extends ControllerWeb {
     public function indexAction()
     {
         $this->view->setMainLayout('auth-index');
-        if($this->request->isPost()) {
+        if ($this->request->isPost()) {
             try {
                 $this->authorizerSession
                     ->setEmail($this->request->getPost('email'))
                     ->setPassword($this->request->getPost('password'))
-                    ->login()
-                ;
+                    ->login();
                 $this->flash->success('Welcome on board');
             } catch (\Exception $exception) {
                 $this->flash->error($exception->getMessage());
@@ -139,6 +142,25 @@ class ManagerController extends ControllerWeb {
         $this->authorizerSession->logout();
         $this->flash->notice('You are logged out');
         $this->response->redirect($this->url->path('manager/index'))->send();
+    }
+
+    public function generateFaviconAction()
+    {
+        $this->response->setBodyFormat(Response::RESPONSE_RAW);
+        $this->response->setContentType(Mimes::mime('png'));
+
+        $image = new \Imagick();
+        $draw = new \ImagickDraw();
+
+        $image->newImage(32, 32, new \ImagickPixel('#FF4500'));
+
+        $draw->setFillColor(new \ImagickPixel('#000000'));
+        $draw->setFontSize(22);
+
+        $image->annotateImage($draw, 2, 23, 0, 'FS');
+        $image->setImageFormat('png');
+
+        echo $image;
     }
 
 }

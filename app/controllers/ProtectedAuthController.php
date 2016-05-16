@@ -32,9 +32,24 @@ class ProtectedAuthController extends ControllerJson {
         if($this->authorizerToken->isGuest()) {
             $this->error(['message' => 'Access denied. Restricted area!']);
         } else {
-            $this->response([
-                'status' => 'Not implemented yet'
-            ], 501);
+            $validator = new Validation($this->request->getQuery());
+
+            $validator->required('email')->add(new Email());
+            $validator->password('password');
+
+            if(! $validator->validate()) {
+                $this->error([
+                    'message' => 'Validation failure',
+                    'messages' => $validator->getMessages(),
+                ], 401);
+            } else {
+                try {
+                    $authorizer = new Token();
+                    $authorizer->register($this->request->getQuery('email'), $this->request->getQuery('password'));
+                } catch (\Exception $exception) {
+                    $this->error(['message' => $exception->getMessage()], 401);
+                }
+            }
         }
     }
 
