@@ -33,6 +33,7 @@ abstract class Driver
 
     /**
      * @param int $size
+     * @return $this
      * @throws UploaderException
      */
     protected function validateSize($size = 0)
@@ -43,35 +44,46 @@ abstract class Driver
             $min = (integer) $config->path('sizes.min');
             $max = (integer) $config->path('sizes.max');
 
-            if (!(($min > 0 && $size > $min) && ($max > 0 && $size < $max))) {
+            $isValid = ($min > 0 && $size > $min) && ($max > 0 && $size < $max);
+
+            if (! $isValid) {
                 $message = "File size must be great than %s and less than %s. %s passed";
-                throw new UploaderException(sprintf($message, Uploader::humanizeSize($min), Uploader::humanizeSize($max), Uploader::humanizeSize($size)));
+
+                throw new UploaderException(sprintf(
+                    $message,
+                    Uploader::humanizeSize($min),
+                    Uploader::humanizeSize($max),
+                    Uploader::humanizeSize($size)
+                ));
             }
         }
+
+        return $this;
     }
 
     /**
-     * @param null $extension
+     * @param string $type
+     * @param string $value
+     * @return $this
      * @throws UploaderException
      */
-    protected function validateExtension($extension = null)
+    protected function validateFileType($type = null, $value = null)
     {
         $config = $this->getUploader()->getValidationConfig();
 
-        if ($config->has('extensions')) {
-            $blackList = $config->path('extensions.black');
-            $whiteList = $config->path('extensions.white');
+        if ($config->has($type)) {
+            $blackList = $config->path("{$type}.black");
+            $whiteList = $config->path("{$type}.white");
 
-            if($blackList->count() > 0 && in_array($extension, $blackList->toArray(), true)) {
-                $message = sprintf("Uploaded file has extension %s in black-list %s", $extension, implode(', ', $blackList->toArray()));
-                throw new UploaderException($message);
-            }
+            $isValid = (!($blackList->count() > 0 && in_array($value, $blackList->toArray(), true))
+                && !($whiteList->count() > 0 && !in_array($value, $whiteList->toArray(), true)));
 
-            if($whiteList->count() > 0 && ! in_array($extension, $whiteList->toArray(), true)) {
-                $message = sprintf("Uploaded file has not allowed extension", $extension, implode(', ', $whiteList->toArray()));
-                throw new UploaderException($message);
+            if (! $isValid) {
+                throw new UploaderException(sprintf("Uploaded file type has not allowed '%s'", $value));
             }
         }
+
+        return $this;
     }
 
     /**

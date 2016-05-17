@@ -31,12 +31,8 @@ return [
                     ]
                 ],
                 'extensions' => [
-                    'black' => [
-                        'exe', 'dll', 'php', 'js',
-                    ],
-                    'white' => [
-                        'png', 'jpeg', 'html'
-                    ]
+                    'black' => [],
+                    'white' => []
                 ]
             ],
             'public_uri' => '/public-files'

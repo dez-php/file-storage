@@ -21,23 +21,25 @@ class DirectLink extends Driver
             throw new UploaderException("Url not valid. Must been direct http-link on file");
         }
 
-        file_put_contents($this->getUploader()->downloadProgressPath(), 0);
         $headers = get_headers($source, true);
 
         $size = $headers['Content-Length'];
         $contentType = $headers['Content-Type'];
 
-        $this->validateSize($size);
-
         $extensions = Mimes::extensions($contentType);
         $extension = current($extensions);
+
+        $this->validateSize($size)
+            ->validateFileType('extension', $extension)
+            ->validateFileType('mime', $contentType);
 
         if (null === $extensions) {
             throw new UploaderException("No extensions found for content-type: {$contentType}");
         }
 
-        $hash = md5($size . $contentType . $source);
+        file_put_contents($this->getUploader()->downloadProgressPath(), 0);
 
+        $hash = md5($size . $contentType . $source);
         $filepath = sprintf('%s/%s.%s', $this->getUploader()->destinationPath(), $hash, $extension);
 
         $reader = fopen($source, 'rb');
