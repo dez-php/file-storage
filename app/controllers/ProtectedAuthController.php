@@ -46,6 +46,9 @@ class ProtectedAuthController extends ControllerJson {
                 try {
                     $authorizer = new Token();
                     $authorizer->register($this->request->getQuery('email'), $this->request->getQuery('password'));
+                    $this->response([
+                        'message' => 'User account was registered',
+                    ]);
                 } catch (\Exception $exception) {
                     $this->error(['message' => $exception->getMessage()], 401);
                 }

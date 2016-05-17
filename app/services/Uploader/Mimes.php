@@ -733,6 +733,7 @@ class Mimes
         'text/x-nfo' => ['nfo'],
         'text/x-opml' => ['opml'],
         'text/x-pascal' => ['p', 'pas'],
+        'text/x-php' => ['php', 'phtml', 'inc'],
         'text/x-setext' => ['etx'],
         'text/x-sfv' => ['sfv'],
         'text/x-uuencode' => ['uu'],

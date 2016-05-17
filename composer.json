@@ -1,5 +1,5 @@
 {
-  "name": "dez-php/dez-cdn-server",
+  "name": "dez-php/file-storage",
   "description": "Simple File Server based on dez-mvc-app",
   "keywords": ["php cdn","cdn","cdn app","dez-php cdn"],
   "authors": [
@@ -14,6 +14,7 @@
     "php": ">=5.5",
     "dez-php/dez-mvc-app": "~1.0",
     "dez-php/dez-data-validation": "~1.0",
+    "dez-php/dez-html": "~0.1",
     "jbroadway/urlify":"dev-master"
   }
 }
