@@ -6,6 +6,7 @@ use Dez\Http\Response;
 use FileStorage\Core\Mvc\ControllerWeb;
 use FileStorage\Models\Categories;
 use FileStorage\Models\Files;
+use FileStorage\Services\Emoji;
 use FileStorage\Services\Uploader\Mimes;
 use FileStorage\Services\Uploader\Uploader;
 
@@ -164,6 +165,14 @@ class ManagerController extends ControllerWeb
         $image->setImageFormat('png');
 
         echo $image;
+    }
+
+    public function emojiTestAction()
+    {
+        $reflaction = new \ReflectionClass(Emoji::class);
+        $constants = $reflaction->getConstants();
+
+        $this->view->set('constants', $constants);
     }
 
 }
