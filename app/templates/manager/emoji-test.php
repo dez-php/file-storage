@@ -11,7 +11,7 @@
                 <td>
                     <span><?= $constantValue ?></span>
                 </td>
-                <?php if (++$counter % 12 == 0): ?>
+                <?php if (++$counter % 6 == 0): ?>
             </tr>
             <tr>
                 <?php endif; ?>

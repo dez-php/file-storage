@@ -26,8 +26,6 @@ class FileController extends ControllerJson
 
             $token = 'none';
 
-            $direct = null;
-
             if($file->isProtected()) {
                 if($this->authorizerToken->isGuest()) {
                     $this->error(['message' => 'Protected file. Use authorized token for access this file'])->send();
@@ -37,30 +35,26 @@ class FileController extends ControllerJson
             } else {
                 $alias = $this->config->path('application.uploader.public_uri');
                 $path = sprintf('%s/%s', $alias, $file->getRelativePath());
-                $direct = $this->url->full($path);
+                $links['direct'] = $this->url->full($path);
             }
 
-            $download = 'file/download/%s';
-            $delete = 'file/delete/%s';
-            $activate = 'file/activate/%s';
-            $view = 'file/view-raw/%s';
+            if($file->getStatus() == Files::STATUS_ACTIVE) {
+                $links['download'] = $this->url->full(sprintf('file/dl/%s', $file->getHash()), ['token' => $token]);
+                $links['delete'] = $this->url->full(sprintf('file/delete/%s', $file->getHash()), ['token' => $token]);
+                $links['raw'] = $this->url->full(sprintf('file/view-raw/%s', $file->getHash()), ['token' => $token]);
+            } else {
+                $links['activate'] = $this->url->full(sprintf('file/activate/%s', $file->getHash()), ['token' => $token]);
+            }
 
             $this->response([
-                'links' => [
-                    'direct' => $direct,
-                    'download' => $this->url->full(sprintf($download, $file->getHash()), ['token' => $token]),
-                    'view' => $this->url->full(sprintf($view, $file->getHash()), ['token' => $token]),
-                    'delete' => $this->url->full(sprintf($delete, $file->getHash()), ['token' => $token]),
-                    'activate' => $this->url->full(sprintf($activate, $file->getHash()), ['token' => $token]),
-                ],
+                'links' => $links,
                 'file' => $file->toResponse(),
-                'smile' => Emoji::POUTING_FACE,
             ]);
         }
 
     }
 
-    public function downloadAction()
+    public function dlAction()
     {
         $hash = $this->router->getDirtyMatches()[0];
         $file = Files::item($hash);
@@ -106,7 +100,6 @@ class FileController extends ControllerJson
 
         $this->response([
             'message' => "File #{$file->id()} was deleted",
-            'file' => $file->deactivate()->toResponse(),
         ]);
     }
 
@@ -119,7 +112,6 @@ class FileController extends ControllerJson
 
         $this->response([
             'message' => "File #{$file->id()} was activated",
-            'file' => $file->activate()->toResponse(),
         ]);
     }
 
@@ -144,7 +136,7 @@ class FileController extends ControllerJson
     private function checkFile(Files $file)
     {
         if(! $file->exists()) {
-            $this->error(['message' => 'File do not exist or deleted'])->send();
+            $this->error(['message' => "File not found"], 404)->send();
             exit();
         }
 
