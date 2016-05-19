@@ -18,6 +18,16 @@ class UploadController extends ControllerJson {
         parent::beforeExecute();
     }
 
+    public function dumpAction()
+    {
+        $this->response([
+            'get' => $this->request->getQuery(),
+            'post' => $this->request->getPost(),
+            'has_files' => $this->request->hasFiles(),
+            'server' => $this->request->getServer(),
+        ]);
+    }
+
     public function indexAction()
     {
 
