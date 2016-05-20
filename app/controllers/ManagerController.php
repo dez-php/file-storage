@@ -24,7 +24,7 @@ class ManagerController extends ControllerWeb
         $this->view->set('session_progress_name', ini_get('session.upload_progress.name'));
     }
 
-    public function usersAction($subAction = null)
+    public function usersAction($subAction = 'index')
     {
         $this->view->set('content', $this->execute([
             'namespace' => 'FileStorage\\Controllers\\SubControllers\\',
@@ -33,7 +33,7 @@ class ManagerController extends ControllerWeb
         ], true));
     }
 
-    public function filesAction($subAction = null)
+    public function filesAction($subAction = 'index')
     {
         $this->view->set('content', $this->execute([
             'namespace' => 'FileStorage\\Controllers\\SubControllers\\',

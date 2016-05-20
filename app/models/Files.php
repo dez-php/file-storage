@@ -137,9 +137,9 @@ class Files extends Table {
         $unit = strtoupper($unit);
         $scales = [
             'K' => 1024,
-            'M' => (1024 * 1024),
-            'G' => (1024 * 1024 * 1024),
-            'T' => (1024 * 1024 * 1024 * 1024),
+            'M' => pow(1024, 2),
+            'G' => pow(1024, 3),
+            'T' => pow(1024, 4),
         ];
 
         $scale = isset($scales[$unit]) ? $scales[$unit] : 1;

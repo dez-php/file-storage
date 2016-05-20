@@ -31,6 +31,10 @@ class UploadController extends ControllerJson {
     public function indexAction()
     {
 
+        if(! $this->signer->validate()) {
+            $this->signatureFailure();
+        }
+
         $isProtected = (boolean) $this->request->getPost('protected', 0);
         $uploadType = $this->request->getPost('upload_type', 'local');
 
