@@ -50,7 +50,7 @@ class UploadController extends ControllerJson {
             $uploadSource = $this->request->getPost('direct_link', false);
         } else {
             $uploader->setDriver(new UploadedFile());
-666            $uploadedFiles = $this->request->getUploadedFiles();
+            $uploadedFiles = $this->request->getUploadedFiles();
             $uploadSource = current($uploadedFiles);
         }
 
