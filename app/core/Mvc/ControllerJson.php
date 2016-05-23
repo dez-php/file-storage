@@ -6,6 +6,7 @@ use Dez\Authorizer\Adapter\Session;
 use Dez\Authorizer\Adapter\Token;
 use Dez\Http\Response;
 use Dez\Mvc\Controller;
+use FileStorage\Services\Singner;
 
 /**
  * @property Token authorizerToken
@@ -15,11 +16,28 @@ use Dez\Mvc\Controller;
 class ControllerJson extends Controller {
 
     /**
+     * @var Singner
+     */
+    protected $signer;
+
+    /**
+     * ControllerJson constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+
+    /**
      * @throws \Dez\Http\Exception
      */
     public function beforeExecute()
     {
         $this->response->setBodyFormat(Response::RESPONSE_API_JSON);
+
+        $this->signer = new Singner($this->request->getQuery('client'), $this->request->getQuery('sign'));
+        $this->signer->setDi($this->getDi());
     }
 
     /**
@@ -46,6 +64,13 @@ class ControllerJson extends Controller {
             'status' => 'error',
             'response' => $data
         ])->setStatusCode($statusCode);
+    }
+
+    public function signatureFailure()
+    {
+        $this->error([
+            'message' => 'Bad signature'
+        ])->send(); die;
     }
 
 }

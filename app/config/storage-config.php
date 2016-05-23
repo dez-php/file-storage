@@ -13,6 +13,11 @@ return [
         'controllerNamespace' => 'FileStorage\\Controllers\\',
         'viewDirectory' => __DIR__ . '/../templates',
         'uploader' => [
+            'private_keys' => [
+                'site1' => 'EInXMMSKu3VmAawB',
+                'site2' => 'OuiTFDI67RwqWKG3',
+                'site3' => 'uu9nhvH1TCnGqm2N',
+            ],
             'directories' => [
                 'public' => __DIR__ . '/../../public-files',
                 'private' => __DIR__ . '/../../private-files',
@@ -20,7 +25,7 @@ return [
             'validation' => [
                 'sizes' => [
                     'min' => 1024,
-                    'max' => 1024 * 1024 * 4
+                    'max' => 1024 * 1024 * 56
                 ],
                 'mimes' => [
                     'black' => [

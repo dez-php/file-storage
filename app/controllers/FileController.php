@@ -20,37 +20,34 @@ class FileController extends ControllerJson
         /** @var Files $file */
         $file = Files::query()->where('hash', $hash)->first();
 
-        if (!$file->exists()) {
-            $this->error(['message' => "File do not exist or was removed {$hash}"], 404);
+        $this->checkFile($file);
+
+        $token = 'none';
+
+        if($file->isProtected()) {
+            if($this->authorizerToken->isGuest()) {
+                $this->error(['message' => 'Protected file. Use authorized token for access this file'])->send();
+                exit();
+            }
+            $token = $this->authorizerToken->getModel()->getToken();
         } else {
-
-            $token = 'none';
-
-            if($file->isProtected()) {
-                if($this->authorizerToken->isGuest()) {
-                    $this->error(['message' => 'Protected file. Use authorized token for access this file'])->send();
-                    exit();
-                }
-                $token = $this->authorizerToken->getModel()->getToken();
-            } else {
-                $alias = $this->config->path('application.uploader.public_uri');
-                $path = sprintf('%s/%s', $alias, $file->getRelativePath());
-                $links['direct'] = $this->url->full($path);
-            }
-
-            if($file->getStatus() == Files::STATUS_ACTIVE) {
-                $links['download'] = $this->url->full(sprintf('file/dl/%s', $file->getHash()), ['token' => $token]);
-                $links['delete'] = $this->url->full(sprintf('file/delete/%s', $file->getHash()), ['token' => $token]);
-                $links['raw'] = $this->url->full(sprintf('file/view-raw/%s', $file->getHash()), ['token' => $token]);
-            } else {
-                $links['activate'] = $this->url->full(sprintf('file/activate/%s', $file->getHash()), ['token' => $token]);
-            }
-
-            $this->response([
-                'links' => $links,
-                'file' => $file->toResponse(),
-            ]);
+            $alias = $this->config->path('application.uploader.public_uri');
+            $path = sprintf('%s/%s', $alias, $file->getRelativePath());
+            $links['direct'] = $this->url->full($path);
         }
+
+        if($file->getStatus() == Files::STATUS_ACTIVE) {
+            $links['download'] = $this->url->full(sprintf('file/dl/%s', $file->getHash()), ['token' => $token]);
+            $links['delete'] = $this->url->full(sprintf('file/delete/%s', $file->getHash()), ['token' => $token]);
+            $links['raw'] = $this->url->full(sprintf('file/view-raw/%s', $file->getHash()), ['token' => $token]);
+        } else {
+            $links['activate'] = $this->url->full(sprintf('file/activate/%s', $file->getHash()), ['token' => $token]);
+        }
+
+        $this->response([
+            'links' => $links,
+            'file' => $file->toResponse(),
+        ]);
 
     }
 
@@ -60,10 +57,10 @@ class FileController extends ControllerJson
         $file = Files::item($hash);
 
         $realpath = $this->preparePath($file);
-
+        
         $file->increaseDownloads();
 
-        $name = sprintf('%s_%s.%s', \URLify::filter($file->getName()), $file->getHash(), $file->getExtension());
+        $name = sprintf('%s_%s.%s', \URLify::filter($file->getName()), $this->authorizerToken->randomHash(), $file->getExtension());
 
         $this->response->setContentType($file->getMimeType());
         $this->response->setHeader('Content-Disposition', "attachment; filename=$name");
