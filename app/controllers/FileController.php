@@ -83,7 +83,7 @@ class FileController extends ControllerJson
 
     public function removeAction($hash)
     {
-        if($this->signer->validate()) {
+        if(! $this->authorizerToken->isGuest()) {
             $file = Files::hash($hash);
 
             $realpath = $this->preparePath($file);
@@ -96,7 +96,7 @@ class FileController extends ControllerJson
             ]);
         } else {
             $this->error([
-                'message' => 'For removing file you must use your private signature'
+                'message' => 'Use token for can access this action'
             ]);
         }
     }

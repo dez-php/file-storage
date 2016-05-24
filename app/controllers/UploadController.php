@@ -31,8 +31,8 @@ class UploadController extends ControllerJson {
     public function indexAction()
     {
 
-        if(! $this->signer->validate()) {
-            $this->signatureFailure();
+        if($this->authorizerToken->isGuest()) {
+            $this->error(['message' => 'Use token for can access to upload files'])->send(); exit();
         }
 
         $isProtected = (boolean) $this->request->getPost('protected', 0);
@@ -76,6 +76,7 @@ class UploadController extends ControllerJson {
             $file->setExtension($uploaded->getExtension());
             $file->setMimeType($uploaded->getMimeType());
             $file->setCategoryId($category->id());
+            $file->setUserId($this->authorizerToken->credentials()->id());
             $file->setCreatedAt(time());
             $file->setSize($uploaded->getSize());
             $file->setProtected((integer) $isProtected);

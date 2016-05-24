@@ -113,10 +113,7 @@ use FileStorage\Models\Categories;
 <div class="row">
     <div class="grid-5 grid-small-10 grid-smallest-10">
         <h2>Upload new file</h2>
-        <form id="upload-form" class="form-horizontal form-label-right bg-color-dark" action="<?= $url->path('upload/index', [
-            'client' => 'local-user',
-            'sign' => $sign
-        ]); ?>" method="post" enctype="multipart/form-data">
+        <form id="upload-form" class="form-horizontal form-label-right bg-color-dark" action="<?= $url->path('upload/index', ['token' => $token,]); ?>" method="post" enctype="multipart/form-data">
             <div class="form-row" id="upload-type">
                 <label class="grid-3">upload type</label>
                 <div class="grid-7" id="file-secure">

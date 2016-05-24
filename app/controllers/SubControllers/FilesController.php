@@ -16,13 +16,13 @@ class FilesController extends ControllerWeb
 
     public function latestAction()
     {
-        $files = Files::latest()->find();
+        $files = Files::latest()->where('user_id', $this->authorizerSession->credentials()->id())->find();
         $this->view->set('files', $files);
     }
 
     public function protectedAction()
     {
-        $files = Files::latest()->where('protected', 1)->find();
+        $files = Files::latest()->where('user_id', $this->authorizerSession->credentials()->id())->where('protected', 1)->find();
         $this->view->set('files', $files);
     }
 
@@ -39,7 +39,12 @@ class FilesController extends ControllerWeb
             $this->redirect('manager/files/latest')->send();
         }
 
-        $this->view->set('files', $category->files());
+        $files = Files::latest()
+            ->where('category_id', $category->id())
+            ->where('user_id', $this->authorizerSession->credentials()->id())
+            ->find();
+
+        $this->view->set('files', $files);
     }
 
 }

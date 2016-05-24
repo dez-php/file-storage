@@ -108,6 +108,24 @@ class Files extends Table {
 
         return $this;
     }
+    /**
+     * @return mixed
+     */
+    public function getUserId()
+    {
+        return $this->get('user_id');
+    }
+
+    /**
+     * @param $user_id
+     * @return $this
+     */
+    public function setUserId($user_id)
+    {
+        $this->set('user_id', $user_id);
+
+        return $this;
+    }
 
     /**
      * @return mixed

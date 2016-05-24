@@ -2,6 +2,7 @@
 
 namespace FileStorage\Controllers;
 
+use Dez\Html\Element\AElement;
 use Dez\Http\Response;
 use FileStorage\Core\Mvc\ControllerWeb;
 use FileStorage\Models\Categories;
@@ -51,13 +52,15 @@ class ManagerController extends ControllerWeb
             ->where('auth_id', $this->authorizerSession->credentials()->id())
             ->first();
 
-        $signer = new Signer('local-user', null);
-        $signer->setDi($this->getDi());
+        if(! $token->exists()) {
+            $link = new AElement($this->url->path('manager/users/profile'), 'Generate token');
+            $this->flash->warning("{$link} before access this page");
+            $this->redirect('manager/users/profile');
+        } else {
+            $this->view->set('token', $token->getToken());
+            $this->view->set('categories', Categories::all());
+        }
 
-        $this->view->set('token', $token->exists() ? $token->getToken() : 'none');
-        $this->view->set('sign', $signer->generateSignature());
-
-        $this->view->set('categories', Categories::all());
     }
 
     public function categoriesAction()

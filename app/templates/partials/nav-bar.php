@@ -1,5 +1,5 @@
 <?php
-/** @var \Dez\Authorizer\Adapter\Session $authorizerSession */
+
 ?>
 <div class="row">
     <div class="grid-10">
@@ -12,14 +12,14 @@
             </div>
             <div class="grid-4 hidden-small hidden-smallest">
                 <a class="button button-danger pull-right ml-10" href="<?= $url->path('manager/close-session'); ?>">logout</a>
-                <a class="button button-light-green pull-right ml-10" href="<?= $url->path('manager/users/profile'); ?>"><?= explode('@', $authorizerSession->credentials()->getEmail())[0]; ?></a>
+                <a class="button button-light-green pull-right ml-10" href="<?= $url->path('manager/users/index'); ?>">users</a>
                 <a class="button button-gray pull-right" href="<?= $url->path('manager/server-info'); ?>">server info</a>
             </div>
         </div>
         <div class="row hidden display-block-small display-block-smallest">
             <div class="grid-4 grid-smallest-10">
                 <a class="button button-gray mr-10" href="<?= $url->path('manager/server-info'); ?>">server info</a>
-                <a class="button button-light-green mr-10" href="<?= $url->path('manager/users/profile'); ?>"><?= explode('@', $authorizerSession->credentials()->getEmail())[0]; ?></a>
+                <a class="button button-light-green pull-right ml-10" href="<?= $url->path('manager/users/index'); ?>">users</a>
                 <a class="button button-danger" href="<?= $url->path('manager/close-session'); ?>">logout</a>
             </div>
         </div>

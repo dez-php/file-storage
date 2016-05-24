@@ -5,6 +5,7 @@ namespace FileStorage\Services\Uploader\Drivers;
 use Dez\Http\Request\File;
 use FileStorage\Services\Uploader\Driver;
 use FileStorage\Services\Uploader\FileInfo;
+use FileStorage\Services\Uploader\Mimes;
 use FileStorage\Services\Uploader\UploaderException;
 
 class UploadedFile extends Driver {
@@ -21,8 +22,12 @@ class UploadedFile extends Driver {
             throw new UploaderException("Source must been object instance of '". File::class ."' '{$sourceType}' given");
         }
 
+        $contentType = trim(explode(';', $source->getRealMimeType())[0]);
+        $extensions = Mimes::extensions($contentType);
+        $extension = current($extensions);
+
         $this->validateSize($source->getSize())
-            ->validateFileType('extensions', $source->getExtension())
+            ->validateFileType('extensions', $extension)
             ->validateFileType('mimes', $source->getMimeType());
 
         if(! $source->isUploaded()) {
@@ -30,12 +35,14 @@ class UploadedFile extends Driver {
         }
 
         $temp = new FileInfo($source->getName(), $source->getTemporaryName());
+
         if(! $temp->isFile()) {
             throw new UploaderException("File is not file");
         }
 
-        $temp->setName($temp->getHash());
+        $temp->setName($temp->getHash())->setExtension($extension);
         $filepath = sprintf('%s/%s', $this->getUploader()->destinationPath(), $temp->getNameWithExtension());
+
         if(! $source->moveTo($filepath)) {
             throw new UploaderException("File could not been move to final destination");
         }
