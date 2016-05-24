@@ -7,6 +7,7 @@ use FileStorage\Core\Mvc\ControllerWeb;
 use FileStorage\Models\Categories;
 use FileStorage\Models\Files;
 use FileStorage\Services\Emoji;
+use FileStorage\Services\Signer;
 use FileStorage\Services\Uploader\Mimes;
 use FileStorage\Services\Uploader\Uploader;
 
@@ -44,6 +45,18 @@ class ManagerController extends ControllerWeb
 
     public function uploadFileAction()
     {
+        $token = $this->authorizerToken->getModel()
+            ->query()
+            ->where('unique_hash', $this->authorizerSession->getModel()->getUniqueHash())
+            ->where('auth_id', $this->authorizerSession->credentials()->id())
+            ->first();
+
+        $signer = new Signer('local-user', null);
+        $signer->setDi($this->getDi());
+
+        $this->view->set('token', $token->exists() ? $token->getToken() : 'none');
+        $this->view->set('sign', $signer->generateSignature());
+
         $this->view->set('categories', Categories::all());
     }
 
@@ -58,8 +71,7 @@ class ManagerController extends ControllerWeb
             $category = new Categories();
             $category->setName($this->request->getPost('name'));
             $category->save();
-        } else {
-            $this->flash->error('Only for POST method');
+            $this->flash->info("Category #{$category->id()} was created");
         }
 
         $this->redirect('manager/categories');
@@ -98,7 +110,7 @@ class ManagerController extends ControllerWeb
     {
         $this->view->set('os', php_uname());
         $this->view->set('php_version', PHP_VERSION);
-        $this->view->set('sapi', apache_get_version());
+        $this->view->set('sapi', $this->request->getServer('server_software'));
 
         $this->view->set('free_disk_space', Uploader::humanizeSize(disk_free_space('.')));
 

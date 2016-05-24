@@ -58,6 +58,30 @@ class ProtectedAuthController extends ControllerJson {
 
     public function getTokenAction()
     {
+        $token = $this->authorizerToken->getModel()
+            ->query()
+            ->where('unique_hash', $this->authorizerSession->getModel()->getUniqueHash())
+            ->where('auth_id', $this->authorizerSession->credentials()->id())
+            ->first();
+
+        $this->response(['token' => $token->getToken()]);
+    }
+
+    public function getSignatureAction()
+    {
+        if($this->authorizerToken->isGuest()) {
+            $this->error(['message' => 'Access denied. Restricted area!']);
+        } else {
+            try {
+                $this->response(['sign' => $this->signer->generateSignature(),]);
+            } catch (\Exception $exception) {
+                $this->error(['message' => $exception->getMessage(),]);
+            }
+        }
+    }
+
+    public function createTokenAction()
+    {
         $validator = new Validation($this->request->getQuery());
 
         $validator->required('email')->add(new Email());

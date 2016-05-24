@@ -7,6 +7,7 @@ use FileStorage\Models\Categories;
  */
 
 ?>
+<!--suppress ALL -->
 <style>
     #progress-bar {
         transition: width 0.5s, display 1s;
@@ -21,10 +22,18 @@ use FileStorage\Models\Categories;
     });
 
     var uploadType = 'local';
+
     var progressFileUrl = '<?= $this->url->path('upload/download-file-progress'); ?>';
+    var getAuthTokenUrl = '<?= $this->url->path('protected-auth/get-token'); ?>';
+
     var progressFile = null;
+    var authToken = null;
 
     app.DOM.ready(function($){
+
+        var responseBody = $('#response-body');
+        var errorBox = $('#error-response');
+        var successBox = $('#success-response');
 
         $('#input-file').on('change', function(e){
             $('#input-file-text').html($(this).val().split(/[\\\/]+/).slice(-1).pop());
@@ -55,6 +64,7 @@ use FileStorage\Models\Categories;
             var formData = new FormData();
 
             formData.append('file', file.native(0).files[0]);
+
             $('.input, .radio:checked, .checkbox:checked, select').each(function (element) {
                 element = $(element);
                 formData.append(element.attr('name'), element.val());
@@ -73,9 +83,19 @@ use FileStorage\Models\Categories;
                 }
             }).then(function(response){
                 progressBox.hide();
-                $('#response-body pre').html(response);
-                if(JSON.parse(response).status == 'success') {
-                    form.native(0).reset();
+                clearInterval(intervalId);
+
+                responseBody.show();
+
+                var data = JSON.parse(response);
+
+                if(data.status == 'success') {
+                    var hash = data.response.uploaded_file_uid;
+                    errorBox.hide();
+                    successBox.show().find('div').html(hash);
+                } else {
+                    successBox.hide();
+                    errorBox.show().find('div').html(data.response.message);
                 }
             });
 
@@ -83,9 +103,6 @@ use FileStorage\Models\Categories;
                 intervalId = setInterval(function () {
                     app.get(progressFile).then(function(response){
                         progressBar.css('width', response + '%');
-                        if(response == 100) {
-                            clearInterval(intervalId);
-                        }
                     });
                 }, 500);
             }
@@ -95,8 +112,11 @@ use FileStorage\Models\Categories;
 </script>
 <div class="row">
     <div class="grid-5 grid-small-10 grid-smallest-10">
-        <h2>Upload new file <?php echo "\xf0\x9f\x98\x81" ?></h2>
-        <form id="upload-form" class="form-horizontal form-label-right bg-color-dark" action="<?= $url->path('upload/index'); ?>" method="post" enctype="multipart/form-data">
+        <h2>Upload new file</h2>
+        <form id="upload-form" class="form-horizontal form-label-right bg-color-dark" action="<?= $url->path('upload/index', [
+            'client' => 'local-user',
+            'sign' => $sign
+        ]); ?>" method="post" enctype="multipart/form-data">
             <div class="form-row" id="upload-type">
                 <label class="grid-3">upload type</label>
                 <div class="grid-7" id="file-secure">
@@ -113,7 +133,7 @@ use FileStorage\Models\Categories;
             <div class="form-row" id="local">
                 <label class="grid-3">file</label>
                 <div class="grid-7">
-                    <div class="button button-warning button-rounded relative-block" style="position: relative;">
+                    <div class="button button-warning relative-block" style="position: relative;">
                         <span id="input-file-text">browse...</span>
                         <input id="input-file" class="hidden-file" type="file" name="test_file" >
                     </div>
@@ -122,19 +142,19 @@ use FileStorage\Models\Categories;
             <div class="form-row hidden" id="direct-link">
                 <label class="grid-3">link on file</label>
                 <div class="grid-7">
-                    <input placeholder="link on file..." id="file-name" type="text" name="direct_link" class="input input-color-warning input-rounded input-border-default">
+                    <input placeholder="link on file..." id="file-name" type="text" name="direct_link" class="input input-color-warning input-border-default">
                 </div>
             </div>
             <div class="form-row">
                 <label class="grid-3">name</label>
                 <div class="grid-7">
-                    <input placeholder="short file description..." id="file-name" type="text" name="name" class="input input-color-warning input-rounded input-border-default">
+                    <input placeholder="short file description..." id="file-name" type="text" name="name" class="input input-color-warning input-border-default">
                 </div>
             </div>
             <div class="form-row">
                 <label class="grid-3">category</label>
                 <div class="grid-7">
-                    <select id="file-category" class="button button-warning input-rounded input-border-default" name="category_id">
+                    <select id="file-category" class="button button-warning input-border-default" name="category_id">
                         <?php foreach($categories as $category): ?>
                             <option value="<?= $category->id() ?>"><?= $category->getName() ?></option>
                         <?php endforeach; ?>
@@ -146,14 +166,14 @@ use FileStorage\Models\Categories;
                 <div class="grid-7" id="file-secure">
                     <label class="check-item">
                         <input class="checkbox checkbox-color-warning" type="checkbox" name="protected" value="1">
-                        yes (then access only by auth-token)
+                        yes (without direct link)
                     </label>
                 </div>
             </div>
             <div class="form-row">
                 <label class="grid-3"></label>
                 <div class="grid-7">
-                    <input type="submit" value="upload" class="button button-warning button-rounded">
+                    <input type="submit" value="upload" class="button button-warning">
                 </div>
             </div>
             <div id="progress-box" class="form-row hidden">
@@ -167,8 +187,13 @@ use FileStorage\Models\Categories;
     </div>
 </div>
 <div class="row">
-    <div class="grid-10" id="response-body">
+    <div class="grid-5 grid-small-10 grid-smallest-10 hidden" id="response-body">
         <h2>Response</h2>
-        <pre></pre>
+        <div id="error-response" class="flash-messages flash-messages-warning hidden">
+            <div></div>
+        </div>
+        <div id="success-response" class="flash-messages flash-messages-notice hidden">
+            <div></div>
+        </div>
     </div>
 </div>

@@ -34,7 +34,6 @@ use FileStorage\Models\Categories;
                                 <a class="button button-yellow button-size-small" href="<?= $url->path("manager/activate-category/{$category->id()}") ?>">activate</a>
                             <?php else: ?>
                                 <a class="button button-notice button-size-small" href="<?= $url->path("manager/files/category", ['slug' => $category->getSlug()]) ?>">look files</a>
-                                <a class="button button-light-green button-size-small" href="<?= $url->path("manager/edit-category/{$category->id()}") ?>">edit</a>
                                 <a class="button button-orange button-size-small" href="<?= $url->path("manager/delete-category/{$category->id()}") ?>">delete</a>
                             <?php endif; ?>
                         </td>

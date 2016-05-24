@@ -10,12 +10,11 @@ use FileStorage\Services\Uploader\Uploader;
 ?>
 <div class="row">
     <div class="grid-10">
-        <h2>Stats</h2>
+        <h2>Files</h2>
         <div class="row">
             <div class="grid-10">
                 <a class="button button-warning button-size-small" href="<?= $this->url->path('manager/files/latest'); ?>">latest</a>
                 <a class="button button-pink button-size-small" href="<?= $this->url->path('manager/files/protected'); ?>">protected</a>
-                <a class="button button-violet button-size-small" href="<?= $this->url->path('manager/files/deleted'); ?>">deleted</a>
             </div>
         </div>
         <table class="table table-striped table-caption-upper table-hovered">
@@ -43,7 +42,8 @@ use FileStorage\Services\Uploader\Uploader;
                 <td class="hidden-small hidden-smallest"><code><?= $file->getHash() ?>.<?= $file->getExtension() ?></code></td>
                 <td class="text-center"><?= date('d F, Y H:i:s', $file->getCreatedAt()) ?></td>
                 <td>
-                    <a target="_blank" class="button button-notice button-size-small" href="<?= $this->url->path($file->getHash()); ?>">detailed</a>
+                    <a target="_blank" class="button button-notice button-size-small" href="<?= $this->url->path("{$file->getHash()}/detailed"); ?>">detailed</a>
+                    <a target="_blank" class="button button-pink button-size-small" href="<?= $this->url->path("{$file->getHash()}/raw"); ?>">raw</a>
                 </td>
             </tr>
             <?php endforeach; endif; ?>

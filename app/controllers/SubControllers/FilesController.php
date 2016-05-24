@@ -20,12 +20,6 @@ class FilesController extends ControllerWeb
         $this->view->set('files', $files);
     }
 
-    public function deletedAction()
-    {
-        $files = Files::query()->where('status', Files::STATUS_DELETED)->find();
-        $this->view->set('files', $files);
-    }
-
     public function protectedAction()
     {
         $files = Files::latest()->where('protected', 1)->find();
@@ -39,6 +33,11 @@ class FilesController extends ControllerWeb
         */
         $slug = $this->request->getQuery('slug');
         $category = Categories::query()->where('slug', $slug)->first();
+
+        if(! $category->exists()) {
+            $this->flash->warning("Category with slug '{$slug}' not found");
+            $this->redirect('manager/files/latest')->send();
+        }
 
         $this->view->set('files', $category->files());
     }

@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>File Storage - Manager</title>
+    <link rel="shortcut icon" href="<?= $url->staticPath('favicon.png') ?>" type="image/png" />
+    <meta name="theme-color" content="#505050">
     <link rel="stylesheet" href="<?= $url->staticPath('css/main.css') ?>">
     <link rel="stylesheet" href="<?= $url->staticPath('file-storage.css') ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">

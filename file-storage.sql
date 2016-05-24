@@ -1,5 +1,5 @@
 CREATE TABLE `stored_files` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned PRIMARY NOT NULL AUTO_INCREMENT,
   `category_id` int(10) unsigned NOT NULL DEFAULT '1',
   `name` varchar(128) NOT NULL,
   `size` int(10) unsigned NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE `stored_files` (
   `downloads` int(10) unsigned NOT NULL DEFAULT '0',
   `created_at` int(11) NOT NULL,
   `status` enum('active','deleted') NOT NULL DEFAULT 'active'
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) PRIMARY KEY (`id`) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `stored_file_categories` (
   `id` int(10) unsigned NOT NULL,

@@ -59,8 +59,10 @@ class UploadController extends ControllerJson {
         if(! $category->exists()) {
             throw new MvcException("Category do not exist");
         }
-        
-        $uploader->setSubDirectory("{$category->getSlug()}/{$category->hash()}");
+
+        $datePart = date('Y/m/d');
+        $uglyPath = "{$category->id()}/{$category->getSlug()}/{$datePart}";
+        $uploader->setSubDirectory($uglyPath);
 
         try {
             $uploaded = $uploader->upload($uploadSource);
@@ -83,7 +85,7 @@ class UploadController extends ControllerJson {
             }
 
             $this->response([
-                'file' => $file->toObject(),
+                'uploaded_file_uid' => $file->getHash(),
             ]);
         } catch (\Exception $exception) {
             $this->error(['message' => $exception->getMessage()]);
@@ -104,11 +106,6 @@ class UploadController extends ControllerJson {
         $this->response([
             'url' => $uri->full(),
         ]);
-    }
-
-    public function linkAction()
-    {
-
     }
 
 }

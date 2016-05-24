@@ -42,7 +42,7 @@ class Categories extends Table {
      */
     public function hash()
     {
-        return substr(md5($this->id()), -16);
+        return md5($this->id());
     }
 
     /**

@@ -14,7 +14,7 @@ return [
         'viewDirectory' => __DIR__ . '/../templates',
         'uploader' => [
             'private_keys' => [
-                'site1' => 'EInXMMSKu3VmAawB',
+                'local-user' => 'EInXMMSKu3VmAawB',
                 'site2' => 'OuiTFDI67RwqWKG3',
                 'site3' => 'uu9nhvH1TCnGqm2N',
             ],
@@ -24,20 +24,22 @@ return [
             ],
             'validation' => [
                 'sizes' => [
-                    'min' => 1024,
-                    'max' => 1024 * 1024 * 56
+                    'min' => 1,
+                    'max' => 1024 * 1024 * 1024 * 5
                 ],
                 'mimes' => [
                     'black' => [
-
+                        'text/plain', 'text/html', 'application/javascript'
                     ],
                     'white' => [
-                        'text/plain', 'text/html', 'application/json'
+
                     ]
                 ],
                 'extensions' => [
-                    'black' => [],
-                    'white' => []
+                    'black' => [
+                        'json', 'html', 'php', 'js2'
+                    ],
+                    'white' => [ ]
                 ]
             ],
             'public_uri' => '/public-files'

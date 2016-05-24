@@ -75,8 +75,11 @@ abstract class Driver
             $blackList = $config->path("{$type}.black");
             $whiteList = $config->path("{$type}.white");
 
-            $isValid = (!($blackList->count() > 0 && in_array($value, $blackList->toArray(), true))
-                && !($whiteList->count() > 0 && !in_array($value, $whiteList->toArray(), true)));
+            $isValid = (
+                ($blackList->count() == 0 || !in_array($value, $blackList->toArray(), true))
+                &&
+                ($whiteList->count() == 0 || in_array($value, $whiteList->toArray(), true))
+            );
 
             if (! $isValid) {
                 throw new UploaderException(sprintf("Uploaded file type has not allowed '%s'", $value));

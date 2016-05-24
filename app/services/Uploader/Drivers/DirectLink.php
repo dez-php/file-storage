@@ -18,20 +18,20 @@ class DirectLink extends Driver
     public function upload($source)
     {
         if (!filter_var($source, FILTER_VALIDATE_URL)) {
-            throw new UploaderException("Url not valid. Must been direct http-link on file");
+            throw new UploaderException("Url '{$source}' not valid. Must been direct http-link on file");
         }
 
         $headers = get_headers($source, true);
 
         $size = $headers['Content-Length'];
-        $contentType = $headers['Content-Type'];
+        $contentType = trim(explode(';', $headers['Content-Type'])[0]);
 
         $extensions = Mimes::extensions($contentType);
         $extension = current($extensions);
 
         $this->validateSize($size)
-            ->validateFileType('extension', $extension)
-            ->validateFileType('mime', $contentType);
+            ->validateFileType('extensions', $extension)
+            ->validateFileType('mimes', $contentType);
 
         if (null === $extensions) {
             throw new UploaderException("No extensions found for content-type: {$contentType}");
@@ -46,19 +46,20 @@ class DirectLink extends Driver
         $writer = fopen($filepath, 'w+');
 
         $downloaded = 0;
-        $chunkSize = (integer) min($size / 100, 8192);
+        $chunkSize = 8192;
 
         while (!feof($reader)) {
             $downloaded += fwrite($writer, fread($reader, $chunkSize));
             file_put_contents($this->getUploader()->downloadProgressPath(), 100 * ($downloaded / $size));
+            set_time_limit(10);
         }
 
         if($size > $downloaded) {
             @ unlink($filepath);
-            throw new UploaderException("File is broken. Maybe something wrong with internet");
+            throw new UploaderException("File is broken. Maybe something wrong with internet connection");
         }
 
-        file_put_contents($this->getUploader()->downloadProgressPath(), 0);
+        unlink($this->getUploader()->downloadProgressPath());
 
         fclose($reader);
         fclose($writer);

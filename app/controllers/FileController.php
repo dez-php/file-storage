@@ -15,52 +15,46 @@ class FileController extends ControllerJson
         parent::beforeExecute();
     }
 
-    public function indexAction($hash = null)
+    public function indexAction($hash)
     {
         /** @var Files $file */
         $file = Files::query()->where('hash', $hash)->first();
 
         $this->checkFile($file);
 
-        $token = 'none';
-
-        if($file->isProtected()) {
-            if($this->authorizerToken->isGuest()) {
-                $this->error(['message' => 'Protected file. Use authorized token for access this file'])->send();
-                exit();
-            }
-            $token = $this->authorizerToken->getModel()->getToken();
-        } else {
+        if(! $file->isProtected()) {
             $alias = $this->config->path('application.uploader.public_uri');
             $path = sprintf('%s/%s', $alias, $file->getRelativePath());
             $links['direct'] = $this->url->full($path);
         }
 
-        if($file->getStatus() == Files::STATUS_ACTIVE) {
-            $links['download'] = $this->url->full(sprintf('file/dl/%s', $file->getHash()), ['token' => $token]);
-            $links['delete'] = $this->url->full(sprintf('file/delete/%s', $file->getHash()), ['token' => $token]);
-            $links['raw'] = $this->url->full(sprintf('file/view-raw/%s', $file->getHash()), ['token' => $token]);
-        } else {
-            $links['activate'] = $this->url->full(sprintf('file/activate/%s', $file->getHash()), ['token' => $token]);
-        }
+        $links['download'] = $this->url->full(sprintf('%s/dl', $file->getHash()));
+        $links['raw'] = $this->url->full(sprintf('%s/raw', $file->getHash()));
+        $links['detailed'] = $this->url->full(sprintf('%s/detailed', $file->getHash()));
 
         $this->response([
             'links' => $links,
-            'file' => $file->toResponse(),
         ]);
 
     }
 
-    public function dlAction()
+    public function detailedAction($hash)
     {
-        $hash = $this->router->getDirtyMatches()[0];
+        /** @var Files $file */
+        $file = Files::query()->where('hash', $hash)->first();
+        $this->checkFile($file);
+        $this->response($file->toResponse());
+    }
+
+    public function dlAction($hash)
+    {
         $file = Files::item($hash);
 
         $realpath = $this->preparePath($file);
         
         $file->increaseDownloads();
 
-        $name = sprintf('%s_%s.%s', \URLify::filter($file->getName()), $this->authorizerToken->randomHash(), $file->getExtension());
+        $name = sprintf('%s_%s.%s', \URLify::filter($file->getName()), $file->getHash(), $file->getExtension());
 
         $this->response->setContentType($file->getMimeType());
         $this->response->setHeader('Content-Disposition', "attachment; filename=$name");
@@ -72,9 +66,8 @@ class FileController extends ControllerJson
         exit();
     }
 
-    public function viewRawAction()
+    public function rawAction($hash)
     {
-        $hash = $this->router->getDirtyMatches()[0];
         $file = Files::item($hash);
 
         $realpath = $this->preparePath($file);
@@ -88,28 +81,24 @@ class FileController extends ControllerJson
         exit();
     }
 
-    public function deleteAction()
+    public function removeAction($hash)
     {
-        $hash = $this->router->getDirtyMatches()[0];
-        $file = Files::hash($hash);
+        if($this->signer->validate()) {
+            $file = Files::hash($hash);
 
-        $this->checkFile($file);
+            $realpath = $this->preparePath($file);
 
-        $this->response([
-            'message' => "File #{$file->id()} was deleted",
-        ]);
-    }
+            $file->delete();
+            unlink($realpath);
 
-    public function activateAction()
-    {
-        $hash = $this->router->getDirtyMatches()[0];
-        $file = Files::hash($hash);
-
-        $this->checkFile($file);
-
-        $this->response([
-            'message' => "File #{$file->id()} was activated",
-        ]);
+            $this->response([
+                'message' => "File #{$file->id()} was deleted",
+            ]);
+        } else {
+            $this->error([
+                'message' => 'For removing file you must use your private signature'
+            ]);
+        }
     }
 
     private function preparePath(Files $file)
@@ -133,12 +122,7 @@ class FileController extends ControllerJson
     private function checkFile(Files $file)
     {
         if(! $file->exists()) {
-            $this->error(['message' => "File not found"], 404)->send();
-            exit();
-        }
-
-        if($file->isProtected() && $this->authorizerToken->isGuest()) {
-            $this->error(['message' => 'Protected file. Use authorized token for access this file'])->send();
+            $this->error(['message' => "File not found or was removed"], 404)->send();
             exit();
         }
     }
