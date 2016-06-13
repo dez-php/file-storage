@@ -45,7 +45,7 @@ class UploadController extends ControllerJson {
         $uploader = new Uploader();
         $uploader->setRoot($root);
 
-        if($uploadType === 'direct-link') {
+        if($uploadType === 'direct_link') {
             $uploader->setDriver(new DirectLink());
             $uploadSource = $this->request->getPost('direct_link', false);
         } else {

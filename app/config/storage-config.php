@@ -13,11 +13,6 @@ return [
         'controllerNamespace' => 'FileStorage\\Controllers\\',
         'viewDirectory' => __DIR__ . '/../templates',
         'uploader' => [
-            'private_keys' => [
-                'local-user' => 'EInXMMSKu3VmAawB',
-                'site2' => 'OuiTFDI67RwqWKG3',
-                'site3' => 'uu9nhvH1TCnGqm2N',
-            ],
             'directories' => [
                 'public' => __DIR__ . '/../../public-files',
                 'private' => __DIR__ . '/../../private-files',
@@ -37,7 +32,7 @@ return [
                 ],
                 'extensions' => [
                     'black' => [
-                        'json', 'html', 'php', 'js2'
+                        'json', 'html', 'php', 'js'
                     ],
                     'white' => [ ]
                 ]
