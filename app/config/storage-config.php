@@ -14,30 +14,24 @@ return [
         'viewDirectory' => __DIR__ . '/../templates',
         'uploader' => [
             'directories' => [
-                'public' => __DIR__ . '/../../public-files',
-                'private' => __DIR__ . '/../../private-files',
+                'public' => __DIR__ . '/../../public',
+                'private' => __DIR__ . '/../../2c17c6393771ee3048ae34d6b380c5ec',
             ],
             'validation' => [
                 'sizes' => [
                     'min' => 1,
-                    'max' => 1024 * 1024 * 1024 * 5
+                    'max' => 1024 * 1024 * 1024
                 ],
                 'mimes' => [
-                    'black' => [
-                        'text/plain', 'text/html', 'application/javascript'
-                    ],
-                    'white' => [
-
-                    ]
+                    'black' => [],
+                    'white' => []
                 ],
                 'extensions' => [
-                    'black' => [
-                        'json', 'html', 'php', 'js'
-                    ],
-                    'white' => [ ]
+                    'black' => ['php',],
+                    'white' => []
                 ]
             ],
-            'public_uri' => '/public-files'
+            'public_uri' => '/public'
         ],
         'debug' => [
             'exceptions' => 1,

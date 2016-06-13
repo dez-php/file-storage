@@ -2,12 +2,21 @@
 
 namespace FileStorage\Controllers\SubControllers;
 
+use Dez\Authorizer\Models\Auth\TokenModel;
 use FileStorage\Core\Mvc\ControllerWeb;
 use FileStorage\Models\Categories;
 use FileStorage\Models\Files;
 
 class FilesController extends ControllerWeb
 {
+
+    public function beforeExecute()
+    {
+        parent::beforeExecute();
+
+        $token = TokenModel::query()->where('auth_id', $this->authorizerSession->credentials()->id())->first();
+        $this->view->set('token', $token);
+    }
 
     public function indexAction()
     {
