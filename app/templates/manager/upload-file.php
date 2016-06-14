@@ -99,7 +99,7 @@ use FileStorage\Models\Categories;
                 }
             });
 
-            if(uploadType == 'direct-link') {
+            if(uploadType == 'direct_link') {
                 intervalId = setInterval(function () {
                     app.get(progressFile).then(function(response){
                         progressBar.css('width', response + '%');

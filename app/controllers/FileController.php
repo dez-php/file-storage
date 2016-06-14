@@ -28,14 +28,17 @@ class FileController extends ControllerJson
             $links['direct'] = $this->url->full($path);
         }
 
-        $links['download'] = $this->url->full(sprintf('%s/dl', $file->getHash()));
-        $links['raw'] = $this->url->full(sprintf('%s/raw', $file->getHash()));
-        $links['detailed'] = $this->url->full(sprintf('%s/detailed', $file->getHash()));
+        $links['download'] = $this->url->full("{$file->getHash()}/dl");
+        $links['raw'] = $this->url->full("{$file->getHash()}/raw");
+        $links['detailed'] = $this->url->full("{$file->getHash()}/detailed");
 
-        $this->response([
-            'links' => $links,
-        ]);
+        $this->response(['links' => $links,]);
 
+    }
+
+    public function linksAction($hash)
+    {
+        $this->indexAction($hash);
     }
 
     public function detailedAction($hash)
