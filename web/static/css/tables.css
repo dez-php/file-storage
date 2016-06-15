@@ -8,6 +8,7 @@
 
 .table thead > tr > th {
     text-align: left;
+    font-weight: 600;
 }
 
 .table thead > tr > th,

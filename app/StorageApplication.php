@@ -72,7 +72,7 @@ class StorageApplication extends Configurable
      */
     private function configurationErrors()
     {
-        set_exception_handler(function (\Exception $exception) {
+        set_exception_handler(function (\Throwable $exception) {
             if ($this->config->path('application.debug.exceptions') == 1) {
                 $message = get_class($exception) . ": {$exception->getMessage()}";
                 $this->createSystemErrorResponse($message, 'uncaught_exception', $exception->getFile(),
