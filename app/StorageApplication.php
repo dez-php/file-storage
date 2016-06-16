@@ -149,69 +149,33 @@ class StorageApplication extends Configurable
      */
     private function friendlyErrorType($type)
     {
-        $return = '';
+        $types = [];
 
-        if ($type & E_ERROR) {
-            $return .= '& E_ERROR ';
+        $typeNames = [
+            E_ERROR => 'E_ERROR',
+            E_WARNING => 'E_WARNING',
+            E_PARSE => 'E_PARSE',
+            E_NOTICE => 'E_NOTICE',
+            E_CORE_ERROR => 'E_CORE_ERROR',
+            E_CORE_WARNING => 'E_CORE_WARNING',
+            E_COMPILE_ERROR => 'E_COMPILE_ERROR',
+            E_COMPILE_WARNING => 'E_COMPILE_WARNING',
+            E_USER_ERROR => 'E_USER_ERROR',
+            E_USER_WARNING => 'E_USER_WARNING',
+            E_USER_NOTICE => 'E_USER_NOTICE',
+            E_STRICT => 'E_STRICT',
+            E_RECOVERABLE_ERROR => 'E_RECOVERABLE_ERROR',
+            E_DEPRECATED => 'E_DEPRECATED',
+            E_USER_DEPRECATED => 'E_USER_DEPRECATED',
+        ];
+
+        foreach (array_keys($typeNames) as $phpType) {
+            if($type & $phpType) {
+                $types[] = $typeNames[$phpType];
+            }
         }
 
-        if ($type & E_WARNING) {
-            $return .= '& E_WARNING ';
-        }
-
-        if ($type & E_PARSE) {
-            $return .= '& E_PARSE ';
-        }
-
-        if ($type & E_NOTICE) {
-            $return .= '& E_NOTICE ';
-        }
-
-        if ($type & E_CORE_ERROR) {
-            $return .= '& E_CORE_ERROR ';
-        }
-
-        if ($type & E_CORE_WARNING) {
-            $return .= '& E_CORE_WARNING ';
-        }
-
-        if ($type & E_COMPILE_ERROR) {
-            $return .= '& E_COMPILE_ERROR ';
-        }
-
-        if ($type & E_COMPILE_WARNING) {
-            $return .= '& E_COMPILE_WARNING ';
-        }
-
-        if ($type & E_USER_ERROR) {
-            $return .= '& E_USER_ERROR ';
-        }
-
-        if ($type & E_USER_WARNING) {
-            $return .= '& E_USER_WARNING ';
-        }
-
-        if ($type & E_USER_NOTICE) {
-            $return .= '& E_USER_NOTICE ';
-        }
-
-        if ($type & E_STRICT) {
-            $return .= '& E_STRICT ';
-        }
-
-        if ($type & E_RECOVERABLE_ERROR) {
-            $return .= '& E_RECOVERABLE_ERROR ';
-        }
-
-        if ($type & E_DEPRECATED) {
-            $return .= '& E_DEPRECATED ';
-        }
-
-        if ($type & E_USER_DEPRECATED) {
-            $return .= '& E_USER_DEPRECATED ';
-        }
-
-        return trim(substr($return, 2));
+        return implode(' & ', $types);
     }
 
     /**

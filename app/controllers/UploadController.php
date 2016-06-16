@@ -61,7 +61,8 @@ class UploadController extends ControllerJson {
         }
 
         $datePart = date('Y/m/d');
-        $uglyPath = "{$category->id()}/{$category->getSlug()}/{$datePart}";
+        $timestamp = dechex(time() - (time() % 60));
+        $uglyPath = "{$category->id()}/{$datePart}/{$timestamp}";
         $uploader->setSubDirectory($uglyPath);
 
         try {
