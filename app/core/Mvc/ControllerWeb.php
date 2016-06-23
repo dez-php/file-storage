@@ -22,7 +22,7 @@ class ControllerWeb extends Controller {
 
     protected function authId()
     {
-        return $this->authorizerSession->getModel()->id();
+        return $this->authorizerSession->credentials()->id();
     }
     
 }
