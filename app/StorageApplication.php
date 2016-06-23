@@ -186,14 +186,12 @@ class StorageApplication extends Configurable
         $this->getDi()->set('authorizerToken', function () {
             $authorizerToken = new Token();
             $authorizerToken->setDi($this->getDi());
-
             return $authorizerToken->initialize();
         });
 
         $this->getDi()->set('authorizerSession', function () {
             $authorizerSession = new Session();
             $authorizerSession->setDi($this->getDi());
-
             return $authorizerSession->initialize();
         });
 

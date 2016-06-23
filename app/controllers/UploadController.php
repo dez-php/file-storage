@@ -60,9 +60,10 @@ class UploadController extends ControllerJson {
             throw new MvcException("Category do not exist");
         }
 
-        $datePart = date('Y/m/d');
-        $timestamp = dechex(time() - (time() % 60));
-        $uglyPath = "{$category->id()}/{$datePart}/{$timestamp}";
+        $datePath = date('Y/m/d');
+        $categoryHash = substr(md5($category->id()), 0, 8);
+        $ownerHash = substr(md5($category->getUserId()), 0, 8);
+        $uglyPath = "{$ownerHash}/{$categoryHash}/{$datePath}/";
         $uploader->setSubDirectory($uglyPath);
 
         try {

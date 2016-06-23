@@ -2,6 +2,7 @@
 
 namespace FileStorage\Models;
 
+use Dez\ORM\Model\QueryBuilder;
 use Dez\ORM\Model\Table;
 
 class Categories extends Table {
@@ -19,6 +20,16 @@ class Categories extends Table {
     public function files()
     {
         return $this->hasMany(Files::class, 'category_id', 'id');
+    }
+
+    /**
+     * @param int $user_id
+     * @return QueryBuilder
+     * @throws \Dez\ORM\Exception
+     */
+    public static function owned($user_id = 0)
+    {
+        return static::query()->where('user_id', $user_id);
     }
 
     /**
@@ -56,6 +67,17 @@ class Categories extends Table {
         if($this->getStatus() === null) {
             $this->setStatus(static::STATUS_ACTIVE);
         }
+    }
+
+    /**
+     * @param integer $user_id
+     * @return $this
+     */
+    public function setUserId($user_id)
+    {
+        $this->set('user_id', $user_id);
+
+        return $this;
     }
 
     /**
@@ -98,6 +120,14 @@ class Categories extends Table {
         $this->set('name', $name);
 
         return $this;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getUserId()
+    {
+        return $this->get('user_id');
     }
 
     /**
