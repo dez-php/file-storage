@@ -22,7 +22,11 @@ class UploadedFile extends Driver {
             throw new UploaderException("Source must been object instance of '". File::class ."' '{$sourceType}' given");
         }
 
-        $contentType = trim(explode(';', $source->getRealMimeType())[0]);
+        $mimetype = $source->getRealMimeType() == 'application/octet-stream'
+            ? $source->getMimeType()
+            : $source->getRealMimeType();
+
+        $contentType = trim(explode(';', $mimetype)[0]);
         $extensions = Mimes::extensions($contentType);
         $extension = current($extensions);
 
