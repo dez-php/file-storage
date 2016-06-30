@@ -2,13 +2,13 @@
 
 namespace FileStorage\Controllers;
 
+use Dez\Authorizer\Models\Auth\TokenModel;
 use Dez\Html\Element\AElement;
 use Dez\Http\Response;
 use FileStorage\Core\Mvc\ControllerWeb;
 use FileStorage\Models\Categories;
 use FileStorage\Models\Files;
 use FileStorage\Services\Emoji;
-use FileStorage\Services\Signer;
 use FileStorage\Services\Uploader\Mimes;
 use FileStorage\Services\Uploader\Uploader;
 
@@ -46,6 +46,7 @@ class ManagerController extends ControllerWeb
 
     public function uploadFileAction()
     {
+        /** @var TokenModel $token */
         $token = $this->authorizerToken->getModel()
             ->query()
             ->where('unique_hash', $this->authorizerSession->getModel()->getUniqueHash())
@@ -58,14 +59,14 @@ class ManagerController extends ControllerWeb
             $this->redirect('manager/users/profile');
         } else {
             $this->view->set('token', $token->getToken());
-            $this->view->set('categories', Categories::all());
+            $this->view->set('categories', Categories::owned($this->authId())->find());
         }
 
     }
 
     public function categoriesAction()
     {
-        $this->view->set('categories', Categories::all());
+        $this->view->set('categories', Categories::owned($this->authId())->find());
     }
 
     public function createCategoryAction()
@@ -73,6 +74,7 @@ class ManagerController extends ControllerWeb
         if ($this->request->isPost()) {
             $category = new Categories();
             $category->setName($this->request->getPost('name'));
+            $category->setUserId($this->authId());
             $category->save();
             $this->flash->info("Category #{$category->id()} was created");
         }

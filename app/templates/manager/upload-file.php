@@ -99,7 +99,7 @@ use FileStorage\Models\Categories;
                 }
             });
 
-            if(uploadType == 'direct-link') {
+            if(uploadType == 'direct_link') {
                 intervalId = setInterval(function () {
                     app.get(progressFile).then(function(response){
                         progressBar.css('width', response + '%');
@@ -122,7 +122,7 @@ use FileStorage\Models\Categories;
                         from your computer
                     </label>
                     <label class="check-item">
-                        <input class="radio radio-color-warning" name="upload_type" type="radio" value="direct-link">
+                        <input class="radio radio-color-warning" name="upload_type" type="radio" value="direct_link">
                         direct link from internet
                     </label>
                 </div>

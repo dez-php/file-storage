@@ -2,15 +2,15 @@ body {
     background-color: #222222;
     margin: 0;
     padding: 0;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 13px;
     color: #ccc;
+    font-size: 13px;
 }
 
 * {
     margin: 0;
     padding: 0;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 400;
     box-sizing: border-box;
 }
 

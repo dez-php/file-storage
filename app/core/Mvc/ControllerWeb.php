@@ -19,5 +19,10 @@ class ControllerWeb extends Controller {
         $this->response->setBodyFormat(Response::RESPONSE_HTML);
         $this->view->setMainLayout('index');
     }
+
+    protected function authId()
+    {
+        return $this->authorizerSession->credentials()->id();
+    }
     
 }

@@ -12,6 +12,8 @@
   "type": "library",
   "require": {
     "php": ">=5.5",
+    "ext-bcmath": "*",
+    "ext-mbstring": "*",
     "dez-php/dez-mvc-app": "~1.0",
     "dez-php/dez-data-validation": "~1.0",
     "dez-php/dez-html": "~0.1",

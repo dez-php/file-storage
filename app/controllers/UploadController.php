@@ -45,9 +45,9 @@ class UploadController extends ControllerJson {
         $uploader = new Uploader();
         $uploader->setRoot($root);
 
-        if($uploadType === 'direct-link') {
+        if($uploadType === 'direct_link') {
             $uploader->setDriver(new DirectLink());
-            $uploadSource = $this->request->getPost('direct_link', false);
+            $uploadSource = $this->request->getPost($uploadType, false);
         } else {
             $uploader->setDriver(new UploadedFile());
             $uploadedFiles = $this->request->getUploadedFiles();
@@ -60,8 +60,10 @@ class UploadController extends ControllerJson {
             throw new MvcException("Category do not exist");
         }
 
-        $datePart = date('Y/m/d');
-        $uglyPath = "{$category->id()}/{$category->getSlug()}/{$datePart}";
+        $datePath = date('Y/m/d');
+        $categoryHash = substr(md5($category->id()), 0, 8);
+        $ownerHash = substr(md5($category->getUserId()), 0, 8);
+        $uglyPath = "{$ownerHash}/{$categoryHash}/{$datePath}/";
         $uploader->setSubDirectory($uglyPath);
 
         try {
