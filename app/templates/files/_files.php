@@ -5,6 +5,7 @@ use FileStorage\Services\Uploader\Uploader;
 /**
  * @var $files \Dez\ORM\Collection\ModelCollection
  * @var $file \FileStorage\Models\Files
+ * @var $token \Dez\Authorizer\Models\Auth\TokenModel
 */
 
 ?>
@@ -44,6 +45,9 @@ use FileStorage\Services\Uploader\Uploader;
                 <td>
                     <a target="_blank" class="button button-notice button-size-small" href="<?= $this->url->path("{$file->getHash()}/detailed"); ?>">detailed</a>
                     <a target="_blank" class="button button-pink button-size-small" href="<?= $this->url->path("{$file->getHash()}/raw"); ?>">raw</a>
+                    <?php if($token->exists()): ?>
+                        <a onclick="return confirm('You really wand delete file #<?= $file->id() ?>');" target="_blank" class="button button-danger button-size-small" href="<?= $this->url->path("{$file->getHash()}/remove", ['token' => $token->getToken()]); ?>">remove</a>
+                    <?php endif; ?>
                 </td>
             </tr>
             <?php endforeach; endif; ?>
