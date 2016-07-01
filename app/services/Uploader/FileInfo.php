@@ -2,7 +2,10 @@
 
 namespace FileStorage\Services\Uploader;
 
-class FileInfo extends \SplFileInfo implements \JsonSerializable {
+use FileStorage\Services\MimeTypes;
+
+class FileInfo extends \SplFileInfo implements \JsonSerializable
+{
 
     protected $name;
 
@@ -55,7 +58,8 @@ class FileInfo extends \SplFileInfo implements \JsonSerializable {
      */
     public function getNameWithExtension()
     {
-        return ! (boolean) $this->extension ? $this->getName() : sprintf('%s.%s', $this->getName(), $this->getExtension());
+        return !(boolean)$this->extension ? $this->getName() : sprintf('%s.%s', $this->getName(),
+            $this->getExtension());
     }
 
     /**
@@ -74,11 +78,13 @@ class FileInfo extends \SplFileInfo implements \JsonSerializable {
      */
     public function getMimeType()
     {
-        if(null === $this->mimeType) {
-            $this->mimeType = Mimes::mime($this->getExtension());
-            if(null === $this->mimeType) {
+        if (null === $this->mimeType) {
+            $mimes = MimeTypes::getMimeTypes($this->getExtension());
+            if (null === $mimes) {
                 $info = new \finfo(FILEINFO_MIME_TYPE);
                 $this->mimeType = $info->file($this->getPathname());
+            } else {
+                $this->mimeType = end($mimes);
             }
         }
 

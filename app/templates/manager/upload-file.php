@@ -32,8 +32,7 @@ use FileStorage\Models\Categories;
     app.DOM.ready(function($){
 
         var responseBody = $('#response-body');
-        var errorBox = $('#error-response');
-        var successBox = $('#success-response');
+        var responseBox = $('#response-box');
 
         $('#input-file').on('change', function(e){
             $('#input-file-text').html($(this).val().split(/[\\\/]+/).slice(-1).pop());
@@ -87,16 +86,8 @@ use FileStorage\Models\Categories;
 
                 responseBody.show();
 
-                var data = JSON.parse(response);
+                responseBox.show().html(response);
 
-                if(data.status == 'success') {
-                    var hash = data.response.uploaded_file_uid;
-                    errorBox.hide();
-                    successBox.show().find('div').html(hash);
-                } else {
-                    successBox.hide();
-                    errorBox.show().find('div').html(data.response.message);
-                }
             });
 
             if(uploadType == 'direct_link') {
@@ -186,11 +177,6 @@ use FileStorage\Models\Categories;
 <div class="row">
     <div class="grid-5 grid-small-10 grid-smallest-10 hidden" id="response-body">
         <h2>Response</h2>
-        <div id="error-response" class="flash-messages flash-messages-warning hidden">
-            <div></div>
-        </div>
-        <div id="success-response" class="flash-messages flash-messages-notice hidden">
-            <div></div>
-        </div>
+        <pre id="response-box" class="flash-messages flash-messages-notice hidden"></pre>
     </div>
 </div>

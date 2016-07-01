@@ -3,6 +3,7 @@
 namespace FileStorage\Services\Uploader\Drivers;
 
 use Dez\Http\Request\File;
+use FileStorage\Services\MimeTypes;
 use FileStorage\Services\Uploader\Driver;
 use FileStorage\Services\Uploader\FileInfo;
 use FileStorage\Services\Uploader\Mimes;
@@ -22,13 +23,22 @@ class UploadedFile extends Driver {
             throw new UploaderException("Source must been object instance of '". File::class ."' '{$sourceType}' given");
         }
 
-        $contentType = trim(explode(';', $source->getMimeType())[0]);
-        $extensions = Mimes::extensions($contentType);
-        $extension = current($extensions);
+        if($source->getExtension() !== '') {
+            $extension = $source->getExtension();
+            $contentType = MimeTypes::getMimeTypes($extension);
+            if($contentType === null) {
+                $contentType = trim(explode(';', $source->getRealMimeType())[0]);
+            } else {
+                $contentType = end($contentType);
+            }
+        } else {
+            $contentType = trim(explode(';', $source->getRealMimeType())[0]);
+            $extension = MimeTypes::getExtension($contentType);
+        }
 
         $this->validateSize($source->getSize())
             ->validateFileType('extensions', $extension)
-            ->validateFileType('mimes', $source->getMimeType());
+            ->validateFileType('mimes', $contentType);
 
         if(! $source->isUploaded()) {
             throw new UploaderException("File with errors: {$source->getErrorDescription()}");
