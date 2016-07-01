@@ -2,6 +2,7 @@
 
 namespace FileStorage\Controllers;
 
+use Dez\Http\Request\File;
 use Dez\Mvc\Controller\MvcException;
 use Dez\Url\Uri;
 use FileStorage\Models\Categories;
