@@ -6,7 +6,6 @@ use Dez\Http\Request\File;
 use FileStorage\Services\MimeTypes;
 use FileStorage\Services\Uploader\Driver;
 use FileStorage\Services\Uploader\FileInfo;
-use FileStorage\Services\Uploader\Mimes;
 use FileStorage\Services\Uploader\UploaderException;
 
 class UploadedFile extends Driver {

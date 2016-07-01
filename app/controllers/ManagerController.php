@@ -9,7 +9,7 @@ use FileStorage\Core\Mvc\ControllerWeb;
 use FileStorage\Models\Categories;
 use FileStorage\Models\Files;
 use FileStorage\Services\Emoji;
-use FileStorage\Services\Uploader\Mimes;
+use FileStorage\Services\MimeTypes;
 use FileStorage\Services\Uploader\Uploader;
 
 class ManagerController extends ControllerWeb
@@ -168,7 +168,7 @@ class ManagerController extends ControllerWeb
     public function generateFaviconAction()
     {
         $this->response->setBodyFormat(Response::RESPONSE_RAW);
-        $this->response->setContentType(Mimes::mime('png'));
+        $this->response->setContentType(MimeTypes::mime('png'));
 
         $image = new \Imagick();
         $draw = new \ImagickDraw();

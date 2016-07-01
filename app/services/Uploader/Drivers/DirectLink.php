@@ -2,9 +2,9 @@
 
 namespace FileStorage\Services\Uploader\Drivers;
 
+use FileStorage\Services\MimeTypes;
 use FileStorage\Services\Uploader\Driver;
 use FileStorage\Services\Uploader\FileInfo;
-use FileStorage\Services\Uploader\Mimes;
 use FileStorage\Services\Uploader\UploaderException;
 
 class DirectLink extends Driver
@@ -26,16 +26,15 @@ class DirectLink extends Driver
         $size = $headers['Content-Length'];
         $contentType = trim(explode(';', $headers['Content-Type'])[0]);
 
-        $extensions = Mimes::extensions($contentType);
-        $extension = current($extensions);
+        $extension = MimeTypes::getExtension($contentType);
+
+        if (null === $extension) {
+            throw new UploaderException("No extensions found for content-type: {$contentType}");
+        }
 
         $this->validateSize($size)
             ->validateFileType('extensions', $extension)
             ->validateFileType('mimes', $contentType);
-
-        if (null === $extensions) {
-            throw new UploaderException("No extensions found for content-type: {$contentType}");
-        }
 
         file_put_contents($this->getUploader()->downloadProgressPath(), 0);
 
