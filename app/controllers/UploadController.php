@@ -61,10 +61,13 @@ class UploadController extends ControllerJson {
             throw new MvcException("Requested category do not exist");
         }
 
-        $datePath = date('Y/m/d');
+        $yearHash = substr(md5(date('Y')), 0, 8);
+        $monthHash = substr(md5(date('m')), 0, 8);
+        $dayHash = substr(md5(date('d')), 0, 8);
         $categoryHash = substr(md5($category->id()), 0, 8);
         $ownerHash = substr(md5($category->getUserId()), 0, 8);
-        $uglyPath = "{$ownerHash}/{$categoryHash}/{$datePath}/";
+
+        $uglyPath = "{$ownerHash}/{$categoryHash}/{$yearHash}/{$monthHash}/{$dayHash}/";
         $uploader->setSubDirectory($uglyPath);
 
         try {
@@ -94,6 +97,10 @@ class UploadController extends ControllerJson {
         } catch (\Exception $exception) {
             $this->error(['message' => $exception->getMessage()]);
         }
+    }
+
+    public function updateAction()
+    {
 
     }
 
@@ -105,11 +112,11 @@ class UploadController extends ControllerJson {
         $alias = $this->config->path('application.uploader.public_uri');
         $path = sprintf('%s/%s', $alias, $uploader->downloadProgressFile());
 
+        fclose(fopen($uploader->downloadProgressPath(), 'w'));
+
         $uri = (new Uri($path))->setSchema('http')->setHost($this->request->getHost());
 
-        $this->response([
-            'url' => $uri->full(),
-        ]);
+        $this->response(['url' => $uri->full(),]);
     }
 
 }
