@@ -56,9 +56,9 @@ class UploadController extends ControllerJson {
         }
 
         $category = Categories::one($this->request->getPost('category_id', 1));
-        
+
         if(! $category->exists()) {
-            throw new MvcException("Category do not exist");
+            throw new MvcException("Requested category do not exist");
         }
 
         $datePath = date('Y/m/d');

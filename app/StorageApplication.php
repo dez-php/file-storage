@@ -37,6 +37,10 @@ class StorageApplication extends Configurable
 
         $this->setOrmConnectionName($this->config['db']['connectionName']);
 
+        $this->response->setHeader('Access-Control-Allow-Origin', '*');
+        $this->response->setHeader('Access-Control-Request-Method', '*');
+        $this->response->setHeader('Access-Control-Request-Headers', '*');
+
         return $this;
     }
 
@@ -72,7 +76,7 @@ class StorageApplication extends Configurable
      */
     private function configurationErrors()
     {
-        set_exception_handler(function (\Throwable $exception) {
+        set_exception_handler(function (\Exception $exception) {
             if ($this->config->path('application.debug.exceptions') == 1) {
                 $message = get_class($exception) . ": {$exception->getMessage()}";
                 $this->createSystemErrorResponse($message, 'uncaught_exception', $exception->getFile(),
