@@ -28,7 +28,7 @@ class UploadController extends ControllerJson {
             'server' => $this->request->getServer(),
         ]);
     }
-
+    
     public function indexAction()
     {
 
